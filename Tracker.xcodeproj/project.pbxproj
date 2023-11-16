@@ -7,23 +7,45 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6F0868202AF6DEE900E7F4CB /* Structures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F08681F2AF6DEE900E7F4CB /* Structures.swift */; };
+		6F6473662AFB30C300E932AF /* ColletionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F6473652AFB30C300E932AF /* ColletionViewCell.swift */; };
+		6F6473682AFB4B3F00E932AF /* TrackersExtentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F6473672AFB4B3F00E932AF /* TrackersExtentions.swift */; };
+		6F64736A2AFB4FD300E932AF /* TrackersArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F6473692AFB4FD300E932AF /* TrackersArray.swift */; };
+		6F8EE7002AFED5A4002B53DA /* SupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8EE6FF2AFED5A4002B53DA /* SupViewController.swift */; };
+		6F8EE7022B006334002B53DA /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6F8EE7012B006334002B53DA /* Launch Screen.storyboard */; };
+		6F8EE7042B0065B8002B53DA /* CreateTrackerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8EE7032B0065B8002B53DA /* CreateTrackerViewController.swift */; };
+		6F8EE7072B006E40002B53DA /* HabitOrEventController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8EE7062B006E40002B53DA /* HabitOrEventController.swift */; };
+		6F8EE70B2B00DB71002B53DA /* ScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8EE70A2B00DB71002B53DA /* ScheduleViewController.swift */; };
 		6FDC3C1E2AF1307800325070 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDC3C1D2AF1307800325070 /* AppDelegate.swift */; };
 		6FDC3C202AF1307800325070 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDC3C1F2AF1307800325070 /* SceneDelegate.swift */; };
-		6FDC3C222AF1307800325070 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDC3C212AF1307800325070 /* ViewController.swift */; };
-		6FDC3C252AF1307800325070 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6FDC3C232AF1307800325070 /* Main.storyboard */; };
+		6FDC3C222AF1307800325070 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDC3C212AF1307800325070 /* TabBarViewController.swift */; };
 		6FDC3C272AF1307900325070 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6FDC3C262AF1307900325070 /* Assets.xcassets */; };
-		6FDC3C2A2AF1307900325070 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6FDC3C282AF1307900325070 /* LaunchScreen.storyboard */; };
+		6FDC3C342AF1785D00325070 /* TrackersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDC3C332AF1785D00325070 /* TrackersViewController.swift */; };
+		6FDC3C362AF1788C00325070 /* StatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDC3C352AF1788C00325070 /* StatsViewController.swift */; };
+		6FF9487A2B020A07003E5840 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF948792B020A07003E5840 /* Category.swift */; };
+		6FF9487C2B02168D003E5840 /* WeekCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF9487B2B02168D003E5840 /* WeekCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6F08681F2AF6DEE900E7F4CB /* Structures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Structures.swift; sourceTree = "<group>"; };
+		6F6473652AFB30C300E932AF /* ColletionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColletionViewCell.swift; sourceTree = "<group>"; };
+		6F6473672AFB4B3F00E932AF /* TrackersExtentions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackersExtentions.swift; sourceTree = "<group>"; };
+		6F6473692AFB4FD300E932AF /* TrackersArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackersArray.swift; sourceTree = "<group>"; };
+		6F8EE6FF2AFED5A4002B53DA /* SupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupViewController.swift; sourceTree = "<group>"; };
+		6F8EE7012B006334002B53DA /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		6F8EE7032B0065B8002B53DA /* CreateTrackerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTrackerViewController.swift; sourceTree = "<group>"; };
+		6F8EE7062B006E40002B53DA /* HabitOrEventController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitOrEventController.swift; sourceTree = "<group>"; };
+		6F8EE70A2B00DB71002B53DA /* ScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewController.swift; sourceTree = "<group>"; };
 		6FDC3C1A2AF1307800325070 /* Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6FDC3C1D2AF1307800325070 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6FDC3C1F2AF1307800325070 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		6FDC3C212AF1307800325070 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		6FDC3C242AF1307800325070 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		6FDC3C212AF1307800325070 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		6FDC3C262AF1307900325070 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		6FDC3C292AF1307900325070 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6FDC3C2B2AF1307900325070 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6FDC3C332AF1785D00325070 /* TrackersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackersViewController.swift; sourceTree = "<group>"; };
+		6FDC3C352AF1788C00325070 /* StatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsViewController.swift; sourceTree = "<group>"; };
+		6FF948792B020A07003E5840 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		6FF9487B2B02168D003E5840 /* WeekCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,6 +59,39 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6F8EE7052B0065D8002B53DA /* MainScreen */ = {
+			isa = PBXGroup;
+			children = (
+				6FDC3C332AF1785D00325070 /* TrackersViewController.swift */,
+				6FDC3C212AF1307800325070 /* TabBarViewController.swift */,
+				6F6473672AFB4B3F00E932AF /* TrackersExtentions.swift */,
+				6F6473652AFB30C300E932AF /* ColletionViewCell.swift */,
+				6F8EE6FF2AFED5A4002B53DA /* SupViewController.swift */,
+			);
+			path = MainScreen;
+			sourceTree = "<group>";
+		};
+		6F8EE7082B006E45002B53DA /* CreateTracker */ = {
+			isa = PBXGroup;
+			children = (
+				6F8EE7032B0065B8002B53DA /* CreateTrackerViewController.swift */,
+				6F8EE7062B006E40002B53DA /* HabitOrEventController.swift */,
+				6F8EE70A2B00DB71002B53DA /* ScheduleViewController.swift */,
+				6FF9487B2B02168D003E5840 /* WeekCell.swift */,
+				6FF948792B020A07003E5840 /* Category.swift */,
+			);
+			path = CreateTracker;
+			sourceTree = "<group>";
+		};
+		6F8EE7092B006E6C002B53DA /* BaseDalagate */ = {
+			isa = PBXGroup;
+			children = (
+				6FDC3C1D2AF1307800325070 /* AppDelegate.swift */,
+				6FDC3C1F2AF1307800325070 /* SceneDelegate.swift */,
+			);
+			path = BaseDalagate;
+			sourceTree = "<group>";
+		};
 		6FDC3C112AF1307800325070 = {
 			isa = PBXGroup;
 			children = (
@@ -56,12 +111,14 @@
 		6FDC3C1C2AF1307800325070 /* Tracker */ = {
 			isa = PBXGroup;
 			children = (
-				6FDC3C1D2AF1307800325070 /* AppDelegate.swift */,
-				6FDC3C1F2AF1307800325070 /* SceneDelegate.swift */,
-				6FDC3C212AF1307800325070 /* ViewController.swift */,
-				6FDC3C232AF1307800325070 /* Main.storyboard */,
+				6F8EE7092B006E6C002B53DA /* BaseDalagate */,
+				6F8EE7052B0065D8002B53DA /* MainScreen */,
+				6F8EE7082B006E45002B53DA /* CreateTracker */,
+				6FDC3C352AF1788C00325070 /* StatsViewController.swift */,
+				6F6473692AFB4FD300E932AF /* TrackersArray.swift */,
+				6F08681F2AF6DEE900E7F4CB /* Structures.swift */,
+				6F8EE7012B006334002B53DA /* Launch Screen.storyboard */,
 				6FDC3C262AF1307900325070 /* Assets.xcassets */,
-				6FDC3C282AF1307900325070 /* LaunchScreen.storyboard */,
 				6FDC3C2B2AF1307900325070 /* Info.plist */,
 			);
 			path = Tracker;
@@ -125,9 +182,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6FDC3C2A2AF1307900325070 /* LaunchScreen.storyboard in Resources */,
+				6F8EE7022B006334002B53DA /* Launch Screen.storyboard in Resources */,
 				6FDC3C272AF1307900325070 /* Assets.xcassets in Resources */,
-				6FDC3C252AF1307800325070 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,32 +194,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6FDC3C222AF1307800325070 /* ViewController.swift in Sources */,
+				6F8EE70B2B00DB71002B53DA /* ScheduleViewController.swift in Sources */,
+				6FDC3C222AF1307800325070 /* TabBarViewController.swift in Sources */,
+				6F6473682AFB4B3F00E932AF /* TrackersExtentions.swift in Sources */,
+				6F64736A2AFB4FD300E932AF /* TrackersArray.swift in Sources */,
 				6FDC3C1E2AF1307800325070 /* AppDelegate.swift in Sources */,
+				6FDC3C342AF1785D00325070 /* TrackersViewController.swift in Sources */,
+				6F8EE7042B0065B8002B53DA /* CreateTrackerViewController.swift in Sources */,
+				6FF9487C2B02168D003E5840 /* WeekCell.swift in Sources */,
+				6F8EE7072B006E40002B53DA /* HabitOrEventController.swift in Sources */,
+				6F0868202AF6DEE900E7F4CB /* Structures.swift in Sources */,
+				6F8EE7002AFED5A4002B53DA /* SupViewController.swift in Sources */,
+				6FDC3C362AF1788C00325070 /* StatsViewController.swift in Sources */,
+				6F6473662AFB30C300E932AF /* ColletionViewCell.swift in Sources */,
 				6FDC3C202AF1307800325070 /* SceneDelegate.swift in Sources */,
+				6FF9487A2B020A07003E5840 /* Category.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		6FDC3C232AF1307800325070 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6FDC3C242AF1307800325070 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		6FDC3C282AF1307900325070 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6FDC3C292AF1307900325070 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		6FDC3C2C2AF1307900325070 /* Debug */ = {
@@ -296,10 +345,10 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Tracker/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -324,10 +373,10 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Tracker/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
