@@ -11,7 +11,7 @@ struct Tracker {
     let id: UUID
     let action: String
     let color: UIColor?
-    let emoji: UIImage?
+    let emoji: String?
     var schedule: [DayOfWeek: Bool]
     
        enum DayOfWeek: Int {

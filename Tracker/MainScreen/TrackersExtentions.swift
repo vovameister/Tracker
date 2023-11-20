@@ -27,7 +27,7 @@ extension TrackersViewController: UICollectionViewDataSource {
         cell.colorLabel.backgroundColor = tracker.color
         cell.button.backgroundColor = tracker.color
         cell.messege.text = tracker.action
-        cell.emodjiLabel.image  = tracker.emoji
+        cell.emodjiLabel.text = tracker.emoji
         cell.trackerId = tracker.id
         cell.indexPath = indexPath
         cell.isCompletedToday = isTrackerCompletedToday(id: tracker.id)

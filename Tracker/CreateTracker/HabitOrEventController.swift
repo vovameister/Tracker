@@ -10,6 +10,7 @@ final class HabitOrEventController: UIViewController {
     let titleLabel = UILabel()
     let textField = UITextField()
     let tableView = UITableView()
+    let scrollView = UIScrollView()
     
     let emojiView: UICollectionView = {
         let collectionViewLayout = UICollectionViewFlowLayout()
@@ -19,6 +20,14 @@ final class HabitOrEventController: UIViewController {
         collectionView.register(EmojiCollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
         return collectionView
     }()
+    let colorView: UICollectionView = {
+        let collectionViewLayout = UICollectionViewFlowLayout()
+        collectionViewLayout.scrollDirection = .horizontal
+        
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
+        collectionView.register(ColorViewCell.self, forCellWithReuseIdentifier: "Cell")
+        return collectionView
+    }()
     
     let cancelButton = UIButton()
     let createButton = UIButton()
@@ -26,7 +35,7 @@ final class HabitOrEventController: UIViewController {
     let cellIdentifier2 = "CellIdentifier2"
     let emojiLabel = UILabel()
     let emojiCollectionViewDelegate = EmojiCollectionViewDelegate()
-    
+    let colorCollectionViewDelegate = ColorViewDelegate()
     let font16 = UIFont.systemFont(ofSize: 16, weight: .medium)
     private lazy var viewControllers: [UIViewController] = {
         return [
@@ -36,17 +45,23 @@ final class HabitOrEventController: UIViewController {
     }()
     let tableText = [ "Категория",
                       "Расписание"]
+    
+    
+    var setUpTableInt: Int?
+    var tableViewHeight: CGFloat?
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureScrollView()
         
-        view.addSubview(titleLabel)
-        view.addSubview(textField)
-        view.backgroundColor = .white
-        view.addSubview(tableView)
-        view.addSubview(createButton)
-        view.addSubview(cancelButton)
-        view.addSubview(emojiView)
-        view.addSubview(emojiLabel)
+        scrollView.addSubview(titleLabel)
+        scrollView.addSubview(textField)
+        scrollView.backgroundColor = .white
+        scrollView.addSubview(tableView)
+        scrollView.addSubview(createButton)
+        scrollView.addSubview(cancelButton)
+        scrollView.addSubview(emojiView)
+        scrollView.addSubview(emojiLabel)
+        scrollView.addSubview(colorView)
         
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         
@@ -65,6 +80,7 @@ final class HabitOrEventController: UIViewController {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.layer.cornerRadius = 16
+        
         
         createButton.translatesAutoresizingMaskIntoConstraints = false
         createButton.layer.cornerRadius = 16
@@ -87,6 +103,11 @@ final class HabitOrEventController: UIViewController {
         emojiView.dataSource = emojiCollectionViewDelegate
         emojiCollectionViewDelegate.parentViewController = self
         
+        colorView.translatesAutoresizingMaskIntoConstraints = false
+        colorView.delegate = colorCollectionViewDelegate
+        colorView.dataSource = colorCollectionViewDelegate
+        colorCollectionViewDelegate.parentViewController = self
+ 
         emojiLabel.text = "Emoji"
         emojiLabel.font = UIFont.systemFont(ofSize: 19, weight: .bold)
         emojiLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -101,7 +122,7 @@ final class HabitOrEventController: UIViewController {
             textField.heightAnchor.constraint(equalToConstant: 75),
             
             tableView.topAnchor.constraint(equalTo: textField.bottomAnchor, constant: 24),
-            tableView.heightAnchor.constraint(equalToConstant: 150),
+            tableView.heightAnchor.constraint(equalToConstant: tableViewHeight ?? 150),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             
@@ -116,23 +137,51 @@ final class HabitOrEventController: UIViewController {
             createButton.heightAnchor.constraint(equalToConstant: 60),
             
             emojiView.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 81),
-            emojiView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
-            emojiView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
+            emojiView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 19),
+            emojiView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -19),
             emojiView.heightAnchor.constraint(equalToConstant: 170),
             
             emojiLabel.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 32),
             emojiLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 28),
             emojiLabel.heightAnchor.constraint(equalToConstant: 18),
-            emojiLabel.widthAnchor.constraint(equalToConstant: 52)
+            emojiLabel.widthAnchor.constraint(equalToConstant: 52),
+            
+            colorView.topAnchor.constraint(equalTo: emojiView.bottomAnchor, constant: 89),
+            colorView.leadingAnchor.constraint(equalTo: emojiView.leadingAnchor),
+            colorView.trailingAnchor.constraint(equalTo: emojiView.trailingAnchor),
+            colorView.heightAnchor.constraint(equalTo: emojiView.heightAnchor)
+            
         ])
     }
+    init(title: String, setUpTableInt: Int, tableViewHeight: CGFloat) {
+           super.init(nibName: nil, bundle: nil)
+        self.titleLabel.text = title
+        self.setUpTableInt = setUpTableInt
+        self.tableViewHeight = tableViewHeight
+       }
+
+       required init?(coder aDecoder: NSCoder) {
+           super.init(coder: aDecoder)
+       }
     @objc func cancelButtonTap() {
         self.dismiss(animated: true)
+    }
+    func configureScrollView() {
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(scrollView)
+        scrollView.contentSize = CGSize(width: view.frame.width, height: 1500)
+
+        NSLayoutConstraint.activate([
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
     }
 }
 extension HabitOrEventController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        2
+        setUpTableInt ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -145,8 +194,9 @@ extension HabitOrEventController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        
-        return tableView.frame.height / 2.0
+        if setUpTableInt == 2 {
+            return tableView.frame.height / 2.0 }
+        else { return tableView.frame.height }
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)

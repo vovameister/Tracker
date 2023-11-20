@@ -32,7 +32,7 @@ final class EmojiCollectionViewDelegate: NSObject, UICollectionViewDelegateFlowL
         7.0
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return (((parentViewController!.view.bounds.width - 30) - 52 * 6) / 5)
+        return (((parentViewController!.scrollView.bounds.width - 38) - 52 * 6) / 5)
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
          selectedEmoji = emojis[indexPath.item]
