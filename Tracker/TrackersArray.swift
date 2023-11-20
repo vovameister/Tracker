@@ -8,7 +8,7 @@
 import UIKit
 let mockCategory1: [TrackerCategory] = [
     TrackerCategory(title: "Uborka", trackers: [
-        Tracker(id: UUID(), action: "Tracker One", color: UIColor.red, emoji: "⭐️", schedule: [
+        Tracker(id: UUID(), action: "Tracker One", color: UIColor.red, emoji: UIImage(named: "emoji/1"), schedule: [
             .monday: false,
             .tuesday: true,
             .wednesday: false,
@@ -17,7 +17,7 @@ let mockCategory1: [TrackerCategory] = [
             .saturday: true,
             .sunday: true
         ]),
-        Tracker(id: UUID(), action: "Tracker Two", color: UIColor.blue, emoji: "⛈", schedule: [
+        Tracker(id: UUID(), action: "Tracker Two", color: UIColor.blue, emoji: UIImage(named: "emoji/8"), schedule: [
             .monday: true,
             .tuesday: false,
             .wednesday: true,
@@ -26,7 +26,7 @@ let mockCategory1: [TrackerCategory] = [
             .saturday: false,
             .sunday: false
         ]),
-        Tracker(id: UUID(), action: "Tracker Three", color: UIColor.green, emoji: "🔥", schedule: [
+        Tracker(id: UUID(), action: "Tracker Three", color: UIColor.green, emoji: UIImage(named: "emoji/3"), schedule: [
             
             .monday: true,
             .tuesday: true,
@@ -38,7 +38,7 @@ let mockCategory1: [TrackerCategory] = [
         ])
     ]),
     TrackerCategory(title: "CryTime", trackers: [
-        Tracker(id: UUID(), action: "someName", color: UIColor.brown, emoji: ":)", schedule: [
+        Tracker(id: UUID(), action: "someName", color: UIColor.brown, emoji: nil, schedule: [
             .monday: false,
             .tuesday: true,
             .wednesday: false,

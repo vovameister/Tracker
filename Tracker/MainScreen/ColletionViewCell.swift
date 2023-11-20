@@ -14,7 +14,7 @@ protocol TrackerCellDelegate: AnyObject {
 
 final class CollectionViewCell: UICollectionViewCell {
     let colorLabel = UILabel()
-    let emodjiLabel = UILabel()
+    let emodjiLabel = UIImageView()
     let daysLabel = UILabel()
     let button = UIButton()
     let messege = UILabel()

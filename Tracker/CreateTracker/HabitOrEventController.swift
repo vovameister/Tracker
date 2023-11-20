@@ -10,9 +10,22 @@ final class HabitOrEventController: UIViewController {
     let titleLabel = UILabel()
     let textField = UITextField()
     let tableView = UITableView()
+    
+    let emojiView: UICollectionView = {
+        let collectionViewLayout = UICollectionViewFlowLayout()
+        collectionViewLayout.scrollDirection = .horizontal
+        
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
+        collectionView.register(EmojiCollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
+        return collectionView
+    }()
+    
     let cancelButton = UIButton()
     let createButton = UIButton()
     let cellIdentifier = "CellIdentifier"
+    let cellIdentifier2 = "CellIdentifier2"
+    let emojiLabel = UILabel()
+    let emojiCollectionViewDelegate = EmojiCollectionViewDelegate()
     
     let font16 = UIFont.systemFont(ofSize: 16, weight: .medium)
     private lazy var viewControllers: [UIViewController] = {
@@ -32,6 +45,8 @@ final class HabitOrEventController: UIViewController {
         view.addSubview(tableView)
         view.addSubview(createButton)
         view.addSubview(cancelButton)
+        view.addSubview(emojiView)
+        view.addSubview(emojiLabel)
         
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         
@@ -66,6 +81,15 @@ final class HabitOrEventController: UIViewController {
         cancelButton.layer.borderColor = UIColor(named: "trackerRed")?.cgColor
         cancelButton.titleLabel?.font = font16
         cancelButton.addTarget(self, action: #selector(cancelButtonTap), for: .touchUpInside)
+        
+        emojiView.translatesAutoresizingMaskIntoConstraints = false
+        emojiView.delegate = emojiCollectionViewDelegate
+        emojiView.dataSource = emojiCollectionViewDelegate
+        emojiCollectionViewDelegate.parentViewController = self
+        
+        emojiLabel.text = "Emoji"
+        emojiLabel.font = UIFont.systemFont(ofSize: 19, weight: .bold)
+        emojiLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 13),
             titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -89,7 +113,17 @@ final class HabitOrEventController: UIViewController {
             createButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -34),
             createButton.leadingAnchor.constraint(equalTo: view.centerXAnchor, constant: 4),
             createButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            createButton.heightAnchor.constraint(equalToConstant: 60)
+            createButton.heightAnchor.constraint(equalToConstant: 60),
+            
+            emojiView.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 81),
+            emojiView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
+            emojiView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
+            emojiView.heightAnchor.constraint(equalToConstant: 170),
+            
+            emojiLabel.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 32),
+            emojiLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 28),
+            emojiLabel.heightAnchor.constraint(equalToConstant: 18),
+            emojiLabel.widthAnchor.constraint(equalToConstant: 52)
         ])
     }
     @objc func cancelButtonTap() {

@@ -10,8 +10,8 @@ import UIKit
 struct Tracker {
     let id: UUID
     let action: String
-    let color: UIColor
-    let emoji: String
+    let color: UIColor?
+    let emoji: UIImage?
     var schedule: [DayOfWeek: Bool]
     
        enum DayOfWeek: Int {
