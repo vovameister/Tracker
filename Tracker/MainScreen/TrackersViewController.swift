@@ -35,16 +35,26 @@ final class TrackersViewController: UIViewController {
         searchBar.delegate = self
         self.navigationItem.titleView = searchBar
         collectionView.register(SupplementaryView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header")
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+                view.addGestureRecognizer(tapGesture)
     }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
     }
+    
     @objc func showCreateViewController() {
         
         let viewController = CreateTrackerViewController()
         
         present(viewController, animated: true, completion: nil)
     }
+    
+    @objc func handleTap() {
+               searchBar.resignFirstResponder()
+           }
+
+    
     func setUpViewDidLoad() {
         view.backgroundColor = .white
         

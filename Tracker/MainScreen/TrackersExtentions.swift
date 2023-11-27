@@ -34,6 +34,7 @@ extension TrackersViewController: UICollectionViewDataSource {
         
         let buttonText = cell.isCompletedToday ? "✓" : "+"
         cell.button.setTitle(buttonText, for: .normal)
+        cell.button.isEnabled = isButtonEnable()
         
         cell.repeatedTimes = completedTrackers.filter { $0.trackerId == tracker.id }.count
         cell.daysLabel.text = "\(cell.repeatedTimes) \(calculateDayString(for: cell.repeatedTimes))"
@@ -44,6 +45,16 @@ extension TrackersViewController: UICollectionViewDataSource {
         completedTrackers.contains { trackerRecord in
             let isSameDay = Calendar.current.isDate(trackerRecord.date, inSameDayAs: datePicker.date)
             return trackerRecord.trackerId == id && isSameDay
+        }
+    }
+    private func isButtonEnable() -> Bool {
+        let selectedDate = datePicker.date
+        let currentDate = Date()
+        
+        if selectedDate <= currentDate {
+            return true
+        } else {
+            return false
         }
     }
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
