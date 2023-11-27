@@ -49,7 +49,7 @@ final class ColorViewDelegate: NSObject, UICollectionViewDelegateFlowLayout, UIC
 
               selectedIndexPath = indexPath
 
-        print("Selected Color: \(selectedColor))")
+        print("Selected Color: \(String(describing: selectedColor)))")
      }
 }
 
@@ -57,15 +57,9 @@ final class ColorViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        //setupViews()
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        //setupViews()
     }
-
-//    private func setupViews() {
-//    
-//    }
 }

@@ -51,7 +51,12 @@ final class HabitOrEventController: UIViewController {
     var tableViewHeight: CGFloat?
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureScrollView()
+        view.addSubview(scrollView)
+                scrollView.translatesAutoresizingMaskIntoConstraints = false
+                scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+                scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+                scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+                scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         
         scrollView.addSubview(titleLabel)
         scrollView.addSubview(textField)
@@ -112,37 +117,37 @@ final class HabitOrEventController: UIViewController {
         emojiLabel.font = UIFont.systemFont(ofSize: 19, weight: .bold)
         emojiLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 13),
-            titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            titleLabel.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 13),
+            titleLabel.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
             titleLabel.heightAnchor.constraint(equalToConstant: 22),
             
-            textField.topAnchor.constraint(equalTo: view.topAnchor, constant: 73),
-            textField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            textField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            textField.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 73),
+            textField.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 16),
+            textField.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -16),
             textField.heightAnchor.constraint(equalToConstant: 75),
             
             tableView.topAnchor.constraint(equalTo: textField.bottomAnchor, constant: 24),
             tableView.heightAnchor.constraint(equalToConstant: tableViewHeight ?? 150),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            tableView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 16),
+            tableView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -16),
             
-            cancelButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -34),
-            cancelButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            cancelButton.trailingAnchor.constraint(equalTo: view.centerXAnchor, constant: -4),
+            cancelButton.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -34),
+            cancelButton.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 20),
+            cancelButton.trailingAnchor.constraint(equalTo: scrollView.centerXAnchor, constant: -4),
             cancelButton.heightAnchor.constraint(equalToConstant: 60),
             
-            createButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -34),
-            createButton.leadingAnchor.constraint(equalTo: view.centerXAnchor, constant: 4),
-            createButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            createButton.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -34),
+            createButton.leadingAnchor.constraint(equalTo: scrollView.centerXAnchor, constant: 4),
+            createButton.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -20),
             createButton.heightAnchor.constraint(equalToConstant: 60),
             
             emojiView.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 81),
-            emojiView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 19),
-            emojiView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -19),
+            emojiView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 19),
+            emojiView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -19),
             emojiView.heightAnchor.constraint(equalToConstant: 170),
             
             emojiLabel.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 32),
-            emojiLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 28),
+            emojiLabel.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 28),
             emojiLabel.heightAnchor.constraint(equalToConstant: 18),
             emojiLabel.widthAnchor.constraint(equalToConstant: 52),
             
@@ -165,18 +170,6 @@ final class HabitOrEventController: UIViewController {
        }
     @objc func cancelButtonTap() {
         self.dismiss(animated: true)
-    }
-    func configureScrollView() {
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(scrollView)
-        scrollView.contentSize = CGSize(width: view.frame.width, height: 1500)
-
-        NSLayoutConstraint.activate([
-            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
     }
 }
 extension HabitOrEventController: UITableViewDelegate, UITableViewDataSource {
@@ -209,6 +202,5 @@ extension HabitOrEventController: UITableViewDelegate, UITableViewDataSource {
         present(selectedViewController, animated: true, completion: nil)
     }
 }
-
 
 
