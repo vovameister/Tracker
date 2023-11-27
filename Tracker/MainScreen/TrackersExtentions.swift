@@ -31,7 +31,7 @@ extension TrackersViewController: UICollectionViewDataSource {
         cell.trackerId = tracker.id
         cell.indexPath = indexPath
         cell.isCompletedToday = isTrackerCompletedToday(id: tracker.id)
-        
+        cell.button.isEnabled = isButtonEnable()
         let buttonText = cell.isCompletedToday ? "✓" : "+"
         cell.button.setTitle(buttonText, for: .normal)
         
@@ -44,6 +44,16 @@ extension TrackersViewController: UICollectionViewDataSource {
         completedTrackers.contains { trackerRecord in
             let isSameDay = Calendar.current.isDate(trackerRecord.date, inSameDayAs: datePicker.date)
             return trackerRecord.trackerId == id && isSameDay
+        }
+    }
+    func isButtonEnable() -> Bool {
+        let selectedDate = datePicker.date
+        let currentDate = Date()
+        
+        if selectedDate <= currentDate {
+            return true
+        } else {
+            return false
         }
     }
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {

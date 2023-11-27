@@ -35,6 +35,10 @@ final class TrackersViewController: UIViewController {
         searchBar.delegate = self
         self.navigationItem.titleView = searchBar
         collectionView.register(SupplementaryView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header")
+        
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+        view.addGestureRecognizer(tapGesture)
     }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
@@ -45,6 +49,9 @@ final class TrackersViewController: UIViewController {
         
         present(viewController, animated: true, completion: nil)
     }
+    @objc func handleTap() {
+            searchBar.resignFirstResponder()
+        }
     func setUpViewDidLoad() {
         view.backgroundColor = .white
         
@@ -159,7 +166,6 @@ final class TrackersViewController: UIViewController {
 
             return nil
         }
-
         collectionView.reloadData()
         reloadPlaceholder()
         changeQuestionLabel()

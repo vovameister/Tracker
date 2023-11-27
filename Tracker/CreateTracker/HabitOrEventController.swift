@@ -42,6 +42,7 @@ final class HabitOrEventController: UIViewController {
         let leftIndentView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: textField.frame.height))
         textField.leftView = leftIndentView
         textField.leftViewMode = .always
+        textField.delegate = self
         
         titleLabel.font = font16
         
@@ -92,8 +93,10 @@ final class HabitOrEventController: UIViewController {
             createButton.heightAnchor.constraint(equalToConstant: 60)
         ])
     }
+    
     @objc func cancelButtonTap() {
         self.dismiss(animated: true)
+        
     }
 }
 extension HabitOrEventController: UITableViewDelegate, UITableViewDataSource {
@@ -125,6 +128,15 @@ extension HabitOrEventController: UITableViewDelegate, UITableViewDataSource {
         present(selectedViewController, animated: true, completion: nil)
     }
 }
-
+extension HabitOrEventController: UITextFieldDelegate {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+           self.view.endEditing(true)
+       }
+       func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+           textField.resignFirstResponder()
+           return true
+       }
+}
+    
 
 
