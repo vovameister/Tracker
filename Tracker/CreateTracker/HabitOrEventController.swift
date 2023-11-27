@@ -14,13 +14,14 @@ final class HabitOrEventController: UIViewController {
     let createButton = UIButton()
     let cellIdentifier = "CellIdentifier"
     
+    
+    var newAction = ""
+    var newHabit: [DayOfWeek: Bool]?
+    var newId: UUID?
+    var newCategory = ""
+    
     let font16 = UIFont.systemFont(ofSize: 16, weight: .medium)
-    private lazy var viewControllers: [UIViewController] = {
-        return [
-            CategoryViewController(),
-            ScheduleViewController()
-        ]
-    }()
+    
     let tableText = [ "Категория",
                       "Расписание"]
     
@@ -74,6 +75,8 @@ final class HabitOrEventController: UIViewController {
         createButton.backgroundColor = UIColor(named: "trackerGray")
         createButton.setTitle("Создать", for: .normal)
         createButton.titleLabel?.font = font16
+        createButton.addTarget(self, action: #selector(saveButtonTap), for: .touchUpInside)
+        createButton.isEnabled = false
         
         cancelButton.translatesAutoresizingMaskIntoConstraints = false
         cancelButton.layer.cornerRadius = 16
@@ -115,6 +118,18 @@ final class HabitOrEventController: UIViewController {
         self.dismiss(animated: true)
         
     }
+    @objc func saveButtonTap() {
+        
+        let newTracker = Tracker(id: UUID(), action: newAction, color: .white, emoji: "", schedule: newHabit ?? eventMockShudle)
+        
+        let newCategory = TrackerCategory(title: newCategory, trackers: [newTracker])
+        
+        mockCategory1.append(newCategory)
+        
+        
+        self.dismiss(animated: true)
+    }
+    
 }
 extension HabitOrEventController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -138,12 +153,15 @@ extension HabitOrEventController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        guard indexPath.row < viewControllers.count else {
+        if indexPath.row == 1 {
+            let viewController = ScheduleViewController()
+            viewController.delegate = self
+            present(viewController, animated: true, completion: nil)
+        } else if indexPath.row == 0 {
+            present(CategoryViewController(), animated: true, completion: nil)
+        } else {
             return
         }
-        
-        let selectedViewController = viewControllers[indexPath.row]
-        present(selectedViewController, animated: true, completion: nil)
     }
 }
 
@@ -153,9 +171,22 @@ extension HabitOrEventController: UITextFieldDelegate {
     }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
+        
+        if let enteredText = textField.text {
+            
+            newAction = enteredText
+        }
+        if textField.text != nil {
+            createButton.isEnabled = true
+        }
         return true
     }
 }
 
+extension HabitOrEventController: ScheduleViewControllerDelegate {
+    func didSelectDays(_ days: [DayOfWeek: Bool]) {
+        newHabit = days
+    }
+}
 
 

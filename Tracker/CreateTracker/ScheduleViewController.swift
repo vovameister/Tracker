@@ -7,12 +7,32 @@
 
 import UIKit
 
-final class ScheduleViewController: UIViewController {
+protocol ScheduleViewControllerDelegate: AnyObject {
+    func didSelectDays(_ days: [DayOfWeek: Bool])
+}
 
+
+final class ScheduleViewController: UIViewController {
+    weak var delegate: ScheduleViewControllerDelegate?
+    
     private let titleLabel = UILabel()
     private let tableView = UITableView()
     private let cellIdentifier = "DayCell"
     private let readyButton = UIButton()
+
+
+    private var selectedDays: [DayOfWeek: Bool] = [:]
+    
+    
+    
+    @objc private func switchValueChanged(_ sender: UISwitch) {
+        let dayIndex = sender.tag
+        let dayOfWeek = DayOfWeek(rawValue: dayIndex)
+        
+        if let dayOfWeek = dayOfWeek {
+            selectedDays[dayOfWeek] = sender.isOn
+        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
@@ -41,7 +61,7 @@ final class ScheduleViewController: UIViewController {
         readyButton.addTarget(self, action: #selector(readyButtonTap), for: .touchUpInside)
         view.addSubview(readyButton)
     }
-
+    
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 13),
@@ -60,11 +80,13 @@ final class ScheduleViewController: UIViewController {
         ])
     }
     @objc func readyButtonTap() {
+        delegate?.didSelectDays(selectedDays)
+    
         self.dismiss(animated: true)
     }
 }
 extension ScheduleViewController: UITableViewDataSource, UITableViewDelegate {
-
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 7
     }
@@ -77,28 +99,15 @@ extension ScheduleViewController: UITableViewDataSource, UITableViewDelegate {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? DayTableViewCell else {
             return UITableViewCell()
         }
-
         
-        let daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+        
+        let daysOfWeek = ["Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"]
         cell.dayLabel.text = daysOfWeek[indexPath.row]
-
+        
         cell.daySwitch.tag = indexPath.row
         cell.daySwitch.addTarget(self, action: #selector(switchValueChanged(_:)), for: .valueChanged)
-
+        
         return cell
-    }
-
-    @objc private func switchValueChanged(_ sender: UISwitch) {
-        let dayIndex = sender.tag
-        let dayOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"][dayIndex]
-
-        if sender.isOn {
-            print("\(dayOfWeek) is selected.")
-            
-        } else {
-            print("\(dayOfWeek) is deselected.")
-            
-        }
     }
 }
 

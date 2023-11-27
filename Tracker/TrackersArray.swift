@@ -6,7 +6,7 @@
 //
 
 import UIKit
-let mockCategory1: [TrackerCategory] = [
+var mockCategory1: [TrackerCategory] = [
     TrackerCategory(title: "Uborka", trackers: [
         Tracker(id: UUID(), action: "Tracker One", color: UIColor.red, emoji: "⭐️", schedule: [
             .monday: false,
@@ -49,4 +49,12 @@ let mockCategory1: [TrackerCategory] = [
         ])
     ])
 ]
-
+let eventMockShudle: [DayOfWeek: Bool] = [
+    .monday: true,
+    .tuesday: true,
+    .wednesday: true,
+    .thursday: true,
+    .friday: true,
+    .saturday: true,
+    .sunday: true
+]

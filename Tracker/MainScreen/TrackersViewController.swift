@@ -8,7 +8,7 @@
 import UIKit
 
 final class TrackersViewController: UIViewController {
-    private var categories: [TrackerCategory] = []
+    var categories: [TrackerCategory] = []
     var visibleCategories: [TrackerCategory] = []
     var completedTrackers: [TrackerRecord] = []
     
