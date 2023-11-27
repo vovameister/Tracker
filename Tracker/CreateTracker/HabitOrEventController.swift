@@ -23,6 +23,23 @@ final class HabitOrEventController: UIViewController {
     }()
     let tableText = [ "Категория",
                       "Расписание"]
+    
+    
+    var setUpTableInt: Int?
+    var tableViewHeight: CGFloat?
+    
+    
+    init(title: String, setUpTableInt: Int, tableViewHeight: CGFloat) {
+        super.init(nibName: nil, bundle: nil)
+        self.titleLabel.text = title
+        self.setUpTableInt = setUpTableInt
+        self.tableViewHeight = tableViewHeight
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -101,7 +118,7 @@ final class HabitOrEventController: UIViewController {
 }
 extension HabitOrEventController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        2
+        setUpTableInt ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -114,8 +131,9 @@ extension HabitOrEventController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        
-        return tableView.frame.height / 2.0
+        if setUpTableInt == 2 {
+            return tableView.frame.height / 2.0 }
+        else { return tableView.frame.height }
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
@@ -128,15 +146,16 @@ extension HabitOrEventController: UITableViewDelegate, UITableViewDataSource {
         present(selectedViewController, animated: true, completion: nil)
     }
 }
+
 extension HabitOrEventController: UITextFieldDelegate {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-           self.view.endEditing(true)
-       }
-       func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-           textField.resignFirstResponder()
-           return true
-       }
+        self.view.endEditing(true)
+    }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
 }
-    
+
 
 
