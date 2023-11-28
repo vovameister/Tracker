@@ -31,16 +31,14 @@ final class ScheduleViewController: UIViewController {
         .sunday: false
     ]
     
-    
-    
     @objc private func switchValueChanged(_ sender: UISwitch) {
         let dayIndex = sender.tag
-        let dayOfWeek = DayOfWeek(rawValue: dayIndex)
-        
-        if let dayOfWeek = dayOfWeek {
+        if let dayOfWeek = DayOfWeek(intValue: dayIndex) {
             selectedDays[dayOfWeek] = sender.isOn
         }
     }
+    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
@@ -93,16 +91,6 @@ final class ScheduleViewController: UIViewController {
         
         self.dismiss(animated: true)
     }
-    //    func addMissingDays(schedule: inout [DayOfWeek: Bool]) {
-    //        let allDays: [DayOfWeek] = [.monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday]
-    //        let sortedDays = allDays.sorted(by: { $0.rawValue < $1.rawValue })
-    //
-    //        for day in sortedDays {
-    //            if schedule[day] == nil {
-    //                schedule[day] = false
-    //            }
-    //        }
-    //    }
 }
 extension ScheduleViewController: UITableViewDataSource, UITableViewDelegate {
     

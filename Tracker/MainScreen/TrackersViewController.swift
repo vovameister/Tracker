@@ -147,31 +147,7 @@ final class TrackersViewController: UIViewController {
         categories = mockCategory1
         dateChanged()
     }
-//    internal func reloadVisibleCategories() {
-//        let calendar = Calendar.current
-//        let filterWeekday = calendar.component(.weekday, from: datePicker.date)
-//        let filterText = (searchBar.text ?? "").lowercased()
-//
-//        visibleCategories = categories.compactMap { category in
-//            let filteredTrackers = category.trackers.filter { tracker in
-//                let textCondition = filterText.isEmpty || tracker.action.lowercased().contains(filterText)
-//                let scheduleCondition = tracker.schedule.contains { (dayOfWeek, isSelected) in
-//                    dayOfWeek.rawValue == filterWeekday && isSelected
-//                }
-//
-//                return textCondition && scheduleCondition
-//            }
-//
-//            if !filteredTrackers.isEmpty {
-//                return TrackerCategory(title: category.title, trackers: filteredTrackers)
-//            }
-//
-//            return nil
-//        }
-//        collectionView.reloadData()
-//        reloadPlaceholder()
-//        changeQuestionLabel()
-//    }
+
     internal func reloadVisibleCategories() {
         let calendar = Calendar.current
         let filterWeekday = calendar.component(.weekday, from: datePicker.date)
@@ -180,11 +156,14 @@ final class TrackersViewController: UIViewController {
         visibleCategories = categories.compactMap { category in
             let filteredTrackers = category.trackers.filter { tracker in
                 let textCondition = filterText.isEmpty || tracker.action.lowercased().contains(filterText)
-                
-                // Adjust for the difference in representation of weekdays
-                let dayOfWeek = (filterWeekday - 1 + 7) % 7
+
+                // Get the name of the current day
+                let dateFormatter = DateFormatter()
+                let dayOfWeekName = dateFormatter.weekdaySymbols[(filterWeekday - 1 + 7) % 7].lowercased()
+
+                // Check if the tracker is scheduled for the current day of the week by name
                 let scheduleCondition = tracker.schedule.contains { (day, isSelected) in
-                    day.rawValue == dayOfWeek && isSelected
+                    day.name.lowercased() == dayOfWeekName && isSelected
                 }
 
                 return textCondition && scheduleCondition
