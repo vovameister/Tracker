@@ -4,21 +4,27 @@
 //
 //  Created by Владимир Клевцов on 12.11.23..
 //
+//protocol HabitOrEventControllerDelegate: AnyObject {
+//    func appendArray()
+//}
 
 import UIKit
 final class HabitOrEventController: UIViewController {
+
+    let trackerViewController = TrackersViewController.shared
+    
     let titleLabel = UILabel()
     let textField = UITextField()
     let tableView = UITableView()
     let cancelButton = UIButton()
     let createButton = UIButton()
     let cellIdentifier = "CellIdentifier"
-    
+    let scheduleviewController = ScheduleViewController()
     
     var newAction = ""
     var newHabit: [DayOfWeek: Bool]?
     var newId: UUID?
-    var newCategory = ""
+    var newCategory = "mockcategorey"
     
     let font16 = UIFont.systemFont(ofSize: 16, weight: .medium)
     
@@ -43,6 +49,7 @@ final class HabitOrEventController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         
         view.addSubview(titleLabel)
         view.addSubview(textField)
@@ -120,12 +127,13 @@ final class HabitOrEventController: UIViewController {
     }
     @objc func saveButtonTap() {
         
-        let newTracker = Tracker(id: UUID(), action: newAction, color: .white, emoji: "", schedule: newHabit ?? eventMockShudle)
+        let newTracker = Tracker(id: UUID(), action: newAction, color: .blue, emoji: "", schedule: newHabit ?? eventMockShudle)
         
-        let newCategory = TrackerCategory(title: newCategory, trackers: [newTracker])
+        let newCategory1 = TrackerCategory(title: newCategory, trackers: [newTracker])
         
-        mockCategory1.append(newCategory)
         
+        mockCategory1.append(newCategory1)
+        trackerViewController.reloadData()
         
         self.dismiss(animated: true)
     }
@@ -154,9 +162,8 @@ extension HabitOrEventController: UITableViewDelegate, UITableViewDataSource {
         tableView.deselectRow(at: indexPath, animated: true)
         
         if indexPath.row == 1 {
-            let viewController = ScheduleViewController()
-            viewController.delegate = self
-            present(viewController, animated: true, completion: nil)
+            scheduleviewController.delegate = self
+            present(scheduleviewController, animated: true, completion: nil)
         } else if indexPath.row == 0 {
             present(CategoryViewController(), animated: true, completion: nil)
         } else {

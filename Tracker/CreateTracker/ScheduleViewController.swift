@@ -19,9 +19,17 @@ final class ScheduleViewController: UIViewController {
     private let tableView = UITableView()
     private let cellIdentifier = "DayCell"
     private let readyButton = UIButton()
-
-
-    private var selectedDays: [DayOfWeek: Bool] = [:]
+    
+    
+    private var selectedDays: [DayOfWeek: Bool] = [
+        .monday: false,
+        .tuesday: false,
+        .wednesday: false,
+        .thursday: false,
+        .friday: false,
+        .saturday: false,
+        .sunday: false
+    ]
     
     
     
@@ -80,10 +88,21 @@ final class ScheduleViewController: UIViewController {
         ])
     }
     @objc func readyButtonTap() {
+        print(selectedDays)
         delegate?.didSelectDays(selectedDays)
-    
+        
         self.dismiss(animated: true)
     }
+    //    func addMissingDays(schedule: inout [DayOfWeek: Bool]) {
+    //        let allDays: [DayOfWeek] = [.monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday]
+    //        let sortedDays = allDays.sorted(by: { $0.rawValue < $1.rawValue })
+    //
+    //        for day in sortedDays {
+    //            if schedule[day] == nil {
+    //                schedule[day] = false
+    //            }
+    //        }
+    //    }
 }
 extension ScheduleViewController: UITableViewDataSource, UITableViewDelegate {
     
@@ -103,7 +122,7 @@ extension ScheduleViewController: UITableViewDataSource, UITableViewDelegate {
         
         let daysOfWeek = ["Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"]
         cell.dayLabel.text = daysOfWeek[indexPath.row]
-        
+        cell.selectionStyle = .none
         cell.daySwitch.tag = indexPath.row
         cell.daySwitch.addTarget(self, action: #selector(switchValueChanged(_:)), for: .valueChanged)
         
