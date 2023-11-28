@@ -8,7 +8,9 @@
 import UIKit
 
 final class TrackersViewController: UIViewController {
-    private var categories: [TrackerCategory] = []
+    static let shared = TrackersViewController()
+    
+    var categories: [TrackerCategory] = []
     var visibleCategories: [TrackerCategory] = []
     var completedTrackers: [TrackerRecord] = []
     
@@ -35,6 +37,10 @@ final class TrackersViewController: UIViewController {
         searchBar.delegate = self
         self.navigationItem.titleView = searchBar
         collectionView.register(SupplementaryView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header")
+        
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+        view.addGestureRecognizer(tapGesture)
     }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
@@ -45,6 +51,9 @@ final class TrackersViewController: UIViewController {
         
         present(viewController, animated: true, completion: nil)
     }
+    @objc func handleTap() {
+            searchBar.resignFirstResponder()
+        }
     func setUpViewDidLoad() {
         view.backgroundColor = .white
         
@@ -134,10 +143,11 @@ final class TrackersViewController: UIViewController {
         reloadVisibleCategories()
     }
     
-    private func reloadData() {
+    func reloadData() {
         categories = mockCategory1
         dateChanged()
     }
+
     internal func reloadVisibleCategories() {
         let calendar = Calendar.current
         let filterWeekday = calendar.component(.weekday, from: datePicker.date)
@@ -146,8 +156,14 @@ final class TrackersViewController: UIViewController {
         visibleCategories = categories.compactMap { category in
             let filteredTrackers = category.trackers.filter { tracker in
                 let textCondition = filterText.isEmpty || tracker.action.lowercased().contains(filterText)
-                let scheduleCondition = tracker.schedule.contains { (dayOfWeek, isSelected) in
-                    dayOfWeek.rawValue == filterWeekday && isSelected
+
+                // Get the name of the current day
+                let dateFormatter = DateFormatter()
+                let dayOfWeekName = dateFormatter.weekdaySymbols[(filterWeekday - 1 + 7) % 7].lowercased()
+
+                // Check if the tracker is scheduled for the current day of the week by name
+                let scheduleCondition = tracker.schedule.contains { (day, isSelected) in
+                    day.name.lowercased() == dayOfWeekName && isSelected
                 }
 
                 return textCondition && scheduleCondition
@@ -159,11 +175,13 @@ final class TrackersViewController: UIViewController {
 
             return nil
         }
-
         collectionView.reloadData()
         reloadPlaceholder()
         changeQuestionLabel()
     }
+
+
+
     private func reloadPlaceholder() {
         collectionView.isHidden = categories.isEmpty || visibleCategories.isEmpty
     }

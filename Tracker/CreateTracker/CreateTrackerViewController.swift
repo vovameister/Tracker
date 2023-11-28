@@ -58,15 +58,13 @@ final class CreateTrackerViewController: UIViewController {
         ])
     }
     @objc func habitTap() {
-        let viewController = HabitOrEventController()
-        
+        let viewController = HabitOrEventController(title: "Новая привычка", setUpTableInt: 2, tableViewHeight: 150)
         present(viewController, animated: true, completion: nil)
-        viewController.titleLabel.text = "Новая привычка"
     }
+
     @objc func eventTap() {
-        let viewController = HabitOrEventController()
-        
+        let viewController = HabitOrEventController(title: "Новое нерегулярное событие", setUpTableInt: 1, tableViewHeight: 75)
         present(viewController, animated: true, completion: nil)
-        viewController.titleLabel.text = "Новое нерегулярное событие"
     }
+
 }

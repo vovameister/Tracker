@@ -8,5 +8,7 @@
 import UIKit
 
 final class CategoryViewController: UIViewController {
-    
+    override func viewDidLoad() {
+        view.backgroundColor = .white
+    }
 }
