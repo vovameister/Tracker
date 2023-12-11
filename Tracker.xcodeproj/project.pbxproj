@@ -122,7 +122,6 @@
 		6FDC3C112AF1307800325070 = {
 			isa = PBXGroup;
 			children = (
-				6F6231EA2B0D25F700991C7B /* Trackers.xcdatamodeld */,
 				6FDC3C1C2AF1307800325070 /* Tracker */,
 				6FDC3C1B2AF1307800325070 /* Products */,
 			);
@@ -146,6 +145,7 @@
 				6FDC3C352AF1788C00325070 /* StatsViewController.swift */,
 				6F6473692AFB4FD300E932AF /* TrackersArray.swift */,
 				6F08681F2AF6DEE900E7F4CB /* Structures.swift */,
+				6F6231EA2B0D25F700991C7B /* Trackers.xcdatamodeld */,
 				6F8EE7012B006334002B53DA /* Launch Screen.storyboard */,
 				6FDC3C262AF1307900325070 /* Assets.xcassets */,
 				6FDC3C2B2AF1307900325070 /* Info.plist */,

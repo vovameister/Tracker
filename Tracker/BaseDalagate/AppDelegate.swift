@@ -27,7 +27,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.rootViewController = TabBarViewController()
         window?.makeKeyAndVisible()
         ColorTransformer.register()
-        //Trackers.register()
+        DaysValueTransformer.register()
+        
+        
         return true
     }
     

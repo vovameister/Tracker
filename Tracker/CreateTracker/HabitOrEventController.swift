@@ -7,10 +7,20 @@
 
 import UIKit
 final class HabitOrEventController: UIViewController {
+    var newAction = ""
+    var newHabit: [DayOfWeek: Bool]?
+    var newId: UUID?
+    var newCategory = "mockcategorey"
+    
+    let trackerViewController = TrackersViewController.shared
+    let scheduleviewController = ScheduleViewController()
+    var trackerCategory = TrackerCategoryStore.shared
+    
     let titleLabel = UILabel()
     let textField = UITextField()
     let tableView = UITableView()
     let scrollView = UIScrollView()
+    let contentView = UIView()
     
     let emojiView: UICollectionView = {
         let collectionViewLayout = UICollectionViewFlowLayout()
@@ -49,25 +59,23 @@ final class HabitOrEventController: UIViewController {
     
     var setUpTableInt: Int?
     var tableViewHeight: CGFloat?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(scrollView)
-                scrollView.translatesAutoresizingMaskIntoConstraints = false
-                scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-                scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-                scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-                scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.addSubview(contentView)
         
-        scrollView.addSubview(titleLabel)
-        scrollView.addSubview(textField)
-        scrollView.backgroundColor = .white
-        scrollView.addSubview(tableView)
-        scrollView.addSubview(createButton)
-        scrollView.addSubview(cancelButton)
-        scrollView.addSubview(emojiView)
-        scrollView.addSubview(emojiLabel)
-        scrollView.addSubview(colorView)
-        scrollView.isScrollEnabled = true
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(textField)
+        contentView.backgroundColor = .white
+        contentView.addSubview(tableView)
+        contentView.addSubview(createButton)
+        contentView.addSubview(cancelButton)
+        contentView.addSubview(emojiView)
+        contentView.addSubview(emojiLabel)
+        contentView.addSubview(colorView)
         
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         
@@ -94,6 +102,7 @@ final class HabitOrEventController: UIViewController {
         createButton.backgroundColor = UIColor(named: "trackerGray")
         createButton.setTitle("Создать", for: .normal)
         createButton.titleLabel?.font = font16
+        createButton.addTarget(self, action: #selector(saveButtonTap), for: .touchUpInside)
         
         cancelButton.translatesAutoresizingMaskIntoConstraints = false
         cancelButton.layer.cornerRadius = 16
@@ -114,65 +123,87 @@ final class HabitOrEventController: UIViewController {
         colorView.delegate = colorCollectionViewDelegate
         colorView.dataSource = colorCollectionViewDelegate
         colorCollectionViewDelegate.parentViewController = self
- 
+        
         emojiLabel.text = "Emoji"
         emojiLabel.font = UIFont.systemFont(ofSize: 19, weight: .bold)
         emojiLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 13),
-            titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 13),
+            titleLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             titleLabel.heightAnchor.constraint(equalToConstant: 22),
             
-            textField.topAnchor.constraint(equalTo: view.topAnchor, constant: 73),
-            textField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            textField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            textField.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 73),
+            textField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            textField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             textField.heightAnchor.constraint(equalToConstant: 75),
             
             tableView.topAnchor.constraint(equalTo: textField.bottomAnchor, constant: 24),
             tableView.heightAnchor.constraint(equalToConstant: tableViewHeight ?? 150),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            tableView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            tableView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             
-            cancelButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -34),
-            cancelButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            cancelButton.trailingAnchor.constraint(equalTo: view.centerXAnchor, constant: -4),
+            cancelButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -34),
+            cancelButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            cancelButton.trailingAnchor.constraint(equalTo: contentView.centerXAnchor, constant: -4),
             cancelButton.heightAnchor.constraint(equalToConstant: 60),
             
-            createButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -34),
-            createButton.leadingAnchor.constraint(equalTo: view.centerXAnchor, constant: 4),
-            createButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            createButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -34),
+            createButton.leadingAnchor.constraint(equalTo: contentView.centerXAnchor, constant: 4),
+            createButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             createButton.heightAnchor.constraint(equalToConstant: 60),
             
             emojiView.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 81),
-            emojiView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 19),
-            emojiView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -19),
+            emojiView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 19),
+            emojiView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -19),
             emojiView.heightAnchor.constraint(equalToConstant: 170),
             
             emojiLabel.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 32),
-            emojiLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 28),
+            emojiLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 28),
             emojiLabel.heightAnchor.constraint(equalToConstant: 18),
             emojiLabel.widthAnchor.constraint(equalToConstant: 52),
             
             colorView.topAnchor.constraint(equalTo: emojiView.bottomAnchor, constant: 89),
             colorView.leadingAnchor.constraint(equalTo: emojiView.leadingAnchor),
             colorView.trailingAnchor.constraint(equalTo: emojiView.trailingAnchor),
-            colorView.heightAnchor.constraint(equalTo: emojiView.heightAnchor)
+            colorView.heightAnchor.constraint(equalTo: emojiView.heightAnchor),
             
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            
+            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            
+            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            contentView.heightAnchor.constraint(equalToConstant: 1000)
         ])
     }
     init(title: String, setUpTableInt: Int, tableViewHeight: CGFloat) {
-           super.init(nibName: nil, bundle: nil)
+        super.init(nibName: nil, bundle: nil)
         self.titleLabel.text = title
         self.setUpTableInt = setUpTableInt
         self.tableViewHeight = tableViewHeight
-       }
-
-       required init?(coder aDecoder: NSCoder) {
-           super.init(coder: aDecoder)
-       }
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
     @objc func cancelButtonTap() {
         self.dismiss(animated: true)
     }
+    @objc func saveButtonTap() {
+        let newTracker = Tracker(id: UUID(), action: newAction, color: .blue, emoji: "q", schedule: newHabit ?? eventMockShudle)
+        
+        let newCategory1 = TrackerCategory(title: newCategory, trackers: [newTracker])
+        try? trackerCategory.addNewTrackerCategory(newCategory1)
+        
+        
+        self.dismiss(animated: true)
+    }
+    
 }
 extension HabitOrEventController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -196,22 +227,36 @@ extension HabitOrEventController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        guard indexPath.row < viewControllers.count else {
+        if indexPath.row == 1 {
+            scheduleviewController.delegate = self
+            present(scheduleviewController, animated: true, completion: nil)
+        } else if indexPath.row == 0 {
+            present(CategoryViewController(), animated: true, completion: nil)
+        } else {
             return
         }
-        
-        let selectedViewController = viewControllers[indexPath.row]
-        present(selectedViewController, animated: true, completion: nil)
     }
 }
 
 extension HabitOrEventController: UITextFieldDelegate {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-           self.scrollView.endEditing(true)
-       }
-       func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-           textField.resignFirstResponder()
-           return true
-       }
+        self.view.endEditing(true)
+    }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        
+        if let enteredText = textField.text {
+            
+            newAction = enteredText
+        }
+        if textField.text != nil {
+            createButton.isEnabled = true
+        }
+        return true
+    }
 }
-
+extension HabitOrEventController: ScheduleViewControllerDelegate {
+    func didSelectDays(_ days: [DayOfWeek: Bool]) {
+        newHabit = days
+    }
+}

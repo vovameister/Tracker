@@ -8,35 +8,40 @@
 import UIKit
 
 extension TrackersViewController: UICollectionViewDataSource {
+    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return visibleCategories.count
+        return trackerCD.numberOfSections()
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return visibleCategories[section].trackers.count
+        return trackerCD.numberOfItems(inSection: section)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let tracker = trackerCD.tracker(at: indexPath) else { return UICollectionViewCell() }
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CollectionViewCell
         cell.backgroundColor = .white
-        let tracker = visibleCategories[indexPath.section].trackers[indexPath.row]
         
         
         cell.delegate = self
         
         cell.backgroundColor = .white
-        cell.colorLabel.backgroundColor = tracker.color
-        cell.button.backgroundColor = tracker.color
-        cell.messege.text = tracker.action
+        if let color = tracker.color as? UIColor {
+            cell.colorLabel.backgroundColor = color
+            cell.button.backgroundColor = color
+        } else {
+            print("Error: tracker.color is not a UIColor")
+        }
+        cell.messege.text = tracker.action ?? ""
         cell.emodjiLabel.text = tracker.emoji
-        cell.trackerId = tracker.id
+        cell.trackerId = tracker.uuid
         cell.indexPath = indexPath
-        cell.isCompletedToday = isTrackerCompletedToday(id: tracker.id)
+        cell.isCompletedToday = isTrackerCompletedToday(id: tracker.uuid!)
         
         let buttonText = cell.isCompletedToday ? "✓" : "+"
         cell.button.setTitle(buttonText, for: .normal)
         cell.button.isEnabled = isButtonEnable()
         
-        cell.repeatedTimes = completedTrackers.filter { $0.trackerId == tracker.id }.count
+        cell.repeatedTimes = completedTrackers.filter { $0.trackerId == tracker.uuid }.count
         cell.daysLabel.text = "\(cell.repeatedTimes) \(calculateDayString(for: cell.repeatedTimes))"
         
         return cell
@@ -61,7 +66,9 @@ extension TrackersViewController: UICollectionViewDataSource {
         switch kind {
         case UICollectionView.elementKindSectionHeader:
             let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath) as! SupplementaryView
-            view.titleLabel.text = visibleCategories[indexPath.section].title
+            
+            let category = trackerCD.trackerCategory(at: indexPath)
+            view.titleLabel.text = category
             return view
         default:
             fatalError("Unexpected kind")
@@ -133,4 +140,22 @@ extension TrackersViewController: TrackerCellDelegate {
     }
     
     
+}
+extension TrackersViewController: TrackerCoreDataStoreDelegate {
+    func didUpdate(_ update: TrackerStoreUpdate) {
+        collectionView.performBatchUpdates {
+            let insertedIndexPaths = update.insertedIndexes.map { IndexPath(item: $0, section: 0) }
+            let deletedIndexPaths = update.deletedIndexes.map { IndexPath(item: $0, section: 0) }
+            let updatedIndexPaths = update.updatedIndexes.map { IndexPath(item: $0, section: 0) }
+            collectionView.insertItems(at: insertedIndexPaths)
+            collectionView.insertItems(at: deletedIndexPaths)
+            collectionView.insertItems(at: updatedIndexPaths)
+            for move in update.movedIndexes {
+                collectionView.moveItem(
+                    at: IndexPath(item: move.oldIndex, section: 0),
+                    to: IndexPath(item: move.newIndex, section: 0)
+                )
+            }
+        }
+    }
 }

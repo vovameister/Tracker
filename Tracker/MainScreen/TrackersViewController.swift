@@ -8,10 +8,15 @@
 import UIKit
 
 final class TrackersViewController: UIViewController {
-    private var categories: [TrackerCategory] = []
+    
+    static let shared = TrackersViewController()
+    var trackerCD = TrackerCoreDataStore.shared
+    
+    var categories: [TrackerCategory] = []
     var visibleCategories: [TrackerCategory] = []
     var completedTrackers: [TrackerRecord] = []
     
+ 
     let button = UIButton()
     let textViewTracker =  UILabel()
     let imageStar = UIImageView()
@@ -26,35 +31,36 @@ final class TrackersViewController: UIViewController {
         collectionView.register(CollectionViewCell.self, forCellWithReuseIdentifier: "cell")
         return collectionView
     }()
+ 
     override func viewDidLoad() {
         super.viewDidLoad()
-        reloadData()
         setUpViewDidLoad()
         setUpCollectionView()
+        reloadVisibleCategories()
         
+        trackerCD.delegate = self
         searchBar.delegate = self
         self.navigationItem.titleView = searchBar
         collectionView.register(SupplementaryView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header")
         
+        
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
-                view.addGestureRecognizer(tapGesture)
+        view.addGestureRecognizer(tapGesture)
+        
+
     }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
     }
-    
     @objc func showCreateViewController() {
         
         let viewController = CreateTrackerViewController()
         
         present(viewController, animated: true, completion: nil)
     }
-    
     @objc func handleTap() {
-               searchBar.resignFirstResponder()
-           }
-
-    
+            searchBar.resignFirstResponder()
+        }
     func setUpViewDidLoad() {
         view.backgroundColor = .white
         
@@ -144,48 +150,38 @@ final class TrackersViewController: UIViewController {
         reloadVisibleCategories()
     }
     
-    private func reloadData() {
-        categories = mockCategory1
-        dateChanged()
-    }
+//    func reloadData() {
+//        //trackerCategoryStore.initializeFetchedResultsController()
+//        categories = mockCategory1
+//        dateChanged()
+//    }
+
+
     internal func reloadVisibleCategories() {
         let calendar = Calendar.current
-        let filterWeekday = calendar.component(.weekday, from: datePicker.date)
-        let filterText = (searchBar.text ?? "").lowercased()
+            trackerCD.updateFilterPredicate(text: (searchBar.text ?? "").lowercased(),
+                                            weekday: calendar.component(.weekday, from: datePicker.date))
 
-        visibleCategories = categories.compactMap { category in
-            let filteredTrackers = category.trackers.filter { tracker in
-                let textCondition = filterText.isEmpty || tracker.action.lowercased().contains(filterText)
-                let scheduleCondition = tracker.schedule.contains { (dayOfWeek, isSelected) in
-                    dayOfWeek.rawValue == filterWeekday && isSelected
-                }
-
-                return textCondition && scheduleCondition
-            }
-
-            if !filteredTrackers.isEmpty {
-                return TrackerCategory(title: category.title, trackers: filteredTrackers)
-            }
-
-            return nil
-        }
-
-        collectionView.reloadData()
         reloadPlaceholder()
         changeQuestionLabel()
     }
+
     private func reloadPlaceholder() {
-        collectionView.isHidden = categories.isEmpty || visibleCategories.isEmpty
+            let isEmpty = trackerCD.numberOfSections() == 0 || trackerCD.numberOfItems(inSection: 0) == 0
+            collectionView.isHidden = isEmpty
     }
 
+
+
     func changeQuestionLabel() {
-        if !categories.isEmpty && visibleCategories.isEmpty {
-            questionText.text = "Ничего не найдено"
-            imageStar.image = UIImage(named: "nothingFind")
-        } else  {
-            questionText.text = "Что будем отслеживать?"
-            imageStar.image = UIImage(named: "Star")
-        }
+        if trackerCD.numberOfSections() == 0 && trackerCD.textPredicate == nil || trackerCD.datePredecate == nil{
+                questionText.text = "Ничего не найдено"
+                imageStar.image = UIImage(named: "nothingFind")
+            } else {
+                questionText.text = "Что будем отслеживать?"
+                imageStar.image = UIImage(named: "Star")
+            }
     }
 }
+
 
