@@ -10,7 +10,9 @@ final class HabitOrEventController: UIViewController {
     var newAction = ""
     var newHabit: [DayOfWeek: Bool]?
     var newId: UUID?
-    var newCategory = "mockcategorey"
+    var newCategory = "321"
+    var emoji: String?
+    var color: UIColor?
     
     let trackerViewController = TrackersViewController.shared
     let scheduleviewController = ScheduleViewController()
@@ -195,7 +197,7 @@ final class HabitOrEventController: UIViewController {
         self.dismiss(animated: true)
     }
     @objc func saveButtonTap() {
-        let newTracker = Tracker(id: UUID(), action: newAction, color: .blue, emoji: "q", schedule: newHabit ?? eventMockShudle)
+        let newTracker = Tracker(id: UUID(), action: newAction, color: color ?? .blue, emoji: emoji ?? "", schedule: newHabit ?? eventMockShudle)
         
         let newCategory1 = TrackerCategory(title: newCategory, trackers: [newTracker])
         try? trackerCategory.addNewTrackerCategory(newCategory1)
@@ -260,3 +262,4 @@ extension HabitOrEventController: ScheduleViewControllerDelegate {
         newHabit = days
     }
 }
+

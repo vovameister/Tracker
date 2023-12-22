@@ -103,9 +103,4 @@ class TrackerCoreDataStore: NSObject, NSFetchedResultsControllerDelegate {
             emoji: emoji,
             schedule: schedule as! [DayOfWeek : Bool])
     }}
-extension TrackerCoreDataStore {
-  
-    
-
-}
 

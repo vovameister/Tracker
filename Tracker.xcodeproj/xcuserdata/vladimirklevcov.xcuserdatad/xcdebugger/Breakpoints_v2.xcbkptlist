@@ -23,84 +23,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "C5C39562-FCD9-464B-8E78-B5DEBB15ADBD"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Tracker/CreateTracker/HabitOrEventController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "227"
-            endingLineNumber = "227"
-            landmarkName = "tableView(_:didSelectRowAt:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "C5C39562-FCD9-464B-8E78-B5DEBB15ADBD - f60d24c0b14a3b5b"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Tracker.HabitOrEventController.tableView(_: __C.UITableView, cellForRowAt: Foundation.IndexPath) -&gt; __C.UITableViewCell"
-                  moduleName = "Tracker"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/vladimirklevcov/Desktop/Tracker/Tracker/CreateTracker/HabitOrEventController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "194"
-                  endingLineNumber = "194"
-                  offsetFromSymbolStart = "684">
-               </Location>
-               <Location
-                  uuid = "C5C39562-FCD9-464B-8E78-B5DEBB15ADBD - edf871653a3999ec"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Tracker.HabitOrEventController.tableView(_: __C.UITableView, didSelectRowAt: Foundation.IndexPath) -&gt; ()"
-                  moduleName = "Tracker"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/vladimirklevcov/Desktop/Tracker/Tracker/CreateTracker/HabitOrEventController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "195"
-                  endingLineNumber = "195"
-                  offsetFromSymbolStart = "132">
-               </Location>
-               <Location
-                  uuid = "C5C39562-FCD9-464B-8E78-B5DEBB15ADBD - edf871653a39998f"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Tracker.HabitOrEventController.tableView(_: __C.UITableView, didSelectRowAt: Foundation.IndexPath) -&gt; ()"
-                  moduleName = "Tracker"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/vladimirklevcov/Desktop/Tracker/Tracker/CreateTracker/HabitOrEventController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "196"
-                  endingLineNumber = "196"
-                  offsetFromSymbolStart = "132">
-               </Location>
-               <Location
-                  uuid = "C5C39562-FCD9-464B-8E78-B5DEBB15ADBD - edf871653a39924e"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Tracker.HabitOrEventController.tableView(_: __C.UITableView, didSelectRowAt: Foundation.IndexPath) -&gt; ()"
-                  moduleName = "Tracker"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/vladimirklevcov/Desktop/Tracker/Tracker/CreateTracker/HabitOrEventController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "229"
-                  endingLineNumber = "229"
-                  offsetFromSymbolStart = "124">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "DB104C55-AB94-4D5E-9DF3-A2CCC64A8A08"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -339,22 +261,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "844ECB71-183B-4BA5-9B84-9DFFF494FF6C"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Tracker/CreateTracker/HabitOrEventController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "96"
-            endingLineNumber = "96"
-            landmarkName = "viewDidLoad()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "765982AE-D909-46DB-B7CF-E1985973B701"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -428,146 +334,6 @@
                   offsetFromSymbolStart = "148">
                </Location>
             </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "6BF70FE8-EF7B-4F9D-B568-936128195148"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Tracker/CreateTracker/HabitOrEventController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "197"
-            endingLineNumber = "197"
-            landmarkName = "saveButtonTap()"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "6BF70FE8-EF7B-4F9D-B568-936128195148 - a162c38637a10917"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Tracker.HabitOrEventController.saveButtonTap() -&gt; ()"
-                  moduleName = "Tracker"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/vladimirklevcov/Desktop/Tracker/Tracker/CreateTracker/HabitOrEventController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "202"
-                  endingLineNumber = "202"
-                  offsetFromSymbolStart = "388">
-               </Location>
-               <Location
-                  uuid = "6BF70FE8-EF7B-4F9D-B568-936128195148 - a162c38637a10917"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Tracker.HabitOrEventController.saveButtonTap() -&gt; ()"
-                  moduleName = "Tracker"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/vladimirklevcov/Desktop/Tracker/Tracker/CreateTracker/HabitOrEventController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "202"
-                  endingLineNumber = "202"
-                  offsetFromSymbolStart = "384">
-               </Location>
-               <Location
-                  uuid = "6BF70FE8-EF7B-4F9D-B568-936128195148 - a162c38637a109f0"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Tracker.HabitOrEventController.saveButtonTap() -&gt; ()"
-                  moduleName = "Tracker"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/vladimirklevcov/Desktop/Tracker/Tracker/CreateTracker/HabitOrEventController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "201"
-                  endingLineNumber = "201"
-                  offsetFromSymbolStart = "308">
-               </Location>
-               <Location
-                  uuid = "6BF70FE8-EF7B-4F9D-B568-936128195148 - a162c38637a10993"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Tracker.HabitOrEventController.saveButtonTap() -&gt; ()"
-                  moduleName = "Tracker"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/vladimirklevcov/Desktop/Tracker/Tracker/CreateTracker/HabitOrEventController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "198"
-                  endingLineNumber = "198"
-                  offsetFromSymbolStart = "172">
-               </Location>
-               <Location
-                  uuid = "6BF70FE8-EF7B-4F9D-B568-936128195148 - a162c38637a10993"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Tracker.HabitOrEventController.saveButtonTap() -&gt; ()"
-                  moduleName = "Tracker"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/vladimirklevcov/Desktop/Tracker/Tracker/CreateTracker/HabitOrEventController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "198"
-                  endingLineNumber = "198"
-                  offsetFromSymbolStart = "192">
-               </Location>
-               <Location
-                  uuid = "6BF70FE8-EF7B-4F9D-B568-936128195148 - a162c38637a10993"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Tracker.HabitOrEventController.saveButtonTap() -&gt; ()"
-                  moduleName = "Tracker"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/vladimirklevcov/Desktop/Tracker/Tracker/CreateTracker/HabitOrEventController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "198"
-                  endingLineNumber = "198"
-                  offsetFromSymbolStart = "200">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "8FE1E2DE-23C3-4460-9912-6151E1BB7168"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Tracker/CreateTracker/HabitOrEventController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "226"
-            endingLineNumber = "226"
-            landmarkName = "tableView(_:heightForRowAt:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "17142C7F-C085-42DB-990B-63E050D5720E"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Tracker/CreateTracker/HabitOrEventController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "225"
-            endingLineNumber = "225"
-            landmarkName = "tableView(_:heightForRowAt:)"
-            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -717,22 +483,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "AE308FF4-BE5B-4324-A1DE-AC2AB9CB8B30"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Tracker/CreateTracker/HabitOrEventController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "260"
-            endingLineNumber = "260"
-            landmarkName = "didSelectDays(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "9340A3FB-1F9C-4034-BFB3-98E3A7F3AD5C"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -750,7 +500,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "92ABB014-C896-4B83-9DFB-8BCA18D526A9"
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Tracker/MainScreen/TrackersExtentions.swift"
@@ -1062,22 +812,6 @@
             startingLineNumber = "102"
             endingLineNumber = "102"
             landmarkName = "searchBarTextDidBeginEditing(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "D256705A-4DA2-4DDE-88AF-6D72D58B5A28"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Tracker/CreateTracker/HabitOrEventController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "201"
-            endingLineNumber = "201"
-            landmarkName = "saveButtonTap()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
