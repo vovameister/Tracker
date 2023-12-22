@@ -6,19 +6,17 @@
 //
 import CoreData
 import UIKit
-struct TrackerStoreUpdate {
-    struct Move: Hashable {
-        let oldIndex: Int
-        let newIndex: Int
-    }
-    let insertedIndexes: IndexSet
-    let deletedIndexes: IndexSet
-    let updatedIndexes: IndexSet
-    let movedIndexes: Set<Move>
+enum TrackerStoreError: Error {
+    case decodingErrorInvalidId
+    case decodingErrorInvalidTitle
+    case decodingErrorInvalidColor
+    case decodingErrorInvalidEmoji
+    case decodingErrorInvalidSchedule
+    case decodingErrorInvalid
 }
 
 protocol TrackerCoreDataStoreDelegate: AnyObject {
-    func didUpdate(_ update: TrackerStoreUpdate)
+    func store()
 }
 
 class TrackerCoreDataStore: NSObject, NSFetchedResultsControllerDelegate {
@@ -28,13 +26,17 @@ class TrackerCoreDataStore: NSObject, NSFetchedResultsControllerDelegate {
     var filterPredicates = [NSPredicate]()
     var textPredicate: NSPredicate?
     var datePredecate: NSPredicate?
-    private var insertedIndexes: IndexSet?
-    private var deletedIndexes: IndexSet?
-    private var updatedIndexes: IndexSet?
-    private var movedIndexes: Set<TrackerStoreUpdate.Move>?
+    
+    var trackers: [Tracker] {
+        guard
+            let objects = self.fetchedResultsController.fetchedObjects,
+            let trackers = try? objects.map({ try self.tracker(from: $0) })
+        else { return [] }
+        return trackers
+    }
     
     private let context: NSManagedObjectContext
-    private var fetchedResultsController: NSFetchedResultsController<TrackerCoreData>?
+    private var fetchedResultsController: NSFetchedResultsController<TrackerCoreData>!
     convenience override init() {
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         self.init(managedObjectContext: context)
@@ -65,111 +67,45 @@ class TrackerCoreDataStore: NSObject, NSFetchedResultsControllerDelegate {
         }
     }
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        insertedIndexes = IndexSet()
-        deletedIndexes = IndexSet()
-        updatedIndexes = IndexSet()
-        movedIndexes = Set<TrackerStoreUpdate.Move>()    }
-    
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        delegate?.didUpdate(TrackerStoreUpdate(
-            insertedIndexes: insertedIndexes!,
-            deletedIndexes: deletedIndexes!,
-            updatedIndexes: updatedIndexes!,
-            movedIndexes: movedIndexes!
-        )
-        )
-        insertedIndexes = nil
-        deletedIndexes = nil
-        updatedIndexes = nil
-        movedIndexes = nil
     }
     
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
-                    didChange anObject: Any,
-                    at indexPath: IndexPath?,
-                    for type: NSFetchedResultsChangeType,
-                    newIndexPath: IndexPath?) {
+    func controllerDidChangeContent(
+        _ controller: NSFetchedResultsController<NSFetchRequestResult>
+    ) {
+        delegate?.store()
+    }
+    
+    private func tracker(from trackersCoreData: TrackerCoreData) throws -> Tracker {
+        guard let id = trackersCoreData.uuid else {
+            throw TrackerStoreError.decodingErrorInvalidId
+        }
         
-        switch type {
-        case .insert:
-            guard let indexPath = newIndexPath else { fatalError() }
-            insertedIndexes?.insert(indexPath.item)
-        case .delete:
-            guard let indexPath = indexPath else { fatalError() }
-            deletedIndexes?.insert(indexPath.item)
-        case .update:
-            guard let indexPath = indexPath else { fatalError() }
-            updatedIndexes?.insert(indexPath.item)
-        case .move:
-            guard let oldIndexPath = indexPath, let newIndexPath = newIndexPath else { fatalError() }
-            movedIndexes?.insert(.init(oldIndex: oldIndexPath.item, newIndex: newIndexPath.item))
-        @unknown default:
-            fatalError()
+        guard let title = trackersCoreData.action else {
+            throw TrackerStoreError.decodingErrorInvalidTitle
         }
-    }
-}
+        
+        guard let color = trackersCoreData.color else {
+            throw TrackerStoreError.decodingErrorInvalidColor
+        }
+        
+        guard let emoji = trackersCoreData.emoji else {
+            throw TrackerStoreError.decodingErrorInvalidEmoji
+        }
+        
+        guard let schedule = trackersCoreData.schedule else {
+            throw TrackerStoreError.decodingErrorInvalidSchedule
+        }
+        
+        return Tracker(
+            id: id,
+            action: title,
+            color: color as! UIColor,
+            emoji: emoji,
+            schedule: schedule as! [DayOfWeek : Bool])
+    }}
 extension TrackerCoreDataStore {
-    func trackerCategory(at indexPath: IndexPath) -> String {
-        guard let frc = fetchedResultsController, frc.sections?.count ?? 0 > 0 else {
-            return ""
-        }
-        guard indexPath.section < frc.sections!.count else {
-            return ""
-        }
-        guard indexPath.row < frc.sections![indexPath.section].numberOfObjects else {
-            return ""
-        }
-        let tracker = frc.object(at: indexPath)
-        guard let category = tracker.categorys else {
-            return ""
-        }
-        return category.title ?? ""
-    }
+  
     
-    
-    func numberOfSections() -> Int {
-        return fetchedResultsController?.sections?.count ?? 0
-    }
-    
-    func numberOfItems(inSection section: Int) -> Int {
-        return fetchedResultsController?.sections?[section].numberOfObjects ?? 0
-    }
-    
-    func tracker(at indexPath: IndexPath) -> TrackerCoreData? {
-        return fetchedResultsController?.object(at: indexPath)
-    }
-    func updateFilterPredicate(text: String?, weekday: Int?) {
-        var filterPredicates = [NSPredicate]()
-           if let text = text, !text.isEmpty {
-               textPredicate = NSPredicate(format: "action CONTAINS[cd] %@", text)
-               filterPredicates.append(textPredicate!)
-           }
-//        if let weekday = weekday {
-//            let dayOfWeekName = DateFormatter().weekdaySymbols[(weekday - 1 + 7) % 7].lowercased()
-//            datePredecate = NSPredicate(format: "ANY schedule.day.name CONTAINS[cd] %@ AND ANY schedule.isSelected == true", dayOfWeekName)
-//            if let datePredecate = datePredecate {
-//                filterPredicates.append(datePredecate)
-//            }
-//        }
-        let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: filterPredicates)
 
-            fetchedResultsController?.fetchRequest.predicate = compoundPredicate
-
-            do {
-                try fetchedResultsController?.performFetch()
-                    
-                    if let fetchedObjects = fetchedResultsController?.fetchedObjects {
-                        for object in fetchedObjects {
-                            if let managedObject = object as? NSManagedObject {
-                                // Access and print data from the managed object
-                                print("Fetched Object: \(managedObject)")
-                                
-                            }
-                        }
-                    }
-            } catch {
-                print("Error performing fetch after updating predicate: \(error)")
-            }
-    }
 }
 

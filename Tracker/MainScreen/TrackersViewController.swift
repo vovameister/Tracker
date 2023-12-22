@@ -8,9 +8,10 @@
 import UIKit
 
 final class TrackersViewController: UIViewController {
+   
     
     static let shared = TrackersViewController()
-    var trackerCD = TrackerCoreDataStore.shared
+    let trackerCategoryStore = TrackerCategoryStore()
     
     var categories: [TrackerCategory] = []
     var visibleCategories: [TrackerCategory] = []
@@ -37,8 +38,9 @@ final class TrackersViewController: UIViewController {
         setUpViewDidLoad()
         setUpCollectionView()
         reloadVisibleCategories()
+        reloadData()
         
-        trackerCD.delegate = self
+        trackerCategoryStore.delegate = self
         searchBar.delegate = self
         self.navigationItem.titleView = searchBar
         collectionView.register(SupplementaryView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header")
@@ -150,37 +152,55 @@ final class TrackersViewController: UIViewController {
         reloadVisibleCategories()
     }
     
-//    func reloadData() {
-//        //trackerCategoryStore.initializeFetchedResultsController()
-//        categories = mockCategory1
-//        dateChanged()
-//    }
-
+    func reloadData() {
+        categories = trackerCategoryStore.trackerCategories
+        dateChanged()
+    }
 
     internal func reloadVisibleCategories() {
         let calendar = Calendar.current
-            trackerCD.updateFilterPredicate(text: (searchBar.text ?? "").lowercased(),
-                                            weekday: calendar.component(.weekday, from: datePicker.date))
+        let filterWeekday = calendar.component(.weekday, from: datePicker.date)
+        let filterText = (searchBar.text ?? "").lowercased()
 
+        visibleCategories = categories.compactMap { category in
+            let filteredTrackers = category.trackers.filter { tracker in
+                let textCondition = filterText.isEmpty || tracker.action.lowercased().contains(filterText)
+
+                let dateFormatter = DateFormatter()
+                let dayOfWeekName = dateFormatter.weekdaySymbols[(filterWeekday - 1 + 7) % 7].lowercased()
+
+                let scheduleCondition = tracker.schedule.contains { (day, isSelected) in
+                    day.name.lowercased() == dayOfWeekName && isSelected
+                }
+
+                return textCondition && scheduleCondition
+            }
+
+            if !filteredTrackers.isEmpty {
+                return TrackerCategory(title: category.title, trackers: filteredTrackers)
+            }
+
+            return nil
+        }
+        collectionView.reloadData()
         reloadPlaceholder()
         changeQuestionLabel()
     }
 
+
+
     private func reloadPlaceholder() {
-            let isEmpty = trackerCD.numberOfSections() == 0 || trackerCD.numberOfItems(inSection: 0) == 0
-            collectionView.isHidden = isEmpty
+        collectionView.isHidden = categories.isEmpty || visibleCategories.isEmpty
     }
 
-
-
     func changeQuestionLabel() {
-        if trackerCD.numberOfSections() == 0 && trackerCD.textPredicate == nil || trackerCD.datePredecate == nil{
-                questionText.text = "Ничего не найдено"
-                imageStar.image = UIImage(named: "nothingFind")
-            } else {
-                questionText.text = "Что будем отслеживать?"
-                imageStar.image = UIImage(named: "Star")
-            }
+        if !categories.isEmpty && visibleCategories.isEmpty {
+            questionText.text = "Ничего не найдено"
+            imageStar.image = UIImage(named: "nothingFind")
+        } else  {
+            questionText.text = "Что будем отслеживать?"
+            imageStar.image = UIImage(named: "Star")
+        }
     }
 }
 
