@@ -22,12 +22,12 @@ final class EmojiCollectionViewDelegate: NSObject, UICollectionViewDelegateFlowL
         cell.label.text = emojis[indexPath.row]
         return cell
     }
-
-
+    
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 52, height: 52)
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         7.0
     }
@@ -35,21 +35,21 @@ final class EmojiCollectionViewDelegate: NSObject, UICollectionViewDelegateFlowL
         return (((parentViewController!.scrollView.bounds.width - 38) - 52 * 6) / 5)
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-         selectedEmoji = emojis[indexPath.item]
+        selectedEmoji = emojis[indexPath.item]
         if let prevIndexPath = selectedIndexPath {
-                  let prevCell = collectionView.cellForItem(at: prevIndexPath)
-                  prevCell?.backgroundColor = UIColor.white
-              }
-
-              selectedEmoji = emojis[indexPath.item]
-
-              let selectedCell = collectionView.cellForItem(at: indexPath)
-              selectedCell?.backgroundColor = UIColor(named: "lightGrey")
-
-              selectedIndexPath = indexPath
-
-              print("Selected Emoji: \(selectedEmoji ?? "")")
-     }
+            let prevCell = collectionView.cellForItem(at: prevIndexPath)
+            prevCell?.backgroundColor = UIColor.white
+        }
+        
+        selectedEmoji = emojis[indexPath.item]
+        parentViewController!.emoji = selectedEmoji
+        let selectedCell = collectionView.cellForItem(at: indexPath)
+        selectedCell?.backgroundColor = UIColor(named: "lightGrey")
+        
+        selectedIndexPath = indexPath
+        
+        print("Selected Emoji: \(selectedEmoji ?? "")")
+    }
 }
 
 final class EmojiCollectionViewCell: UICollectionViewCell {
@@ -59,12 +59,12 @@ final class EmojiCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         setupViews()
     }
-
+    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setupViews()
     }
-
+    
     private func setupViews() {
         contentView.addSubview(label)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -76,4 +76,3 @@ final class EmojiCollectionViewCell: UICollectionViewCell {
     }
 }
 fileprivate let emojis: [String] = ["😀", "😍", "🚀", "🌈", "🎉", "🍎", "🍕", "🎸", "⌚️", "🚗", "📷", "💡", "🎈", "📚", "🏖️", "🍦", "🎁", "🌟"]
-
