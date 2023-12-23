@@ -30,22 +30,22 @@ extension TrackersViewController: UICollectionViewDataSource {
         cell.emodjiLabel.text = tracker.emoji
         cell.trackerId = tracker.id
         cell.indexPath = indexPath
-        cell.isCompletedToday = isTrackerCompletedToday(id: tracker.id)
         cell.button.isEnabled = isButtonEnable()
-        let buttonText = cell.isCompletedToday ? "✓" : "+"
+        let buttonText = trackerRecordCD.hasTracker(date: datePicker.date, uuid: tracker.id) ? "✓" : "+"
         cell.button.setTitle(buttonText, for: .normal)
         
-        cell.repeatedTimes = completedTrackers.filter { $0.trackerId == tracker.id }.count
+//        cell.repeatedTimes = completedTrackers.filter { $0.trackerId == tracker.id }.count
+        cell.repeatedTimes = trackerRecordCD.sumOfRecords(uuid: tracker.id)
         cell.daysLabel.text = "\(cell.repeatedTimes) \(calculateDayString(for: cell.repeatedTimes))"
         
         return cell
     }
-    private func isTrackerCompletedToday(id: UUID) -> Bool {
-        completedTrackers.contains { trackerRecord in
-            let isSameDay = Calendar.current.isDate(trackerRecord.date, inSameDayAs: datePicker.date)
-            return trackerRecord.trackerId == id && isSameDay
-        }
-    }
+//    private func isTrackerCompletedToday(id: UUID) -> Bool {
+//        completedTrackers.contains { trackerRecord in
+//            let isSameDay = Calendar.current.isDate(trackerRecord.date, inSameDayAs: datePicker.date)
+//            return trackerRecord.trackerId == id && isSameDay
+//        }
+//    }
     func isButtonEnable() -> Bool {
         let selectedDate = datePicker.date
         let currentDate = Date()
@@ -116,26 +116,29 @@ extension TrackersViewController: UISearchBarDelegate {
     }
 }
 extension TrackersViewController: TrackerCellDelegate {
-    func completeTracker(id: UUID, at indexPath: IndexPath) {
-        let trackerRecord = TrackerRecord(trackerId: id, date: datePicker.date)
-        completedTrackers.append(trackerRecord)
+    
+    func addOrDalete(id: UUID, at indexPath: IndexPath) {
+        if trackerRecordCD.hasTracker(date: datePicker.date, uuid: id) {
+          
+            trackerRecordCD.removeTracker(date: datePicker.date, uuid: id)
+        } else {
+      
+            trackerRecordCD.addRecord(id: id, date: datePicker.date)
+        }
         
         collectionView.reloadItems(at: [indexPath])
     }
-    
-    func uncompleteTracker(id: UUID, at indexPath: IndexPath) {
-        completedTrackers.removeAll { trackerRecord in
-            let isSameDay = Calendar.current.isDate(trackerRecord.date, inSameDayAs: datePicker.date)
-            return trackerRecord.trackerId == id && isSameDay
-        }
-        collectionView.reloadItems(at: [indexPath])
-    }
-    
-    
 }
 extension TrackersViewController: TrackerCategoryStoreDelegate {
     func categoryStore() {
         categories = trackerCategoryStore.trackerCategories
-        collectionView.reloadData()
+        reloadData()
+
+    }
+}
+extension TrackersViewController: TrackerCoreDataStoreDelegate {
+    func store() {
+        categories = trackerCategoryStore.trackerCategories
+        reloadData()
     }
 }

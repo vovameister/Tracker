@@ -75,7 +75,7 @@ class TrackerCoreDataStore: NSObject, NSFetchedResultsControllerDelegate {
         delegate?.store()
     }
     
-    private func tracker(from trackersCoreData: TrackerCoreData) throws -> Tracker {
+    func tracker(from trackersCoreData: TrackerCoreData) throws -> Tracker {
         guard let id = trackersCoreData.uuid else {
             throw TrackerStoreError.decodingErrorInvalidId
         }

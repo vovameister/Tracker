@@ -10,7 +10,7 @@ final class HabitOrEventController: UIViewController {
     var newAction = ""
     var newHabit: [DayOfWeek: Bool]?
     var newId: UUID?
-    var newCategory = "321"
+    var newCategory = "555"
     var emoji: String?
     var color: UIColor?
     
@@ -204,6 +204,9 @@ final class HabitOrEventController: UIViewController {
         
         
         self.dismiss(animated: true)
+        if let presentingViewController = presentingViewController {
+              presentingViewController.dismiss(animated: true)
+          }
     }
     
 }

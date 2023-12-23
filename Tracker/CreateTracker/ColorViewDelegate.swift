@@ -23,12 +23,12 @@ final class ColorViewDelegate: NSObject, UICollectionViewDelegateFlowLayout, UIC
         cell.layer.cornerRadius = 8
         return cell
     }
-
-
+    
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 52, height: 52)
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         7.0
     }
@@ -38,19 +38,21 @@ final class ColorViewDelegate: NSObject, UICollectionViewDelegateFlowLayout, UIC
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         selectedColor = UIColor(named: "\(indexPath.item + 1)")
         if let prevIndexPath = selectedIndexPath {
-                  let prevCell = collectionView.cellForItem(at: prevIndexPath)
-                  prevCell?.backgroundColor = UIColor(named: "\(indexPath.row + 1)")
-              }
-
-               selectedColor = UIColor(named: "\(indexPath.item + 1)")
-
-              let selectedCell = collectionView.cellForItem(at: indexPath)
-              selectedCell?.backgroundColor = UIColor(named: "lightGrey")
-
-              selectedIndexPath = indexPath
-
+            let prevCell = collectionView.cellForItem(at: prevIndexPath)
+            prevCell?.backgroundColor = UIColor(named: "\(indexPath.row + 1)")
+        }
+        
+        selectedColor = UIColor(named: "\(indexPath.item + 1)")
+        if let selectedColor = selectedColor {
+            parentViewController!.color = selectedColor
+        }
+        let selectedCell = collectionView.cellForItem(at: indexPath)
+        selectedCell?.backgroundColor = UIColor(named: "lightGrey")
+        
+        selectedIndexPath = indexPath
+        
         print("Selected Color: \(String(describing: selectedColor)))")
-     }
+    }
 }
 
 final class ColorViewCell: UICollectionViewCell {
@@ -58,7 +60,7 @@ final class ColorViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
-
+    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }

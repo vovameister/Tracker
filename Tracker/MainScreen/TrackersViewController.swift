@@ -12,10 +12,13 @@ final class TrackersViewController: UIViewController {
     
     static let shared = TrackersViewController()
     let trackerCategoryStore = TrackerCategoryStore()
+    let trackerCD = TrackerCoreDataStore.shared
+    let trackerRecordCD = RecordStore()
     
     var categories: [TrackerCategory] = []
     var visibleCategories: [TrackerCategory] = []
-    var completedTrackers: [TrackerRecord] = []
+    //var completedTrackers: [TrackerRecord] = []
+    
     
  
     let button = UIButton()
@@ -40,7 +43,10 @@ final class TrackersViewController: UIViewController {
         reloadVisibleCategories()
         reloadData()
         
+        
         trackerCategoryStore.delegate = self
+        trackerCD.delegate = self
+        
         searchBar.delegate = self
         self.navigationItem.titleView = searchBar
         collectionView.register(SupplementaryView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header")

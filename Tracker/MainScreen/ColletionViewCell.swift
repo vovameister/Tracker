@@ -7,9 +7,8 @@
 
 import UIKit
 protocol TrackerCellDelegate: AnyObject {
-    func completeTracker(id: UUID, at indexPath: IndexPath)
-    func uncompleteTracker(id: UUID, at indexPath: IndexPath)
-    
+    func addOrDalete(id: UUID, at indexPath: IndexPath)
+
 }
 
 final class CollectionViewCell: UICollectionViewCell {
@@ -21,10 +20,9 @@ final class CollectionViewCell: UICollectionViewCell {
     
     weak var delegate: TrackerCellDelegate?
     
-    var isCompletedToday = false
     var trackerId: UUID?
     var indexPath: IndexPath?
-    var repeatedTimes: Int = 0 
+    var repeatedTimes = 0
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -94,10 +92,6 @@ final class CollectionViewCell: UICollectionViewCell {
     @objc private func trackerButtonTapped() {
         guard let trackerId = trackerId,
               let indexPath = indexPath else { return }
-        if isCompletedToday {
-            delegate?.uncompleteTracker(id: trackerId, at: indexPath)
-        } else {
-            delegate?.completeTracker(id: trackerId, at: indexPath)
-        }
+        delegate?.addOrDalete(id: trackerId, at: indexPath)
     }
 }
