@@ -45,7 +45,7 @@ final class EmojiCollectionViewDelegate: NSObject, UICollectionViewDelegateFlowL
         parentViewController!.emoji = selectedEmoji
         let selectedCell = collectionView.cellForItem(at: indexPath)
         selectedCell?.backgroundColor = UIColor(named: "lightGrey")
-        
+        selectedCell?.layer.cornerRadius = 16
         selectedIndexPath = indexPath
         
         print("Selected Emoji: \(selectedEmoji ?? "")")
