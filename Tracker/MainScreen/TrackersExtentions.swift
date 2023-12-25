@@ -34,18 +34,11 @@ extension TrackersViewController: UICollectionViewDataSource {
         let buttonText = trackerRecordCD.hasTracker(date: datePicker.date, uuid: tracker.id) ? "✓" : "+"
         cell.button.setTitle(buttonText, for: .normal)
         
-//        cell.repeatedTimes = completedTrackers.filter { $0.trackerId == tracker.id }.count
         cell.repeatedTimes = trackerRecordCD.sumOfRecords(uuid: tracker.id)
         cell.daysLabel.text = "\(cell.repeatedTimes) \(calculateDayString(for: cell.repeatedTimes))"
         
         return cell
     }
-//    private func isTrackerCompletedToday(id: UUID) -> Bool {
-//        completedTrackers.contains { trackerRecord in
-//            let isSameDay = Calendar.current.isDate(trackerRecord.date, inSameDayAs: datePicker.date)
-//            return trackerRecord.trackerId == id && isSameDay
-//        }
-//    }
     func isButtonEnable() -> Bool {
         let selectedDate = datePicker.date
         let currentDate = Date()
