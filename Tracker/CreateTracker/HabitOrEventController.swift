@@ -7,7 +7,6 @@
 
 import UIKit
 final class HabitOrEventController: UIViewController {
-    var newAction = ""
     var newHabit: [DayOfWeek: Bool]?
     var newId: UUID?
     var newCategory = "555"
@@ -197,7 +196,7 @@ final class HabitOrEventController: UIViewController {
         self.dismiss(animated: true)
     }
     @objc func saveButtonTap() {
-        let newTracker = Tracker(id: UUID(), action: newAction, color: color ?? .blue, emoji: emoji ?? "", schedule: newHabit ?? eventMockShudle)
+        let newTracker = Tracker(id: UUID(), action: textField.text ?? "", color: color ?? .blue, emoji: emoji ?? "", schedule: newHabit ?? eventMockShudle)
         
         let newCategory1 = TrackerCategory(title: newCategory, trackers: [newTracker])
         try? trackerCategory.addNewTrackerCategory(newCategory1)
@@ -250,10 +249,6 @@ extension HabitOrEventController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         
-        if let enteredText = textField.text {
-            
-            newAction = enteredText
-        }
         if textField.text != nil {
             createButton.isEnabled = true
         }

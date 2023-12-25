@@ -37,6 +37,7 @@ final class ColorViewDelegate: NSObject, UICollectionViewDelegateFlowLayout, UIC
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         selectedColor = UIColor(named: "\(indexPath.item + 1)")
+        parentViewController!.color = selectedColor
         
         if let prevIndexPath = selectedIndexPath {
             let prevCell = collectionView.cellForItem(at: prevIndexPath)
