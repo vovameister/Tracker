@@ -15,7 +15,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
-        window?.rootViewController = TabBarViewController()
+//        window?.rootViewController = TabBarViewController()
+//        window?.makeKeyAndVisible()
+//        window = UIWindow()
+        let defaults = UserDefaults.standard
+
+         if !defaults.bool(forKey: "hasLaunchedBefore") {
+             defaults.set(true, forKey: "hasLaunchedBefore")
+             window?.rootViewController = Page()
+         } else {
+             window?.rootViewController = TabBarViewController()
+         }
         window?.makeKeyAndVisible()
     }
 

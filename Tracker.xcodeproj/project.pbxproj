@@ -17,6 +17,9 @@
 		6F6473662AFB30C300E932AF /* ColletionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F6473652AFB30C300E932AF /* ColletionViewCell.swift */; };
 		6F6473682AFB4B3F00E932AF /* TrackersExtentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F6473672AFB4B3F00E932AF /* TrackersExtentions.swift */; };
 		6F64736A2AFB4FD300E932AF /* TrackersArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F6473692AFB4FD300E932AF /* TrackersArray.swift */; };
+		6F763CB42B3B3C0800CD517F /* RedScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F763CB32B3B3C0800CD517F /* RedScreen.swift */; };
+		6F763CB62B3B3C1F00CD517F /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F763CB52B3B3C1F00CD517F /* Page.swift */; };
+		6F763CB82B3B3C2F00CD517F /* BlueScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F763CB72B3B3C2F00CD517F /* BlueScreen.swift */; };
 		6F8EE7002AFED5A4002B53DA /* SupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8EE6FF2AFED5A4002B53DA /* SupViewController.swift */; };
 		6F8EE7022B006334002B53DA /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6F8EE7012B006334002B53DA /* Launch Screen.storyboard */; };
 		6F8EE7042B0065B8002B53DA /* CreateTrackerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8EE7032B0065B8002B53DA /* CreateTrackerViewController.swift */; };
@@ -44,6 +47,9 @@
 		6F6473652AFB30C300E932AF /* ColletionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColletionViewCell.swift; sourceTree = "<group>"; };
 		6F6473672AFB4B3F00E932AF /* TrackersExtentions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackersExtentions.swift; sourceTree = "<group>"; };
 		6F6473692AFB4FD300E932AF /* TrackersArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackersArray.swift; sourceTree = "<group>"; };
+		6F763CB32B3B3C0800CD517F /* RedScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedScreen.swift; sourceTree = "<group>"; };
+		6F763CB52B3B3C1F00CD517F /* Page.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
+		6F763CB72B3B3C2F00CD517F /* BlueScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueScreen.swift; sourceTree = "<group>"; };
 		6F8EE6FF2AFED5A4002B53DA /* SupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupViewController.swift; sourceTree = "<group>"; };
 		6F8EE7012B006334002B53DA /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		6F8EE7032B0065B8002B53DA /* CreateTrackerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTrackerViewController.swift; sourceTree = "<group>"; };
@@ -84,6 +90,16 @@
 			path = Stores;
 			sourceTree = "<group>";
 		};
+		6F763CB12B3B3BE000CD517F /* onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				6F763CB32B3B3C0800CD517F /* RedScreen.swift */,
+				6F763CB52B3B3C1F00CD517F /* Page.swift */,
+				6F763CB72B3B3C2F00CD517F /* BlueScreen.swift */,
+			);
+			path = onboarding;
+			sourceTree = "<group>";
+		};
 		6F8EE7052B0065D8002B53DA /* MainScreen */ = {
 			isa = PBXGroup;
 			children = (
@@ -122,6 +138,7 @@
 		6FDC3C112AF1307800325070 = {
 			isa = PBXGroup;
 			children = (
+				6F763CB12B3B3BE000CD517F /* onboarding */,
 				6FDC3C1C2AF1307800325070 /* Tracker */,
 				6FDC3C1B2AF1307800325070 /* Products */,
 			);
@@ -240,11 +257,14 @@
 				6F07C5E52B0FF7D500ACF66F /* TrackerStore.swift in Sources */,
 				6FDC3C362AF1788C00325070 /* StatsViewController.swift in Sources */,
 				6F6473662AFB30C300E932AF /* ColletionViewCell.swift in Sources */,
+				6F763CB42B3B3C0800CD517F /* RedScreen.swift in Sources */,
 				6FDC3C202AF1307800325070 /* SceneDelegate.swift in Sources */,
 				6F07C5EA2B0FF82600ACF66F /* TrackerRecordStore.swift in Sources */,
+				6F763CB62B3B3C1F00CD517F /* Page.swift in Sources */,
 				6FF9487A2B020A07003E5840 /* Category.swift in Sources */,
 				6F07C5E82B0FF80B00ACF66F /* TrackerCategoryStore.swift in Sources */,
 				6F07C5EC2B0FFF7200ACF66F /* ColorTransformer.swift in Sources */,
+				6F763CB82B3B3C2F00CD517F /* BlueScreen.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
