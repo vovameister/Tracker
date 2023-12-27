@@ -91,7 +91,7 @@ final class CategoryViewController: UIViewController {
             textLabel.widthAnchor.constraint(equalToConstant: 343),
             
             tableView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 38),
-            tableView.heightAnchor.constraint(equalToConstant: CGFloat(viewModel.category.count * 75)),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -115),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             
