@@ -24,13 +24,15 @@ final class BlueScreenViewController: UIViewController {
         label.lineBreakMode = .byWordWrapping
         label.textAlignment = .center
         
-        background.addSubview(button)
+        view.addSubview(button)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Вот это технологии!", for: .normal)
-        button.titleLabel?.textColor = .white
+        button.setTitleColor(.white, for: .normal)
         button.backgroundColor = .black
         button.layer.cornerRadius = 16
-        
+        button.addTarget(self, action: #selector(moveToMainScreen), for: .touchUpInside)
+
+
         NSLayoutConstraint.activate([
             background.topAnchor.constraint(equalTo: view.topAnchor),
             background.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -47,5 +49,11 @@ final class BlueScreenViewController: UIViewController {
             button.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 160),
             button.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -84)
         ])
+    }
+    @objc func moveToMainScreen() {
+        guard let window = UIApplication.shared.windows.first else {
+            return
+        }
+        window.rootViewController = TabBarViewController()
     }
 }

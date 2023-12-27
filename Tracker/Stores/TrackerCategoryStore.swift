@@ -58,7 +58,16 @@ final class TrackerCategoryStore: NSObject, NSFetchedResultsControllerDelegate {
         self.fetchedResultsController = controller
         try controller.performFetch()
     }
-    
+    func saveNewCategory(title: String) {
+        let newCategory = TrackerCategoryCD(context: context)
+        newCategory.title = title
+     
+        do {
+            try context.save()
+        } catch {
+            print("Error saving new category: \(error.localizedDescription)")
+        }
+    }
     func addNewTrackerCategory(_ trackerCategory: TrackerCategory) throws {
         let existingCategory = getTrackerCategory(with: trackerCategory.title)
 
@@ -85,7 +94,18 @@ final class TrackerCategoryStore: NSObject, NSFetchedResultsControllerDelegate {
             return nil
         }
     }
+    func fetchCategoryTitles() -> [String] {
+            let fetchRequest: NSFetchRequest<TrackerCategoryCD> = TrackerCategoryCD.fetchRequest()
 
+            do {
+                let categories = try context.fetch(fetchRequest)
+                let categoryTitles = categories.map { $0.title ?? "" }
+                return categoryTitles
+            } catch {
+                print("Error fetching category titles: \(error.localizedDescription)")
+                return []
+            }
+        }
     func appendTracker(to category: TrackerCategoryCD, with trackerCategory: TrackerCategory) {
   
 

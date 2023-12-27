@@ -7,15 +7,21 @@
 
 import UIKit
 final class HabitOrEventController: UIViewController {
-    var newHabit: [DayOfWeek: Bool]?
+    var newHabit: [DayOfWeek: Bool]? {
+        didSet {
+            tableView.reloadData()
+        }
+    }
     var newId: UUID?
-    var newCategory = "555"
+    var newCategory = ""
     var emoji: String?
     var color: UIColor?
+    
     
     let trackerViewController = TrackersViewController.shared
     let scheduleviewController = ScheduleViewController()
     var trackerCategory = TrackerCategoryStore.shared
+    var viewModel: CategoryViewModel!
     
     let titleLabel = UILabel()
     let textField = UITextField()
@@ -63,6 +69,15 @@ final class HabitOrEventController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        viewModel = CategoryViewModel.shared
+        viewModel?.$selectedCategory.bind { [weak self] _ in
+            guard let self = self else { return }
+            self.newCategory = viewModel.selectedCategory ?? ""
+        }
+
+        
+        
         view.addSubview(scrollView)
         contentView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -93,7 +108,7 @@ final class HabitOrEventController: UIViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
+        tableView.register(HabitOrEventCell.self, forCellReuseIdentifier: cellIdentifier)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.layer.cornerRadius = 16
         
@@ -128,6 +143,7 @@ final class HabitOrEventController: UIViewController {
         emojiLabel.text = "Emoji"
         emojiLabel.font = UIFont.systemFont(ofSize: 19, weight: .bold)
         emojiLabel.translatesAutoresizingMaskIntoConstraints = false
+        
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 13),
             titleLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
@@ -207,7 +223,26 @@ final class HabitOrEventController: UIViewController {
               presentingViewController.dismiss(animated: true)
           }
     }
-    
+    func extractAbbreviations(schedule: [DayOfWeek: Bool]) -> String {
+        if schedule.values.allSatisfy({ $0 }) {
+               return "Каждый день"
+           } else {
+               let selectedDays = schedule.filter { $0.value }.sorted { $0.key.intValue < $1.key.intValue }.map { abbreviationForDay($0.key) }
+               return selectedDays.joined(separator: ", ")
+           }
+    }
+    func abbreviationForDay(_ day: DayOfWeek) -> String {
+        switch day {
+        case .monday: return "Пн"
+        case .tuesday: return "Вт"
+        case .wednesday: return "Ср"
+        case .thursday: return "Чт"
+        case .friday: return "Пт"
+        case .saturday: return "Сб"
+        case .sunday: return "Вс"
+        }
+    }
+
 }
 extension HabitOrEventController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -215,9 +250,14 @@ extension HabitOrEventController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
+        let cell = HabitOrEventCell()
         cell.backgroundColor = UIColor(named: "textBg")
-        cell.textLabel?.text = tableText[indexPath.row]
+        cell.titleLabel.text = tableText[indexPath.row]
+        if indexPath.row == 0 {
+            cell.subtitleLabel.text = newCategory
+        } else {
+            cell.subtitleLabel.text = extractAbbreviations(schedule: newHabit ?? eventMockShudle)
+        }
         cell.accessoryType = .disclosureIndicator
         
         

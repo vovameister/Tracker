@@ -35,6 +35,7 @@ class TrackerCoreDataStore: NSObject, NSFetchedResultsControllerDelegate {
         return trackers
     }
     
+    
     private let context: NSManagedObjectContext
     private var fetchedResultsController: NSFetchedResultsController<TrackerCoreData>!
     convenience override init() {

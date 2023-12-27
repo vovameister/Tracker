@@ -17,9 +17,7 @@ final class TrackersViewController: UIViewController {
     
     var categories: [TrackerCategory] = []
     var visibleCategories: [TrackerCategory] = []
-    //var completedTrackers: [TrackerRecord] = []
-    
-    
+
  
     let button = UIButton()
     let textViewTracker =  UILabel()
