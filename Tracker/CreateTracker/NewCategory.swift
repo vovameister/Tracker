@@ -30,7 +30,7 @@ final class NewCategoryViewController: UIViewController {
         
         readyButton.translatesAutoresizingMaskIntoConstraints = false
         readyButton.layer.cornerRadius = 16
-        readyButton.backgroundColor = .black
+        readyButton.backgroundColor = UIColor(named: "trackerGray")
         readyButton.setTitle("Готово", for: .normal)
         readyButton.titleLabel?.textColor = .white
         readyButton.addTarget(self, action: #selector(readyButtonTap), for: .touchUpInside)
@@ -78,9 +78,19 @@ extension NewCategoryViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         
-        if textField.text != nil {
-            readyButton.isEnabled = true
-        }
+        buttonEnable()
         return true
+    }
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        buttonEnable()
+    }
+    func buttonEnable() {
+        if textField.text != "" {
+            readyButton.isEnabled = true
+            readyButton.backgroundColor = .black
+        } else {
+            readyButton.isEnabled = false
+            readyButton.backgroundColor = UIColor(named: "trackerGray")
+        }
     }
 }
