@@ -16,10 +16,7 @@ final class HabitOrEventController: UIViewController {
     var newCategory: String? {
         didSet {
             tableView.reloadData()
-            if textField.text != nil && newCategory != nil {
-                createButton.isEnabled = true
-                createButton.backgroundColor = .black
-            }
+            buttonEnable()
         }
     }
     var emoji: String?
@@ -251,6 +248,15 @@ final class HabitOrEventController: UIViewController {
         case .sunday: return "Вс"
         }
     }
+    func buttonEnable() {
+        if textField.text != "" && newCategory != nil {
+            createButton.isEnabled = true
+            createButton.backgroundColor = .black
+        } else {
+            createButton.isEnabled = false
+            createButton.backgroundColor = UIColor(named: "trackerGray")
+        }
+    }
     
 }
 extension HabitOrEventController: UITableViewDelegate, UITableViewDataSource {
@@ -298,22 +304,11 @@ extension HabitOrEventController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         
-        if textField.text != nil && newCategory != nil {
-            createButton.isEnabled = true
-        }
+        buttonEnable()
         return true
     }
-    func textD(_ textField: UITextField) {
-        if textField.text != nil && newCategory != nil {
-            createButton.isEnabled = true
-            createButton.backgroundColor = .black
-        }
-    }
     func textFieldDidChangeSelection(_ textField: UITextField) {
-        if textField.text != nil && newCategory != nil {
-            createButton.isEnabled = true
-            createButton.backgroundColor = .black
-        }
+        buttonEnable()
     }
 }
 extension HabitOrEventController: ScheduleViewControllerDelegate {
