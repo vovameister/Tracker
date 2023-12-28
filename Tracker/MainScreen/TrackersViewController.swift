@@ -8,9 +8,16 @@
 import UIKit
 
 final class TrackersViewController: UIViewController {
-    private var categories: [TrackerCategory] = []
+    
+    
+    static let shared = TrackersViewController()
+    let trackerCategoryStore = TrackerCategoryStore()
+    let trackerCD = TrackerCoreDataStore.shared
+    let trackerRecordCD = RecordStore()
+    
+    var categories: [TrackerCategory] = []
     var visibleCategories: [TrackerCategory] = []
-    var completedTrackers: [TrackerRecord] = []
+    
     
     let button = UIButton()
     let textViewTracker =  UILabel()
@@ -26,15 +33,27 @@ final class TrackersViewController: UIViewController {
         collectionView.register(CollectionViewCell.self, forCellWithReuseIdentifier: "cell")
         return collectionView
     }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        reloadData()
         setUpViewDidLoad()
         setUpCollectionView()
+        reloadVisibleCategories()
+        reloadData()
+        
+        
+        trackerCategoryStore.delegate = self
+        trackerCD.delegate = self
         
         searchBar.delegate = self
         self.navigationItem.titleView = searchBar
         collectionView.register(SupplementaryView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header")
+        
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+        view.addGestureRecognizer(tapGesture)
+        
+        
     }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
@@ -44,6 +63,9 @@ final class TrackersViewController: UIViewController {
         let viewController = CreateTrackerViewController()
         
         present(viewController, animated: true, completion: nil)
+    }
+    @objc func handleTap() {
+        searchBar.resignFirstResponder()
     }
     func setUpViewDidLoad() {
         view.backgroundColor = .white
@@ -134,40 +156,47 @@ final class TrackersViewController: UIViewController {
         reloadVisibleCategories()
     }
     
-    private func reloadData() {
-        categories = mockCategory1
+    func reloadData() {
+        categories = trackerCategoryStore.trackerCategories
         dateChanged()
     }
+    
     internal func reloadVisibleCategories() {
         let calendar = Calendar.current
         let filterWeekday = calendar.component(.weekday, from: datePicker.date)
         let filterText = (searchBar.text ?? "").lowercased()
-
+        
         visibleCategories = categories.compactMap { category in
             let filteredTrackers = category.trackers.filter { tracker in
                 let textCondition = filterText.isEmpty || tracker.action.lowercased().contains(filterText)
-                let scheduleCondition = tracker.schedule.contains { (dayOfWeek, isSelected) in
-                    dayOfWeek.rawValue == filterWeekday && isSelected
+                
+                let dateFormatter = DateFormatter()
+                let dayOfWeekName = dateFormatter.weekdaySymbols[(filterWeekday - 1 + 7) % 7].lowercased()
+                
+                let scheduleCondition = tracker.schedule.contains { (day, isSelected) in
+                    day.name.lowercased() == dayOfWeekName && isSelected
                 }
-
+                
                 return textCondition && scheduleCondition
             }
-
+            
             if !filteredTrackers.isEmpty {
                 return TrackerCategory(title: category.title, trackers: filteredTrackers)
             }
-
+            
             return nil
         }
-
         collectionView.reloadData()
         reloadPlaceholder()
         changeQuestionLabel()
     }
+    
+    
+    
     private func reloadPlaceholder() {
         collectionView.isHidden = categories.isEmpty || visibleCategories.isEmpty
     }
-
+    
     func changeQuestionLabel() {
         if !categories.isEmpty && visibleCategories.isEmpty {
             questionText.text = "Ничего не найдено"
@@ -178,4 +207,5 @@ final class TrackersViewController: UIViewController {
         }
     }
 }
+
 
