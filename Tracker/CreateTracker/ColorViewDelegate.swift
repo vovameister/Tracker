@@ -43,7 +43,7 @@ final class ColorViewDelegate: NSObject, UICollectionViewDelegateFlowLayout, UIC
             let prevCell = collectionView.cellForItem(at: prevIndexPath)
             prevCell?.layer.borderWidth = 0.0
         }
-     
+        
         let selectedCell = collectionView.cellForItem(at: indexPath)
         selectedCell?.layer.borderColor = UIColor(named: "\(indexPath.item + 1)")?.withAlphaComponent(0.3).cgColor
         selectedCell?.layer.borderWidth = 3.0
@@ -52,7 +52,7 @@ final class ColorViewDelegate: NSObject, UICollectionViewDelegateFlowLayout, UIC
         
         print("Selected Color: \(String(describing: selectedColor))")
     }
-
+    
 }
 
 final class ColorViewCell: UICollectionViewCell {
@@ -70,7 +70,7 @@ final class ColorViewCell: UICollectionViewCell {
         contentView.addSubview(viewColor)
         viewColor.translatesAutoresizingMaskIntoConstraints = false
         viewColor.layer.cornerRadius = 8
-
+        
         NSLayoutConstraint.activate([
             viewColor.heightAnchor.constraint(equalToConstant: 40),
             viewColor.widthAnchor.constraint(equalToConstant: 40),
@@ -78,5 +78,5 @@ final class ColorViewCell: UICollectionViewCell {
             viewColor.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
     }
-
+    
 }

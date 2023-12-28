@@ -13,7 +13,15 @@ final class HabitOrEventController: UIViewController {
         }
     }
     var newId: UUID?
-    var newCategory = ""
+    var newCategory: String? {
+        didSet {
+            tableView.reloadData()
+            if textField.text != nil && newCategory != nil {
+                createButton.isEnabled = true
+                createButton.backgroundColor = .black
+            }
+        }
+    }
     var emoji: String?
     var color: UIColor?
     
@@ -75,7 +83,7 @@ final class HabitOrEventController: UIViewController {
             guard let self = self else { return }
             self.newCategory = viewModel.selectedCategory ?? ""
         }
-
+        
         
         
         view.addSubview(scrollView)
@@ -119,6 +127,7 @@ final class HabitOrEventController: UIViewController {
         createButton.setTitle("Создать", for: .normal)
         createButton.titleLabel?.font = font16
         createButton.addTarget(self, action: #selector(saveButtonTap), for: .touchUpInside)
+        createButton.isEnabled = false
         
         cancelButton.translatesAutoresizingMaskIntoConstraints = false
         cancelButton.layer.cornerRadius = 16
@@ -214,22 +223,22 @@ final class HabitOrEventController: UIViewController {
     @objc func saveButtonTap() {
         let newTracker = Tracker(id: UUID(), action: textField.text ?? "", color: color ?? .blue, emoji: emoji ?? "", schedule: newHabit ?? eventMockShudle)
         
-        let newCategory1 = TrackerCategory(title: newCategory, trackers: [newTracker])
+        let newCategory1 = TrackerCategory(title: newCategory ?? "", trackers: [newTracker])
         try? trackerCategory.addNewTrackerCategory(newCategory1)
         
-        
+        viewModel.nilInSelected()
         self.dismiss(animated: true)
         if let presentingViewController = presentingViewController {
-              presentingViewController.dismiss(animated: true)
-          }
+            presentingViewController.dismiss(animated: true)
+        }
     }
     func extractAbbreviations(schedule: [DayOfWeek: Bool]) -> String {
         if schedule.values.allSatisfy({ $0 }) {
-               return "Каждый день"
-           } else {
-               let selectedDays = schedule.filter { $0.value }.sorted { $0.key.intValue < $1.key.intValue }.map { abbreviationForDay($0.key) }
-               return selectedDays.joined(separator: ", ")
-           }
+            return "Каждый день"
+        } else {
+            let selectedDays = schedule.filter { $0.value }.sorted { $0.key.intValue < $1.key.intValue }.map { abbreviationForDay($0.key) }
+            return selectedDays.joined(separator: ", ")
+        }
     }
     func abbreviationForDay(_ day: DayOfWeek) -> String {
         switch day {
@@ -242,7 +251,7 @@ final class HabitOrEventController: UIViewController {
         case .sunday: return "Вс"
         }
     }
-
+    
 }
 extension HabitOrEventController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -289,10 +298,22 @@ extension HabitOrEventController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         
-        if textField.text != nil {
+        if textField.text != nil && newCategory != nil {
             createButton.isEnabled = true
         }
         return true
+    }
+    func textD(_ textField: UITextField) {
+        if textField.text != nil && newCategory != nil {
+            createButton.isEnabled = true
+            createButton.backgroundColor = .black
+        }
+    }
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        if textField.text != nil && newCategory != nil {
+            createButton.isEnabled = true
+            createButton.backgroundColor = .black
+        }
     }
 }
 extension HabitOrEventController: ScheduleViewControllerDelegate {

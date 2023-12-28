@@ -12,11 +12,12 @@ final class CategoryViewModel {
     static let shared = CategoryViewModel()
     
     @Observable
-    private(set) var category:[String] = []
+    private(set) var category: [String] = []
     @Observable
     private(set) var selectedCategory: String?
     
     private(set) var preSelected: IndexPath? = nil
+    
     
     private var categoryStore = TrackerCategoryStore()
     
@@ -27,7 +28,7 @@ final class CategoryViewModel {
         )
         self.init(categoryStore: categoryStore)
     }
-
+    
     init(categoryStore: TrackerCategoryStore) {
         self.categoryStore = categoryStore
         self.category = categoryStore.fetchCategoryTitles()
@@ -35,13 +36,16 @@ final class CategoryViewModel {
     func selectCategory(indexPath: IndexPath) {
         selectedCategory = category[indexPath.row]
     }
-    func setindexPath(indexPath: IndexPath) {
+    func setIndexPath(indexPath: IndexPath) {
         preSelected = indexPath
     }
     func appendCategory(category: String) {
         categoryStore.saveNewCategory(title: category)
-//        self.category = categoryStore.fetchCategoryTitles()
-            self.category.append(category)
-
+        
+        self.category.append(category)
+        
+    }
+    func nilInSelected() {
+        preSelected = nil
     }
 }

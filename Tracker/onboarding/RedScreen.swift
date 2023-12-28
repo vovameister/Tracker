@@ -34,8 +34,8 @@ final class RedScreenViewController: UIViewController {
         button.backgroundColor = .black
         button.layer.cornerRadius = 16
         button.addTarget(self, action: #selector(moveToMainScreen), for: .touchUpInside)
-
-
+        
+        
         
         NSLayoutConstraint.activate([
             background.topAnchor.constraint(equalTo: view.topAnchor),

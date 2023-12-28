@@ -61,7 +61,7 @@ final class TrackerCategoryStore: NSObject, NSFetchedResultsControllerDelegate {
     func saveNewCategory(title: String) {
         let newCategory = TrackerCategoryCD(context: context)
         newCategory.title = title
-     
+        
         do {
             try context.save()
         } catch {
@@ -70,23 +70,23 @@ final class TrackerCategoryStore: NSObject, NSFetchedResultsControllerDelegate {
     }
     func addNewTrackerCategory(_ trackerCategory: TrackerCategory) throws {
         let existingCategory = getTrackerCategory(with: trackerCategory.title)
-
+        
         if let existingCategory = existingCategory {
-
+            
             appendTracker(to: existingCategory, with: trackerCategory)
         } else {
-    
+            
             let trackerCategoryCoreData = TrackerCategoryCD(context: context)
             updateTrackerCategoryCoreData(trackerCategoryCoreData, with: trackerCategory)
         }
-
+        
         try context.save()
     }
-
+    
     func getTrackerCategory(with title: String) -> TrackerCategoryCD? {
         let fetchRequest: NSFetchRequest<TrackerCategoryCD> = TrackerCategoryCD.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "title == %@", title)
-
+        
         do {
             let results = try context.fetch(fetchRequest)
             return results.first
@@ -95,20 +95,20 @@ final class TrackerCategoryStore: NSObject, NSFetchedResultsControllerDelegate {
         }
     }
     func fetchCategoryTitles() -> [String] {
-            let fetchRequest: NSFetchRequest<TrackerCategoryCD> = TrackerCategoryCD.fetchRequest()
-
-            do {
-                let categories = try context.fetch(fetchRequest)
-                let categoryTitles = categories.map { $0.title ?? "" }
-                return categoryTitles
-            } catch {
-                print("Error fetching category titles: \(error.localizedDescription)")
-                return []
-            }
+        let fetchRequest: NSFetchRequest<TrackerCategoryCD> = TrackerCategoryCD.fetchRequest()
+        
+        do {
+            let categories = try context.fetch(fetchRequest)
+            let categoryTitles = categories.map { $0.title ?? "" }
+            return categoryTitles
+        } catch {
+            print("Error fetching category titles: \(error.localizedDescription)")
+            return []
         }
+    }
     func appendTracker(to category: TrackerCategoryCD, with trackerCategory: TrackerCategory) {
-  
-
+        
+        
         let trackerCoreDataArray = trackerCategory.trackers.map { tracker in
             let trackerCoreData = TrackerCoreData(context: context)
             trackerCoreData.uuid = tracker.id
@@ -116,17 +116,17 @@ final class TrackerCategoryStore: NSObject, NSFetchedResultsControllerDelegate {
             trackerCoreData.color = tracker.color
             trackerCoreData.emoji = tracker.emoji
             trackerCoreData.schedule = tracker.schedule as NSObject
-
+            
             return trackerCoreData
         }
-
+        
         let existingTrackers = category.mutableSetValue(forKey: "trackers")
         existingTrackers.addObjects(from: trackerCoreDataArray)
     }
     
     func updateTrackerCategoryCoreData(_ trackerCategoryCoreData: TrackerCategoryCD, with trackerCategory: TrackerCategory) {
         trackerCategoryCoreData.title = trackerCategory.title
-           
+        
         let trackerCoreDataArray = trackerCategory.trackers.map { tracker in
             let trackerCoreData = TrackerCoreData(context: context)
             trackerCoreData.uuid = tracker.id
@@ -145,17 +145,17 @@ final class TrackerCategoryStore: NSObject, NSFetchedResultsControllerDelegate {
         guard let title = trackersCategoryCoreData.title else {
             throw TrackerCategoryStoreError.decodingErrorInvalidTitle
         }
-
+        
         guard let trackerCoreDataArray = trackersCategoryCoreData.trackers?.allObjects as? [TrackerCoreData] else {
             throw TrackerCategoryStoreError.decodingErrorInvalidTracker
         }
         let filteredTrackers = trackerCoreDataArray.filter { trackerCoreData in
-
+            
             return trackerCoreData.categorys?.title == title
         }
-
+        
         let trackers = try filteredTrackers.map { try trackerStore.tracker(from: $0) }
-
+        
         return TrackerCategory(
             title: title,
             trackers: trackers

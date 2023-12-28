@@ -16,7 +16,7 @@ final class CategoryViewController: UIViewController {
     private let tableView = UITableView()
     private let cellIdentifier = "CellIdentifier"
     private var viewModel: CategoryViewModel!
-   
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
@@ -27,16 +27,20 @@ final class CategoryViewController: UIViewController {
             guard let self = self else { return }
             self.tableView.reloadData()
             self.setupConstraints()
+            isHiden()
         }
-        
-        if viewModel.category.count > 0 {
-            imageStar.isHidden = true
-           textLabel.isHidden = true
-        }
+        isHiden()
         setupConstraints()
     }
     private func setupViews() {
-       
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.layer.cornerRadius = 16
+        
+        view.addSubview(tableView)
+        
         
         view.backgroundColor = .white
         
@@ -44,7 +48,7 @@ final class CategoryViewController: UIViewController {
         titleLabel.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         titleLabel.text = "Категория"
         view.addSubview(titleLabel)
-     
+        
         
         view.addSubview(imageStar)
         imageStar.image = UIImage(named: "Star")
@@ -57,14 +61,6 @@ final class CategoryViewController: UIViewController {
         textLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(textLabel)
         
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.layer.cornerRadius = 16
-        
-        view.addSubview(tableView)
-        
         readyButton.translatesAutoresizingMaskIntoConstraints = false
         readyButton.layer.cornerRadius = 16
         readyButton.backgroundColor = .black
@@ -76,6 +72,11 @@ final class CategoryViewController: UIViewController {
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 38),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -115),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            
             titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 38),
             titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             titleLabel.heightAnchor.constraint(equalToConstant: 22),
@@ -89,12 +90,7 @@ final class CategoryViewController: UIViewController {
             textLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             textLabel.heightAnchor.constraint(equalToConstant: 36),
             textLabel.widthAnchor.constraint(equalToConstant: 343),
-            
-            tableView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 38),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -115),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            
+        
             readyButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50),
             readyButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             readyButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
@@ -121,22 +117,30 @@ extension CategoryViewController: UITableViewDelegate, UITableViewDataSource {
         return 75
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-      
+        
         if let preSelected = viewModel.preSelected,
            let preSelectedCell = tableView.cellForRow(at: preSelected) {
-            preSelectedCell.accessoryType = .none
+            preSelectedCell.accessoryType = .checkmark
         }
-
-        if let cell = tableView.cellForRow(at: indexPath) {
-            cell.accessoryType = .checkmark
-        }
-
-        viewModel.setindexPath(indexPath: indexPath)
+        dismiss(animated: true)
+        viewModel.setIndexPath(indexPath: indexPath)
         viewModel.selectCategory(indexPath: indexPath)
         
         tableView.deselectRow(at: indexPath, animated: true)
     }
-
-    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if let preSelected = viewModel.preSelected,
+           indexPath == preSelected {
+            cell.accessoryType = .checkmark
+        } else {
+            cell.accessoryType = .none
+        }
+    }
+    func isHiden() {
+        if viewModel.category.count > 0 {
+            imageStar.isHidden = true
+            textLabel.isHidden = true
+        }
+    }
 }
 

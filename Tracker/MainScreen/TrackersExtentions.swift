@@ -112,10 +112,10 @@ extension TrackersViewController: TrackerCellDelegate {
     
     func addOrDalete(id: UUID, at indexPath: IndexPath) {
         if trackerRecordCD.hasTracker(date: datePicker.date, uuid: id) {
-          
+            
             trackerRecordCD.removeTracker(date: datePicker.date, uuid: id)
         } else {
-      
+            
             trackerRecordCD.addRecord(id: id, date: datePicker.date)
         }
         
@@ -126,7 +126,7 @@ extension TrackersViewController: TrackerCategoryStoreDelegate {
     func categoryStore() {
         categories = trackerCategoryStore.trackerCategories
         reloadData()
-
+        
     }
 }
 extension TrackersViewController: TrackerCoreDataStoreDelegate {

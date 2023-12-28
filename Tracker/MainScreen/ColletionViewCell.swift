@@ -8,7 +8,7 @@
 import UIKit
 protocol TrackerCellDelegate: AnyObject {
     func addOrDalete(id: UUID, at indexPath: IndexPath)
-
+    
 }
 
 final class CollectionViewCell: UICollectionViewCell {
@@ -58,7 +58,7 @@ final class CollectionViewCell: UICollectionViewCell {
         messege.textColor = .white
         messege.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         messege.textAlignment = .left
-
+        
         NSLayoutConstraint.activate([
             colorLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
             colorLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor),

@@ -12,18 +12,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
     lazy var persistentContainer: NSPersistentContainer = {
-            let container = NSPersistentContainer(name: "Trackers")            
-            container.loadPersistentStores(completionHandler: { (storeDescription, error) in
-                if let error = error as NSError? {
-                   
-                }
-            })
-            return container
-        }()
+        let container = NSPersistentContainer(name: "Trackers")            
+        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+            if let error = error as NSError? {
+                
+            }
+        })
+        return container
+    }()
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-       
+        
         ColorTransformer.register()
         DaysValueTransformer.register()
         

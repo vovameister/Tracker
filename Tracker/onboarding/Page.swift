@@ -23,11 +23,11 @@ class Page: UIPageViewController {
         return pageControl
     }()
     var pages: [UIViewController]?
-   
+    
     
     override func viewDidLoad() {
         pages = [blue, red]
-    
+        
         super.viewDidLoad()
         let first = pages?.first
         setViewControllers([first!], direction: .forward, animated: true)
@@ -61,7 +61,7 @@ extension Page: UIPageViewControllerDataSource, UIPageViewControllerDelegate {
         }
         return nil
     }
-
+    
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         if let pages = pages {
             if let currentViewController = pageViewController.viewControllers?.first,
