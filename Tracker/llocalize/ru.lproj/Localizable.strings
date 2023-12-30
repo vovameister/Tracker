@@ -1,0 +1,53 @@
+/* 
+  Localizable.strings
+  Tracker
+
+  Created by Владимир Клевцов on 30.12.23..
+  
+*/
+"evenIf" = "Даже если это не литры воды и йога";
+"whatATech" = "Вот это технологии!";
+"trackOnly" = "Отслеживайте только то, что хотите";
+
+"trackers" = "Трекеры";
+"whatWeWill" = "Что будем отслеживать?";
+"search" = "Поиск";
+"nothingFound" = "Ничего не найдено";
+"statistics" = "Статистика";
+
+"habit" = "Привычка";
+"irregularEvent" = "Нерегулярное событие";
+"createTracker" = "Создание трекера";
+"newIrregularEvent" = "Новое нерегулярное событие";
+"newHabit" = "Новая привычка";
+
+"category" = "Категория";
+"schedule" = "Расписание";
+"enterTrackerName" = "Введите название трекера";
+"color" = "Цвет";
+"create" = "Создать";
+"cancel" = "Отменить";
+"everyDay" = "Каждый день";
+
+"monday" = "Пн";
+"tuesday" = "Вт";
+"wednesday" = "Ср";
+"thursday" = "Чт";
+"friday" = "Пт";
+"sat" = "Сб";
+"sunday" = "Вс";
+
+"mondayFull" = "Понедельник";
+"tuesdayFull" = "Вторник";
+"wednesdayFull" = "Среда";
+"thursdayFull" = "Четверг";
+"fridayFull" = "Пятница";
+"saturdayFull" = "Суббота";
+"sundayFull" = "Воскресенье";
+
+"habitAndEvents" = "Привычки и события можно \nобъединить по смыслу";
+"addCategory" = "Добавить категорию";
+
+"newCategory" = "Новая категория";
+"ready" = "Готово";
+"rnter tracker name" = "Введите название трекера";

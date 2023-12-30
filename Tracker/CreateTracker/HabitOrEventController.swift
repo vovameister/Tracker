@@ -34,6 +34,20 @@ final class HabitOrEventController: UIViewController {
     let scrollView = UIScrollView()
     let contentView = UIView()
     
+    private let enterTrackerName = NSLocalizedString("enterTrackerName", comment: "")
+    private let colorText = NSLocalizedString("color", comment: "")
+    private let create = NSLocalizedString("create", comment: "")
+    private let cancel = NSLocalizedString("cancel", comment: "")
+    private let everyDay = NSLocalizedString("everyDay", comment: "")
+    
+    private let monday = NSLocalizedString("monday", comment: "")
+    private let tuesday = NSLocalizedString("tuesday", comment: "")
+    private let wednesday = NSLocalizedString("wednesday", comment: "")
+    private let thursday = NSLocalizedString("thursday", comment: "")
+    private let friday = NSLocalizedString("friday", comment: "")
+    private let sat = NSLocalizedString("saturday", comment: "")
+    private let sunday = NSLocalizedString("sunday", comment: "")
+    
     let emojiView: UICollectionView = {
         let collectionViewLayout = UICollectionViewFlowLayout()
         collectionViewLayout.scrollDirection = .horizontal
@@ -56,6 +70,7 @@ final class HabitOrEventController: UIViewController {
     let cellIdentifier = "CellIdentifier"
     let cellIdentifier2 = "CellIdentifier2"
     let emojiLabel = UILabel()
+    let colorLabel = UILabel()
     let emojiCollectionViewDelegate = EmojiCollectionViewDelegate()
     let colorCollectionViewDelegate = ColorViewDelegate()
     let font16 = UIFont.systemFont(ofSize: 16, weight: .medium)
@@ -65,8 +80,8 @@ final class HabitOrEventController: UIViewController {
             ScheduleViewController()
         ]
     }()
-    let tableText = [ "Категория",
-                      "Расписание"]
+    let tableText = [  NSLocalizedString("category", comment: ""),
+                       NSLocalizedString("schedule", comment: "")]
     
     
     var setUpTableInt: Int?
@@ -97,12 +112,13 @@ final class HabitOrEventController: UIViewController {
         contentView.addSubview(emojiView)
         contentView.addSubview(emojiLabel)
         contentView.addSubview(colorView)
+        contentView.addSubview(colorLabel)
         
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.backgroundColor = UIColor(named: "textBg")
-        textField.placeholder = "Введите название трекера"
+        textField.placeholder = enterTrackerName
         textField.layer.cornerRadius = 16
         let leftIndentView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: textField.frame.height))
         textField.leftView = leftIndentView
@@ -121,14 +137,14 @@ final class HabitOrEventController: UIViewController {
         createButton.translatesAutoresizingMaskIntoConstraints = false
         createButton.layer.cornerRadius = 16
         createButton.backgroundColor = UIColor(named: "trackerGray")
-        createButton.setTitle("Создать", for: .normal)
+        createButton.setTitle(create, for: .normal)
         createButton.titleLabel?.font = font16
         createButton.addTarget(self, action: #selector(saveButtonTap), for: .touchUpInside)
         createButton.isEnabled = false
         
         cancelButton.translatesAutoresizingMaskIntoConstraints = false
         cancelButton.layer.cornerRadius = 16
-        cancelButton.setTitle("Отменить", for: .normal)
+        cancelButton.setTitle(cancel, for: .normal)
         cancelButton.setTitleColor(UIColor(named: "trackerRed"), for: .normal)
         cancelButton.backgroundColor = .white
         cancelButton.layer.borderWidth = 1.0
@@ -148,7 +164,10 @@ final class HabitOrEventController: UIViewController {
         
         emojiLabel.text = "Emoji"
         emojiLabel.font = UIFont.systemFont(ofSize: 19, weight: .bold)
-        emojiLabel.translatesAutoresizingMaskIntoConstraints = false
+        emojiLabel.translatesAutoresizingMaskIntoConstraints = false 
+        colorLabel.text = colorText
+        colorLabel.font = UIFont.systemFont(ofSize: 19, weight: .bold)
+        colorLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 13),
@@ -185,10 +204,15 @@ final class HabitOrEventController: UIViewController {
             emojiLabel.heightAnchor.constraint(equalToConstant: 18),
             emojiLabel.widthAnchor.constraint(equalToConstant: 52),
             
-            colorView.topAnchor.constraint(equalTo: emojiView.bottomAnchor, constant: 89),
+            colorView.topAnchor.constraint(equalTo: emojiView.bottomAnchor, constant: 96),
             colorView.leadingAnchor.constraint(equalTo: emojiView.leadingAnchor),
             colorView.trailingAnchor.constraint(equalTo: emojiView.trailingAnchor),
             colorView.heightAnchor.constraint(equalTo: emojiView.heightAnchor),
+            
+            colorLabel.topAnchor.constraint(equalTo: emojiView.bottomAnchor, constant: 47),
+            colorLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 28),
+            colorLabel.heightAnchor.constraint(equalToConstant: 18),
+            colorLabel.widthAnchor.constraint(equalToConstant: 52),
             
             scrollView.topAnchor.constraint(equalTo: view.topAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
@@ -231,7 +255,7 @@ final class HabitOrEventController: UIViewController {
     }
     func extractAbbreviations(schedule: [DayOfWeek: Bool]) -> String {
         if schedule.values.allSatisfy({ $0 }) {
-            return "Каждый день"
+            return everyDay
         } else {
             let selectedDays = schedule.filter { $0.value }.sorted { $0.key.intValue < $1.key.intValue }.map { abbreviationForDay($0.key) }
             return selectedDays.joined(separator: ", ")
@@ -239,13 +263,13 @@ final class HabitOrEventController: UIViewController {
     }
     func abbreviationForDay(_ day: DayOfWeek) -> String {
         switch day {
-        case .monday: return "Пн"
-        case .tuesday: return "Вт"
-        case .wednesday: return "Ср"
-        case .thursday: return "Чт"
-        case .friday: return "Пт"
-        case .saturday: return "Сб"
-        case .sunday: return "Вс"
+        case .monday: return monday
+        case .tuesday: return tuesday
+        case .wednesday: return wednesday
+        case .thursday: return thursday
+        case .friday: return friday
+        case .saturday: return sat
+        case .sunday: return sunday
         }
     }
     func buttonEnable() {

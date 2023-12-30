@@ -25,6 +25,13 @@ final class TrackersViewController: UIViewController {
     let questionText = UILabel()
     let searchBar = UISearchBar()
     let datePicker = UIDatePicker()
+    
+    private let startTrackers = NSLocalizedString("trackers", comment: "")
+    private let whatWeWill = NSLocalizedString("whatWeWill", comment: "")
+    private let search = NSLocalizedString("search", comment: "")
+    private let nothingFound = NSLocalizedString("nothingFound", comment: "")
+    private let everyDay = NSLocalizedString("everyDay", comment: "")
+    
     let collectionView: UICollectionView = {
         let collectionView = UICollectionView(
             frame: .zero,
@@ -75,18 +82,18 @@ final class TrackersViewController: UIViewController {
         button.addTarget(self, action: #selector(showCreateViewController), for: .touchUpInside)
         
         textViewTracker.font = UIFont.boldSystemFont(ofSize: 34)
-        textViewTracker.text = "Трекеры"
+        textViewTracker.text = startTrackers
         textViewTracker.translatesAutoresizingMaskIntoConstraints = false
         
         imageStar.image = UIImage(named: "Star")
         imageStar.translatesAutoresizingMaskIntoConstraints = false
         
         questionText.font = UIFont.systemFont(ofSize: 12, weight: .medium)
-        questionText.text = "Что будем отслеживать?"
+        questionText.text = whatWeWill
         questionText.textAlignment = .center
         questionText.translatesAutoresizingMaskIntoConstraints = false
         
-        searchBar.placeholder = "Поиск"
+        searchBar.placeholder = search
         searchBar.translatesAutoresizingMaskIntoConstraints = false
         searchBar.searchBarStyle = .minimal
         searchBar.delegate = self
@@ -94,7 +101,6 @@ final class TrackersViewController: UIViewController {
         datePicker.datePickerMode = .date
         datePicker.translatesAutoresizingMaskIntoConstraints = false
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: datePicker)
-        datePicker.locale = Locale(identifier: "ru_Ru")
         datePicker.addTarget(self, action: #selector(dateChanged), for: .valueChanged)
         
         
@@ -199,10 +205,10 @@ final class TrackersViewController: UIViewController {
     
     func changeQuestionLabel() {
         if !categories.isEmpty && visibleCategories.isEmpty {
-            questionText.text = "Ничего не найдено"
+            questionText.text = nothingFound
             imageStar.image = UIImage(named: "nothingFind")
         } else  {
-            questionText.text = "Что будем отслеживать?"
+            questionText.text = whatWeWill
             imageStar.image = UIImage(named: "Star")
         }
     }

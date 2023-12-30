@@ -14,6 +14,9 @@ final class RedScreenViewController: UIViewController {
     var button = UIButton()
     var label = UILabel()
     
+    private let evenIf = NSLocalizedString("evenIf", comment: "for labeltxt")
+    private let whatA = NSLocalizedString("whatATech", comment: "for button")
+    
     override func viewDidLoad() {
         view.addSubview(background)
         background.translatesAutoresizingMaskIntoConstraints = false
@@ -21,7 +24,7 @@ final class RedScreenViewController: UIViewController {
         
         background.addSubview(label)
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Даже если это не литры воды и йога"
+        label.text = evenIf
         label.font = UIFont.boldSystemFont(ofSize: 32)
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
@@ -29,7 +32,7 @@ final class RedScreenViewController: UIViewController {
         
         view.addSubview(button)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Вот это технологии!", for: .normal)
+        button.setTitle(whatA, for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = .black
         button.layer.cornerRadius = 16

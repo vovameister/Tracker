@@ -14,6 +14,10 @@ final class NewCategoryViewController: UIViewController {
     private let readyButton = UIButton()
     private let textField = UITextField()
     
+    private let newCategory = NSLocalizedString("newCategory", comment: "New category")
+    private let ready = NSLocalizedString("ready", comment: "Done")
+    private let enterTrackerName = NSLocalizedString("enterTrackerName", comment: "Enter tracker name")
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
@@ -24,21 +28,21 @@ final class NewCategoryViewController: UIViewController {
         
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-        titleLabel.text = "Новая категория"
+        titleLabel.text = newCategory
         view.addSubview(titleLabel)
         
         
         readyButton.translatesAutoresizingMaskIntoConstraints = false
         readyButton.layer.cornerRadius = 16
         readyButton.backgroundColor = UIColor(named: "trackerGray")
-        readyButton.setTitle("Готово", for: .normal)
+        readyButton.setTitle(ready, for: .normal)
         readyButton.titleLabel?.textColor = .white
         readyButton.addTarget(self, action: #selector(readyButtonTap), for: .touchUpInside)
         view.addSubview(readyButton)
         
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.backgroundColor = UIColor(named: "textBg")
-        textField.placeholder = "Введите название трекера"
+        textField.placeholder = enterTrackerName
         textField.layer.cornerRadius = 16
         let leftIndentView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: textField.frame.height))
         textField.leftView = leftIndentView

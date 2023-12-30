@@ -11,6 +11,9 @@ final class BlueScreenViewController: UIViewController {
     var button = UIButton()
     var label = UILabel()
     
+    private let trackOnly = NSLocalizedString("trackOnly", comment: "for label")
+    private let whatA = NSLocalizedString("whatATech", comment: "for button")
+    
     override func viewDidLoad() {
         view.addSubview(background)
         background.translatesAutoresizingMaskIntoConstraints = false
@@ -18,7 +21,7 @@ final class BlueScreenViewController: UIViewController {
         
         background.addSubview(label)
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Отслеживайте только то, что хотите"
+        label.text = trackOnly
         label.font = UIFont.boldSystemFont(ofSize: 32)
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
@@ -26,7 +29,7 @@ final class BlueScreenViewController: UIViewController {
         
         view.addSubview(button)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Вот это технологии!", for: .normal)
+        button.setTitle(whatA, for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = .black
         button.layer.cornerRadius = 16

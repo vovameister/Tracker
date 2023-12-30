@@ -14,9 +14,11 @@ class TabBarViewController: UITabBarController {
         let trackersViewController = TrackersViewController.shared
         let statsViewController = StatsViewController()
         
+        let startTrackers = NSLocalizedString("trackers", comment: "")
+        let statistics = NSLocalizedString("statistics", comment: "")
         
-        trackersViewController.tabBarItem = UITabBarItem(title: "Трекеры", image: UIImage(named: "Image1gray"), selectedImage: UIImage(named: "Image1blue"))
-        statsViewController.tabBarItem = UITabBarItem(title: "Статистика", image: UIImage(named: "Image2gray"), selectedImage: UIImage(named: "Image2blue"))
+        trackersViewController.tabBarItem = UITabBarItem(title: startTrackers, image: UIImage(named: "Image1gray"), selectedImage: UIImage(named: "Image1blue"))
+        statsViewController.tabBarItem = UITabBarItem(title: statistics, image: UIImage(named: "Image2gray"), selectedImage: UIImage(named: "Image2blue"))
         addSeparatorLine()
         self.tabBar.backgroundColor = .white
         self.viewControllers = [trackersViewController, statsViewController]

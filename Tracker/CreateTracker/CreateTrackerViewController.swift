@@ -12,6 +12,12 @@ final class CreateTrackerViewController: UIViewController {
     let irregularEvent = UIButton()
     let titleLabel = UILabel()
     
+    private let habitText = NSLocalizedString("habit", comment: "")
+    private let irregularEventText = NSLocalizedString("irregularEvent", comment: "")
+    private let createTracker = NSLocalizedString("createTracker", comment: "")
+    private let newIrregularEvent = NSLocalizedString("newIrregularEvent", comment: "")
+    private let newHabit = NSLocalizedString("newHabit", comment: "")
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -22,7 +28,7 @@ final class CreateTrackerViewController: UIViewController {
         
         
         habit.translatesAutoresizingMaskIntoConstraints = false
-        habit.setTitle("Привычка", for: .normal)
+        habit.setTitle(habitText, for: .normal)
         habit.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         habit.setTitleColor(.white, for: .normal)
         habit.backgroundColor = .black
@@ -30,7 +36,7 @@ final class CreateTrackerViewController: UIViewController {
         habit.addTarget(self, action: #selector(habitTap), for: .touchUpInside)
         
         irregularEvent.translatesAutoresizingMaskIntoConstraints = false
-        irregularEvent.setTitle("Нерегулярное событие", for: .normal)
+        irregularEvent.setTitle(irregularEventText, for: .normal)
         irregularEvent.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         irregularEvent.setTitleColor(.white, for: .normal)
         irregularEvent.backgroundColor = .black
@@ -39,7 +45,7 @@ final class CreateTrackerViewController: UIViewController {
         
         titleLabel.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.text = "Создание трекера"
+        titleLabel.text = createTracker
         
         NSLayoutConstraint.activate([
             habit.topAnchor.constraint(equalTo: view.topAnchor, constant: 330),
@@ -58,12 +64,12 @@ final class CreateTrackerViewController: UIViewController {
         ])
     }
     @objc func habitTap() {
-        let viewController = HabitOrEventController(title: "Новая привычка", setUpTableInt: 2, tableViewHeight: 150)
+        let viewController = HabitOrEventController(title: newHabit, setUpTableInt: 2, tableViewHeight: 150)
         present(viewController, animated: true, completion: nil)
     }
     
     @objc func eventTap() {
-        let viewController = HabitOrEventController(title: "Новое нерегулярное событие", setUpTableInt: 1, tableViewHeight: 75)
+        let viewController = HabitOrEventController(title: newIrregularEvent, setUpTableInt: 1, tableViewHeight: 75)
         present(viewController, animated: true, completion: nil)
     }
     

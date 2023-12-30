@@ -36,6 +36,8 @@
 		6FDC3C272AF1307900325070 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6FDC3C262AF1307900325070 /* Assets.xcassets */; };
 		6FDC3C342AF1785D00325070 /* TrackersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDC3C332AF1785D00325070 /* TrackersViewController.swift */; };
 		6FDC3C362AF1788C00325070 /* StatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDC3C352AF1788C00325070 /* StatsViewController.swift */; };
+		6FF16D8A2B4076D700301ACE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6FF16D8C2B4076D700301ACE /* Localizable.strings */; };
+		6FF16D8E2B4076FE00301ACE /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 6FF16D902B4076FE00301ACE /* Localizable.stringsdict */; };
 		6FF9487A2B020A07003E5840 /* CategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF948792B020A07003E5840 /* CategoryView.swift */; };
 		6FF9487C2B02168D003E5840 /* WeekCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF9487B2B02168D003E5840 /* WeekCell.swift */; };
 /* End PBXBuildFile section */
@@ -72,6 +74,10 @@
 		6FDC3C2B2AF1307900325070 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6FDC3C332AF1785D00325070 /* TrackersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackersViewController.swift; sourceTree = "<group>"; };
 		6FDC3C352AF1788C00325070 /* StatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsViewController.swift; sourceTree = "<group>"; };
+		6FF16D8B2B4076D700301ACE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6FF16D8D2B4076F200301ACE /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6FF16D8F2B4076FE00301ACE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
+		6FF16D912B4076FF00301ACE /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = ru; path = ru.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		6FF948792B020A07003E5840 /* CategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryView.swift; sourceTree = "<group>"; };
 		6FF9487B2B02168D003E5840 /* WeekCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -171,15 +177,25 @@
 				6F8EE7092B006E6C002B53DA /* BaseDalagate */,
 				6F8EE7052B0065D8002B53DA /* MainScreen */,
 				6F8EE7082B006E45002B53DA /* CreateTracker */,
+				6FF16D892B4074C600301ACE /* llocalize */,
+				6F08681F2AF6DEE900E7F4CB /* Structures.swift */,
 				6FDC3C352AF1788C00325070 /* StatsViewController.swift */,
 				6F6473692AFB4FD300E932AF /* TrackersArray.swift */,
-				6F08681F2AF6DEE900E7F4CB /* Structures.swift */,
 				6F6231EA2B0D25F700991C7B /* Trackers.xcdatamodeld */,
 				6F8EE7012B006334002B53DA /* Launch Screen.storyboard */,
 				6FDC3C262AF1307900325070 /* Assets.xcassets */,
 				6FDC3C2B2AF1307900325070 /* Info.plist */,
 			);
 			path = Tracker;
+			sourceTree = "<group>";
+		};
+		6FF16D892B4074C600301ACE /* llocalize */ = {
+			isa = PBXGroup;
+			children = (
+				6FF16D8C2B4076D700301ACE /* Localizable.strings */,
+				6FF16D902B4076FE00301ACE /* Localizable.stringsdict */,
+			);
+			path = llocalize;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -224,6 +240,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ru,
 			);
 			mainGroup = 6FDC3C112AF1307800325070;
 			productRefGroup = 6FDC3C1B2AF1307800325070 /* Products */;
@@ -241,6 +258,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				6F8EE7022B006334002B53DA /* Launch Screen.storyboard in Resources */,
+				6FF16D8E2B4076FE00301ACE /* Localizable.stringsdict in Resources */,
+				6FF16D8A2B4076D700301ACE /* Localizable.strings in Resources */,
 				6FDC3C272AF1307900325070 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -285,6 +304,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		6FF16D8C2B4076D700301ACE /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6FF16D8B2B4076D700301ACE /* en */,
+				6FF16D8D2B4076F200301ACE /* ru */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		6FF16D902B4076FE00301ACE /* Localizable.stringsdict */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6FF16D8F2B4076FE00301ACE /* en */,
+				6FF16D912B4076FF00301ACE /* ru */,
+			);
+			name = Localizable.stringsdict;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		6FDC3C2C2AF1307900325070 /* Debug */ = {

@@ -20,6 +20,13 @@ final class ScheduleViewController: UIViewController {
     private let cellIdentifier = "DayCell"
     private let readyButton = UIButton()
     
+    private let mondayFull = NSLocalizedString("mondayFull", comment: "")
+    private let tuesdayFull = NSLocalizedString("tuesdayFull", comment: "")
+    private let wednesdayFull = NSLocalizedString("wednesdayFull", comment: "")
+    private let thursdayFull = NSLocalizedString("thursdayFull", comment: "")
+    private let fridayFull = NSLocalizedString("fridayFull", comment: "")
+    private let saturdayFull = NSLocalizedString("saturdayFull", comment: "")
+    private let sundayFull = NSLocalizedString("sundayFull", comment: "")
     
     private var selectedDays: [DayOfWeek: Bool] = [
         .monday: false,
@@ -108,7 +115,7 @@ extension ScheduleViewController: UITableViewDataSource, UITableViewDelegate {
         }
         
         
-        let daysOfWeek = ["Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"]
+        let daysOfWeek = [mondayFull, tuesdayFull, wednesdayFull, tuesdayFull, fridayFull, saturdayFull, sundayFull]
         cell.dayLabel.text = daysOfWeek[indexPath.row]
         cell.selectionStyle = .none
         cell.daySwitch.tag = indexPath.row

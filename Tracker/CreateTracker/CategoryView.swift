@@ -17,6 +17,11 @@ final class CategoryViewController: UIViewController {
     private let cellIdentifier = "CellIdentifier"
     private var viewModel: CategoryViewModel!
     
+    
+    private let habitAndEvents = NSLocalizedString("habitAndEvents", comment: "")
+    private let addCategory = NSLocalizedString("addCategory", comment: "")
+    private let category = NSLocalizedString("category", comment: "")
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
@@ -46,7 +51,7 @@ final class CategoryViewController: UIViewController {
         
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-        titleLabel.text = "Категория"
+        titleLabel.text = category
         view.addSubview(titleLabel)
         
         
@@ -55,7 +60,7 @@ final class CategoryViewController: UIViewController {
         imageStar.translatesAutoresizingMaskIntoConstraints = false
         
         textLabel.font = UIFont.systemFont(ofSize: 12, weight: .medium)
-        textLabel.text = "Привычки и события можно \nобъединить по смыслу"
+        textLabel.text = habitAndEvents
         textLabel.numberOfLines = 0
         textLabel.textAlignment = .center
         textLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -64,7 +69,7 @@ final class CategoryViewController: UIViewController {
         readyButton.translatesAutoresizingMaskIntoConstraints = false
         readyButton.layer.cornerRadius = 16
         readyButton.backgroundColor = .black
-        readyButton.setTitle("Добавить категорию", for: .normal)
+        readyButton.setTitle(addCategory, for: .normal)
         readyButton.titleLabel?.textColor = .white
         readyButton.addTarget(self, action: #selector(readyButtonTap), for: .touchUpInside)
         view.addSubview(readyButton)
