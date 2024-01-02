@@ -19,7 +19,10 @@ extension TrackersViewController: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CollectionViewCell
         cell.backgroundColor = .white
         let tracker = visibleCategories[indexPath.section].trackers[indexPath.row]
-        
+        let days = String.localizedStringWithFormat(
+            NSLocalizedString("Days", comment: "Number of days repeated"),
+            trackerRecordCD.sumOfRecords(uuid: tracker.id)
+        )
         
         cell.delegate = self
         
@@ -35,7 +38,7 @@ extension TrackersViewController: UICollectionViewDataSource {
         cell.button.setTitle(buttonText, for: .normal)
         
         cell.repeatedTimes = trackerRecordCD.sumOfRecords(uuid: tracker.id)
-        cell.daysLabel.text = "\(cell.repeatedTimes) \(calculateDayString(for: cell.repeatedTimes))"
+        cell.daysLabel.text = "\(cell.repeatedTimes) \(days)"
         
         return cell
     }

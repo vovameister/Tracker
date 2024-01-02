@@ -177,6 +177,7 @@ final class TrackersViewController: UIViewController {
                 let textCondition = filterText.isEmpty || tracker.action.lowercased().contains(filterText)
                 
                 let dateFormatter = DateFormatter()
+                dateFormatter.locale = Locale(identifier: "en_US")
                 let dayOfWeekName = dateFormatter.weekdaySymbols[(filterWeekday - 1 + 7) % 7].lowercased()
                 
                 let scheduleCondition = tracker.schedule.contains { (day, isSelected) in
