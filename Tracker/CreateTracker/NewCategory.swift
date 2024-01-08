@@ -9,6 +9,7 @@ import UIKit
 
 final class NewCategoryViewController: UIViewController {
     private let categoryViewModel = CategoryViewModel.shared
+    private let colors = Colors.shared
     
     private let titleLabel = UILabel()
     private let readyButton = UIButton()
@@ -17,6 +18,23 @@ final class NewCategoryViewController: UIViewController {
     private let newCategory = NSLocalizedString("newCategory", comment: "New category")
     private let ready = NSLocalizedString("ready", comment: "Done")
     private let enterTrackerName = NSLocalizedString("enterTrackerName", comment: "Enter tracker name")
+    private let editCategory = NSLocalizedString("editCategory", comment: "")
+    private let save = NSLocalizedString("save", comment: "")
+    
+    private var isEdit: Bool?
+    private var oldTitle: String?
+    init(isEdit: Bool, category: String? = nil) {
+        super.init(nibName: nil, bundle: nil)
+        self.isEdit = isEdit
+        self.textField.text = category
+        self.titleLabel.text = isEdit ? editCategory : newCategory
+        self.readyButton.setTitle(isEdit ? save : ready, for: .normal)
+        self.oldTitle = category
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,18 +42,16 @@ final class NewCategoryViewController: UIViewController {
         setupConstraints()
     }
     private func setupViews() {
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor(named: "background")
         
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-        titleLabel.text = newCategory
         view.addSubview(titleLabel)
         
         
         readyButton.translatesAutoresizingMaskIntoConstraints = false
         readyButton.layer.cornerRadius = 16
         readyButton.backgroundColor = UIColor(named: "trackerGray")
-        readyButton.setTitle(ready, for: .normal)
         readyButton.titleLabel?.textColor = .white
         readyButton.addTarget(self, action: #selector(readyButtonTap), for: .touchUpInside)
         view.addSubview(readyButton)
@@ -44,6 +60,7 @@ final class NewCategoryViewController: UIViewController {
         textField.backgroundColor = UIColor(named: "textBg")
         textField.placeholder = enterTrackerName
         textField.layer.cornerRadius = 16
+        textField.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         let leftIndentView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: textField.frame.height))
         textField.leftView = leftIndentView
         textField.leftViewMode = .always
@@ -70,7 +87,8 @@ final class NewCategoryViewController: UIViewController {
     }
     @objc func readyButtonTap() {
         if let text = textField.text {
-            categoryViewModel.appendCategory(category: text)
+            isEdit! ?
+            categoryViewModel.editCategory(category: text, oldTitle: oldTitle!) : categoryViewModel.appendCategory(category: text)  
         }
         self.dismiss(animated: true)
     }
@@ -91,10 +109,21 @@ extension NewCategoryViewController: UITextFieldDelegate {
     func buttonEnable() {
         if textField.text != "" {
             readyButton.isEnabled = true
-            readyButton.backgroundColor = .black
+            readyButton.backgroundColor = colors.bgColor
+            let color = UIColor { (traits: UITraitCollection) -> UIColor in
+                if traits.userInterfaceStyle == .dark {
+                    return UIColor(named: "dark") ?? .black
+                } else {
+                    return .white
+                }
+            }
+            readyButton.setTitleColor(color, for: .normal)
         } else {
             readyButton.isEnabled = false
             readyButton.backgroundColor = UIColor(named: "trackerGray")
+            readyButton.setTitleColor(.white, for: .normal)
+        
         }
     }
+   
 }

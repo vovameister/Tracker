@@ -13,6 +13,8 @@ protocol ScheduleViewControllerDelegate: AnyObject {
 
 
 final class ScheduleViewController: UIViewController {
+    private let colors = Colors.shared
+    
     weak var delegate: ScheduleViewControllerDelegate?
     
     private let titleLabel = UILabel()
@@ -52,7 +54,7 @@ final class ScheduleViewController: UIViewController {
         setupConstraints()
     }
     private func setupViews() {
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor(named: "background")
         
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.font = UIFont.systemFont(ofSize: 16, weight: .medium)
@@ -68,9 +70,9 @@ final class ScheduleViewController: UIViewController {
         
         readyButton.translatesAutoresizingMaskIntoConstraints = false
         readyButton.layer.cornerRadius = 16
-        readyButton.backgroundColor = .black
+        readyButton.backgroundColor = colors.bgColor
         readyButton.setTitle("Готово", for: .normal)
-        readyButton.titleLabel?.textColor = .white
+        readyButton.setTitleColor(UIColor(named: "background"), for: .normal)
         readyButton.addTarget(self, action: #selector(readyButtonTap), for: .touchUpInside)
         view.addSubview(readyButton)
     }

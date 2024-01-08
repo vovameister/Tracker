@@ -166,6 +166,50 @@ final class TrackerCategoryStore: NSObject, NSFetchedResultsControllerDelegate {
     ) {
         delegate?.categoryStore()
     }
+    func deleteTrackerFromCategories(id: UUID) {
+          guard let trackerCoreData = TrackerCoreDataStore.shared.fetchTracker(id: id) else {
+              return
+          }
+          
+          for category in fetchedResultsController.fetchedObjects ?? [] {
+              if let trackers = category.trackers?.allObjects as? [TrackerCoreData] {
+                  let mutableTrackers = NSMutableSet(array: trackers)
+                  mutableTrackers.remove(trackerCoreData)
+                  category.trackers = mutableTrackers
+                  
+                  do {
+                      try context.save()
+                  } catch {
+                      print("Error saving context after deleting tracker from category: \(error.localizedDescription)")
+                  }
+              }
+          }
+      }
+        func deleteCategory(withTitle title: String) {
+            guard let categoryToDelete = getTrackerCategory(with: title) else {
+                return
+            }
+
+            context.delete(categoryToDelete)
+
+            do {
+                try context.save()
+            } catch {
+                print("Error saving context after deleting category: \(error.localizedDescription)")
+            }
+        }
+    func editCategory(oldTitle: String, newTitle: String) {
+        guard let categoryToDelete = getTrackerCategory(with: oldTitle) else {
+            return
+        }
+        categoryToDelete.title = newTitle
+        
+        do {
+            try context.save()
+        } catch {
+            print("Error saving context after deleting category: \(error.localizedDescription)")
+        }
+    }
 }
 
 

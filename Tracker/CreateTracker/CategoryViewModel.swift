@@ -45,7 +45,17 @@ final class CategoryViewModel {
         self.category.append(category)
         
     }
+    func editCategory(category: String, oldTitle: String) {
+        categoryStore.editCategory(oldTitle: oldTitle, newTitle: category)
+        
+        self.category = categoryStore.fetchCategoryTitles()
+    }
     func nilInSelected() {
         preSelected = nil
+    }
+    func deleteCategory(indexPath: IndexPath) {
+        categoryStore.deleteCategory(withTitle: category[indexPath.row])
+        
+        category = categoryStore.fetchCategoryTitles()
     }
 }

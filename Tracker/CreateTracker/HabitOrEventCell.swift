@@ -8,7 +8,7 @@
 import UIKit
 
 class HabitOrEventCell: UITableViewCell {
-    
+
     let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 17, weight: .regular)

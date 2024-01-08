@@ -12,11 +12,15 @@ protocol TrackerCellDelegate: AnyObject {
 }
 
 final class CollectionViewCell: UICollectionViewCell {
+    let analytics = AnalyticsService()
+    
+    
     let colorLabel = UILabel()
     let emodjiLabel = UILabel()
     let daysLabel = UILabel()
     let button = UIButton()
     let messege = UILabel()
+    let pinMark = UIImageView()
     
     weak var delegate: TrackerCellDelegate?
     
@@ -42,7 +46,6 @@ final class CollectionViewCell: UICollectionViewCell {
         contentView.addSubview(daysLabel)
         daysLabel.translatesAutoresizingMaskIntoConstraints = false
         daysLabel.text = "1 day"
-        daysLabel.backgroundColor = .white
         daysLabel.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         
         contentView.addSubview(button)
@@ -58,6 +61,10 @@ final class CollectionViewCell: UICollectionViewCell {
         messege.textColor = .white
         messege.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         messege.textAlignment = .left
+        
+        pinMark.translatesAutoresizingMaskIntoConstraints = false
+        pinMark.image = UIImage(named: "pin")
+        colorLabel.addSubview(pinMark)
         
         NSLayoutConstraint.activate([
             colorLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
@@ -81,7 +88,12 @@ final class CollectionViewCell: UICollectionViewCell {
             messege.topAnchor.constraint(equalTo: colorLabel.topAnchor, constant: 44),
             messege.leadingAnchor.constraint(equalTo: colorLabel.leadingAnchor, constant: 12),
             messege.trailingAnchor.constraint(equalTo: colorLabel.trailingAnchor, constant: -12),
-            messege.bottomAnchor.constraint(equalTo: colorLabel.bottomAnchor, constant: 12)
+            messege.bottomAnchor.constraint(equalTo: colorLabel.bottomAnchor, constant: 12),
+            
+            pinMark.topAnchor.constraint(equalTo: colorLabel.topAnchor, constant: 12),
+            pinMark.trailingAnchor.constraint(equalTo: colorLabel.trailingAnchor, constant: -4),
+            pinMark.heightAnchor.constraint(equalToConstant: 24),
+            pinMark.widthAnchor.constraint(equalToConstant: 24)
         ])
         
     }
@@ -90,6 +102,9 @@ final class CollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     @objc private func trackerButtonTapped() {
+        analytics.report(event: "click", params: ["screen" : "main", "item" : "track"])
+        
+        
         guard let trackerId = trackerId,
               let indexPath = indexPath else { return }
         delegate?.addOrDalete(id: trackerId, at: indexPath)

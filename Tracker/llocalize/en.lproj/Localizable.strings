@@ -59,3 +59,17 @@
 "trackersCompleted" = "Trackers completed";
 "average" = "Average";
 
+"filters" = "Filters";
+"notCompleted" = "Not completed";
+"allTrackers" = "All trackers";
+"completed" = "Completed";
+"trackersForToday" = "Trackers for today";
+
+"unpin" = "Unpin";
+"edit" = "Edit";
+"delete" = "Delete";
+"save" = "Save";
+"editCategory" = "Editing category";
+
+"habitEditing" = "Habit editing";
+"pinned" = "Pinned";

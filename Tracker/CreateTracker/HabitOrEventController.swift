@@ -22,10 +22,12 @@ final class HabitOrEventController: UIViewController {
     var emoji: String?
     var color: UIColor?
     
-    
+    let colors = Colors.shared
     let trackerViewController = TrackersViewController.shared
     let scheduleviewController = ScheduleViewController()
     var trackerCategory = TrackerCategoryStore.shared
+    let trackerStore = TrackerCoreDataStore()
+    let trackerRecordCD = RecordStore()
     var viewModel: CategoryViewModel!
     
     let titleLabel = UILabel()
@@ -47,6 +49,7 @@ final class HabitOrEventController: UIViewController {
     private let friday = NSLocalizedString("friday", comment: "")
     private let sat = NSLocalizedString("saturday", comment: "")
     private let sunday = NSLocalizedString("sunday", comment: "")
+    private let save = NSLocalizedString("save", comment: "")
     
     let emojiView: UICollectionView = {
         let collectionViewLayout = UICollectionViewFlowLayout()
@@ -71,6 +74,7 @@ final class HabitOrEventController: UIViewController {
     let cellIdentifier2 = "CellIdentifier2"
     let emojiLabel = UILabel()
     let colorLabel = UILabel()
+    let dayeLabel = UILabel()
     let emojiCollectionViewDelegate = EmojiCollectionViewDelegate()
     let colorCollectionViewDelegate = ColorViewDelegate()
     let font16 = UIFont.systemFont(ofSize: 16, weight: .medium)
@@ -86,16 +90,27 @@ final class HabitOrEventController: UIViewController {
     
     var setUpTableInt: Int?
     var tableViewHeight: CGFloat?
+    var isEdit: Bool?
+    var uuid: UUID?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor(named: "background")
         
         viewModel = CategoryViewModel.shared
         viewModel?.$selectedCategory.bind { [weak self] _ in
             guard let self = self else { return }
             self.newCategory = viewModel.selectedCategory ?? ""
         }
-        
+        if isEdit == true {
+            let tracker = trackerStore.fetchTracker(id: uuid!)
+            emoji = tracker?.emoji
+            color = tracker?.color as? UIColor
+            newCategory = tracker?.categorys?.title
+            newHabit = tracker?.schedule as? [DayOfWeek: Bool]
+            textField.text = tracker?.action
+            newId = uuid
+        }
         
         
         view.addSubview(scrollView)
@@ -105,7 +120,7 @@ final class HabitOrEventController: UIViewController {
         
         contentView.addSubview(titleLabel)
         contentView.addSubview(textField)
-        contentView.backgroundColor = .white
+        contentView.backgroundColor = UIColor(named: "background")
         contentView.addSubview(tableView)
         contentView.addSubview(createButton)
         contentView.addSubview(cancelButton)
@@ -137,7 +152,8 @@ final class HabitOrEventController: UIViewController {
         createButton.translatesAutoresizingMaskIntoConstraints = false
         createButton.layer.cornerRadius = 16
         createButton.backgroundColor = UIColor(named: "trackerGray")
-        createButton.setTitle(create, for: .normal)
+        let title = isEdit == false ? create : save
+        createButton.setTitle(title, for: .normal)
         createButton.titleLabel?.font = font16
         createButton.addTarget(self, action: #selector(saveButtonTap), for: .touchUpInside)
         createButton.isEnabled = false
@@ -146,7 +162,7 @@ final class HabitOrEventController: UIViewController {
         cancelButton.layer.cornerRadius = 16
         cancelButton.setTitle(cancel, for: .normal)
         cancelButton.setTitleColor(UIColor(named: "trackerRed"), for: .normal)
-        cancelButton.backgroundColor = .white
+        cancelButton.backgroundColor = UIColor(named: "backgroung")
         cancelButton.layer.borderWidth = 1.0
         cancelButton.layer.borderColor = UIColor(named: "trackerRed")?.cgColor
         cancelButton.titleLabel?.font = font16
@@ -155,6 +171,7 @@ final class HabitOrEventController: UIViewController {
         emojiView.translatesAutoresizingMaskIntoConstraints = false
         emojiView.delegate = emojiCollectionViewDelegate
         emojiView.dataSource = emojiCollectionViewDelegate
+        emojiView.backgroundColor = UIColor(named: "background")
         emojiCollectionViewDelegate.parentViewController = self
         
         colorView.translatesAutoresizingMaskIntoConstraints = false
@@ -169,72 +186,21 @@ final class HabitOrEventController: UIViewController {
         colorLabel.font = UIFont.systemFont(ofSize: 19, weight: .bold)
         colorLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 13),
-            titleLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            titleLabel.heightAnchor.constraint(equalToConstant: 22),
-            
-            textField.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 73),
-            textField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            textField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            textField.heightAnchor.constraint(equalToConstant: 75),
-            
-            tableView.topAnchor.constraint(equalTo: textField.bottomAnchor, constant: 24),
-            tableView.heightAnchor.constraint(equalToConstant: tableViewHeight ?? 150),
-            tableView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            tableView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            
-            cancelButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -34),
-            cancelButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            cancelButton.trailingAnchor.constraint(equalTo: contentView.centerXAnchor, constant: -4),
-            cancelButton.heightAnchor.constraint(equalToConstant: 60),
-            
-            createButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -34),
-            createButton.leadingAnchor.constraint(equalTo: contentView.centerXAnchor, constant: 4),
-            createButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            createButton.heightAnchor.constraint(equalToConstant: 60),
-            
-            emojiView.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 81),
-            emojiView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 19),
-            emojiView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -19),
-            emojiView.heightAnchor.constraint(equalToConstant: 170),
-            
-            emojiLabel.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 32),
-            emojiLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 28),
-            emojiLabel.heightAnchor.constraint(equalToConstant: 18),
-            emojiLabel.widthAnchor.constraint(equalToConstant: 52),
-            
-            colorView.topAnchor.constraint(equalTo: emojiView.bottomAnchor, constant: 96),
-            colorView.leadingAnchor.constraint(equalTo: emojiView.leadingAnchor),
-            colorView.trailingAnchor.constraint(equalTo: emojiView.trailingAnchor),
-            colorView.heightAnchor.constraint(equalTo: emojiView.heightAnchor),
-            
-            colorLabel.topAnchor.constraint(equalTo: emojiView.bottomAnchor, constant: 47),
-            colorLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 28),
-            colorLabel.heightAnchor.constraint(equalToConstant: 18),
-            colorLabel.widthAnchor.constraint(equalToConstant: 52),
-            
-            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            
-            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            
-            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-            contentView.heightAnchor.constraint(equalToConstant: 1000)
-        ])
+        isEdit == true ? alternativeSetUp() : setUpContains()
+        
+        
+        buttonEnable()
     }
-    init(title: String, setUpTableInt: Int, tableViewHeight: CGFloat) {
+    init(title: String, setUpTableInt: Int, tableViewHeight: CGFloat, isEdit: Bool, uuid: UUID? = nil) {
         super.init(nibName: nil, bundle: nil)
         self.titleLabel.text = title
         self.setUpTableInt = setUpTableInt
         self.tableViewHeight = tableViewHeight
+        self.isEdit = isEdit
+        self.uuid = uuid
     }
-    
+
+  
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
@@ -242,7 +208,10 @@ final class HabitOrEventController: UIViewController {
         self.dismiss(animated: true)
     }
     @objc func saveButtonTap() {
-        let newTracker = Tracker(id: UUID(), action: textField.text ?? "", color: color ?? .blue, emoji: emoji ?? "", schedule: newHabit ?? eventMockShudle)
+        if isEdit == true && uuid == uuid {
+            trackerStore.deleteTracker(id: uuid!)
+        }
+        let newTracker = Tracker(id: newId ?? UUID(), action: textField.text ?? "", color: color ?? .blue, emoji: emoji ?? "", schedule: newHabit ?? eventMockShudle)
         
         let newCategory1 = TrackerCategory(title: newCategory ?? "", trackers: [newTracker])
         try? trackerCategory.addNewTrackerCategory(newCategory1)
@@ -275,13 +244,117 @@ final class HabitOrEventController: UIViewController {
     func buttonEnable() {
         if textField.text != "" && newCategory != nil {
             createButton.isEnabled = true
-            createButton.backgroundColor = .black
+            createButton.backgroundColor = colors.bgColor
+            let color = UIColor { (traits: UITraitCollection) -> UIColor in
+                if traits.userInterfaceStyle == .dark {
+                    return UIColor(named: "dark") ?? .black
+                } else {
+                    return .white
+                }
+            }
+            createButton.setTitleColor(color, for: .normal)
         } else {
             createButton.isEnabled = false
             createButton.backgroundColor = UIColor(named: "trackerGray")
+            createButton.setTitleColor(.white, for: .normal)
         }
     }
-    
+    func setUpContains() {
+        NSLayoutConstraint.activate([
+            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 13),
+            titleLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            titleLabel.heightAnchor.constraint(equalToConstant: 22),
+            
+            textField.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 73),
+            textField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            textField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            textField.heightAnchor.constraint(equalToConstant: 75),
+            
+            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            contentView.heightAnchor.constraint(equalToConstant: 1000)
+            ])
+        constantContains()
+    }
+    func alternativeSetUp() {
+        let day = String.localizedStringWithFormat(
+            NSLocalizedString("Days", comment: "Number of days repeated"),
+            trackerRecordCD.sumOfRecords(uuid: uuid!)
+        )
+        let sum = trackerRecordCD.sumOfRecords(uuid: uuid!)
+        dayeLabel.text = String(sum) + " " + day 
+        
+        dayeLabel.translatesAutoresizingMaskIntoConstraints = false
+        dayeLabel.font = UIFont.systemFont(ofSize: 32, weight: .bold)
+        contentView.addSubview(dayeLabel)
+        NSLayoutConstraint.activate([
+            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 13),
+            titleLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            titleLabel.heightAnchor.constraint(equalToConstant: 22),
+            
+            dayeLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 38),
+            dayeLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            dayeLabel.heightAnchor.constraint(equalToConstant: 38),
+            
+            textField.topAnchor.constraint(equalTo: dayeLabel.bottomAnchor, constant: 40),
+            textField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            textField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            textField.heightAnchor.constraint(equalToConstant: 75),
+            
+            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            contentView.heightAnchor.constraint(equalToConstant: 1100)
+            ])
+        constantContains()
+    }
+    func constantContains() {
+        NSLayoutConstraint.activate([
+        tableView.topAnchor.constraint(equalTo: textField.bottomAnchor, constant: 24),
+        tableView.heightAnchor.constraint(equalToConstant: tableViewHeight ?? 150),
+        tableView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+        tableView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+        
+        cancelButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -34),
+        cancelButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+        cancelButton.trailingAnchor.constraint(equalTo: contentView.centerXAnchor, constant: -4),
+        cancelButton.heightAnchor.constraint(equalToConstant: 60),
+        
+        createButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -34),
+        createButton.leadingAnchor.constraint(equalTo: contentView.centerXAnchor, constant: 4),
+        createButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+        createButton.heightAnchor.constraint(equalToConstant: 60),
+        
+        emojiView.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 81),
+        emojiView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 19),
+        emojiView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -19),
+        emojiView.heightAnchor.constraint(equalToConstant: 170),
+        
+        emojiLabel.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 32),
+        emojiLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 28),
+        emojiLabel.heightAnchor.constraint(equalToConstant: 18),
+        emojiLabel.widthAnchor.constraint(equalToConstant: 52),
+        
+        colorView.topAnchor.constraint(equalTo: emojiView.bottomAnchor, constant: 96),
+        colorView.leadingAnchor.constraint(equalTo: emojiView.leadingAnchor),
+        colorView.trailingAnchor.constraint(equalTo: emojiView.trailingAnchor),
+        colorView.heightAnchor.constraint(equalTo: emojiView.heightAnchor),
+        
+        colorLabel.topAnchor.constraint(equalTo: emojiView.bottomAnchor, constant: 47),
+        colorLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 28),
+        colorLabel.heightAnchor.constraint(equalToConstant: 18),
+        colorLabel.widthAnchor.constraint(equalToConstant: 52),
+        
+        scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+        scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+        scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+        
+        contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+        contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+        contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+        contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+        
+      
+    ])
+    }
 }
 extension HabitOrEventController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

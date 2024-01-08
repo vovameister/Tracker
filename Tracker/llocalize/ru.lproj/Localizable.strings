@@ -34,7 +34,7 @@
 "wednesday" = "Ср";
 "thursday" = "Чт";
 "friday" = "Пт";
-"sat" = "Сб";
+"saturday" = "Сб";
 "sunday" = "Вс";
 
 "mondayFull" = "Понедельник";
@@ -58,3 +58,18 @@
 "average" = "Среднее значение";
 
 
+"filters" = "Фильтры";
+"notCompleted" = "Не завершенные";
+"allTrackers" = "Все трекеры";
+"completed" = "Завершенные";
+"trackersForToday" = "Трекеры на сегодня";
+
+"unpin" = "Открепить";
+"edit" = "Редактировать";
+"delete" = "Удалить";
+"pin" = "Закрепить";
+"save" = "Сохранить";
+"editCategory" = "Редактирование категории";
+
+"habitEditing" = "Редактирование привычки";
+"pinned" = "Закрепленные";

@@ -75,7 +75,31 @@ class TrackerCoreDataStore: NSObject, NSFetchedResultsControllerDelegate {
     ) {
         delegate?.store()
     }
-    
+    func deleteTracker(id: UUID) {
+           if let existingRecord = fetchTracker(id: id) {
+               TrackerCategoryStore.shared.deleteTrackerFromCategories(id: id)
+
+               context.delete(existingRecord)
+               
+               do {
+                   try context.save()
+               } catch {
+                   print("Error saving context after deleting tracker: \(error.localizedDescription)")
+               }
+           }
+       }
+    func fetchTracker(id: UUID) -> TrackerCoreData? {
+           let fetchRequest: NSFetchRequest<TrackerCoreData> = TrackerCoreData.fetchRequest()
+           fetchRequest.predicate = NSPredicate(format: "uuid == %@", id as CVarArg)
+
+           do {
+               let tracker = try context.fetch(fetchRequest)
+               return tracker.first
+           } catch {
+               print("Error fetching pin: \(error.localizedDescription)")
+               return nil
+           }
+       }
     func tracker(from trackersCoreData: TrackerCoreData) throws -> Tracker {
         guard let id = trackersCoreData.uuid else {
             throw TrackerStoreError.decodingErrorInvalidId

@@ -12,7 +12,7 @@ class TabBarViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         let trackersViewController = TrackersViewController.shared
-        let statsViewController = StatsViewController()
+        let statsViewController = StatsViewController.shared
         
         let startTrackers = NSLocalizedString("trackers", comment: "")
         let statistics = NSLocalizedString("statistics", comment: "")
@@ -20,7 +20,7 @@ class TabBarViewController: UITabBarController {
         trackersViewController.tabBarItem = UITabBarItem(title: startTrackers, image: UIImage(named: "Image1gray"), selectedImage: UIImage(named: "Image1blue"))
         statsViewController.tabBarItem = UITabBarItem(title: statistics, image: UIImage(named: "Image2gray"), selectedImage: UIImage(named: "Image2blue"))
         addSeparatorLine()
-        self.tabBar.backgroundColor = .white
+        self.tabBar.backgroundColor = UIColor(named: "backgroung")
         self.viewControllers = [trackersViewController, statsViewController]
     }
     func addSeparatorLine() {

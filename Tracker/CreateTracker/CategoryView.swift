@@ -10,7 +10,7 @@ import UIKit
 final class CategoryViewController: UIViewController {
     
     private let titleLabel = UILabel()
-    private let readyButton = UIButton()
+    private let addButton = UIButton()
     private let imageStar = UIImageView()
     private let textLabel = UILabel()
     private let tableView = UITableView()
@@ -21,6 +21,8 @@ final class CategoryViewController: UIViewController {
     private let habitAndEvents = NSLocalizedString("habitAndEvents", comment: "")
     private let addCategory = NSLocalizedString("addCategory", comment: "")
     private let category = NSLocalizedString("category", comment: "")
+    private let edit = NSLocalizedString("edit", comment: "Edit")
+    private let deleteAction = NSLocalizedString("delete", comment: "Delete")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,23 +33,24 @@ final class CategoryViewController: UIViewController {
         viewModel?.$category.bind { [weak self] _ in
             guard let self = self else { return }
             self.tableView.reloadData()
-            self.setupConstraints()
             isHiden()
         }
         isHiden()
         setupConstraints()
     }
+    
     private func setupViews() {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.layer.cornerRadius = 16
+        tableView.backgroundColor = UIColor(named: "backgroung")
         
         view.addSubview(tableView)
         
         
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor(named: "background")
         
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.font = UIFont.systemFont(ofSize: 16, weight: .medium)
@@ -66,19 +69,19 @@ final class CategoryViewController: UIViewController {
         textLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(textLabel)
         
-        readyButton.translatesAutoresizingMaskIntoConstraints = false
-        readyButton.layer.cornerRadius = 16
-        readyButton.backgroundColor = .black
-        readyButton.setTitle(addCategory, for: .normal)
-        readyButton.titleLabel?.textColor = .white
-        readyButton.addTarget(self, action: #selector(readyButtonTap), for: .touchUpInside)
-        view.addSubview(readyButton)
+        addButton.translatesAutoresizingMaskIntoConstraints = false
+        addButton.layer.cornerRadius = 16
+        addButton.backgroundColor = .black
+        addButton.setTitle(addCategory, for: .normal)
+        addButton.titleLabel?.textColor = .white
+        addButton.addTarget(self, action: #selector(readyButtonTap), for: .touchUpInside)
+        view.addSubview(        addButton)
     }
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 38),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -115),
+            tableView.heightAnchor.constraint(equalToConstant: 525),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             
@@ -95,26 +98,38 @@ final class CategoryViewController: UIViewController {
             textLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             textLabel.heightAnchor.constraint(equalToConstant: 36),
             textLabel.widthAnchor.constraint(equalToConstant: 343),
-        
-            readyButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50),
-            readyButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            readyButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            readyButton.heightAnchor.constraint(equalToConstant: 60),
+            
+            addButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50),
+            addButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            addButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            addButton.heightAnchor.constraint(equalToConstant: 60),
         ])
     }
     @objc func readyButtonTap() {
-        present(NewCategoryViewController(), animated: true, completion: nil)
+        present(NewCategoryViewController(isEdit: false), animated: true, completion: nil)
+    }
+    func editCategory(indexPath: IndexPath) {
+        present(NewCategoryViewController(isEdit: true, category: viewModel.category[indexPath.row]), animated: true, completion: nil)
     }
 }
 extension CategoryViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         viewModel.category.count
     }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
         cell.backgroundColor = UIColor(named: "textBg")
         cell.textLabel?.text = viewModel.category[indexPath.row]
+        
+        let lastRow = tableView.numberOfRows(inSection: indexPath.section) - 1
+        if indexPath.row == lastRow {
+            
+            cell.layer.cornerRadius = 16
+            cell.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        } else {
+            
+            cell.layer.cornerRadius = 0
+        }
         
         return cell
     }
@@ -140,6 +155,28 @@ extension CategoryViewController: UITableViewDelegate, UITableViewDataSource {
         } else {
             cell.accessoryType = .none
         }
+    }
+    func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+        
+        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil, actionProvider: {_ in
+            let editAction =
+            UIAction(title: self.edit,
+                     image: nil) { action in
+                self.editCategory(indexPath: indexPath)
+            }
+            let deleteAction =
+            UIAction(title: self.deleteAction,
+                     image: nil){ action in
+                self.viewModel.deleteCategory(indexPath: indexPath)
+            }
+            let deleteActionAttributes: [NSAttributedString.Key: Any] = [
+                .foregroundColor: UIColor.red
+            ]
+            let deleteActionTitle = NSAttributedString(string: self.deleteAction, attributes: deleteActionAttributes)
+            deleteAction.setValue(deleteActionTitle, forKey: "attributedTitle")
+            return UIMenu(title: "", children: [editAction, deleteAction])
+        })
+        
     }
     func isHiden() {
         if viewModel.category.count > 0 {

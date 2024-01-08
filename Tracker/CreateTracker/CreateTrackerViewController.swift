@@ -8,9 +8,12 @@
 import UIKit
 
 final class CreateTrackerViewController: UIViewController {
+    let analytics = AnalyticsService()
+    
     let habit = UIButton()
     let irregularEvent = UIButton()
     let titleLabel = UILabel()
+    private let colors = Colors.shared
     
     private let habitText = NSLocalizedString("habit", comment: "")
     private let irregularEventText = NSLocalizedString("irregularEvent", comment: "")
@@ -21,25 +24,25 @@ final class CreateTrackerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        analytics.report(event: "open", params: ["sceen" : "create_tracker"])
         view.addSubview(habit)
         view.addSubview(irregularEvent)
         view.addSubview(titleLabel)
-        view.backgroundColor = .white
-        
+        view.backgroundColor = UIColor(named: "background")
         
         habit.translatesAutoresizingMaskIntoConstraints = false
         habit.setTitle(habitText, for: .normal)
         habit.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-        habit.setTitleColor(.white, for: .normal)
-        habit.backgroundColor = .black
+        habit.setTitleColor(UIColor(named: "background"), for: .normal)
+        habit.backgroundColor = colors.bgColor
         habit.layer.cornerRadius = 16
         habit.addTarget(self, action: #selector(habitTap), for: .touchUpInside)
         
         irregularEvent.translatesAutoresizingMaskIntoConstraints = false
         irregularEvent.setTitle(irregularEventText, for: .normal)
         irregularEvent.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-        irregularEvent.setTitleColor(.white, for: .normal)
-        irregularEvent.backgroundColor = .black
+        irregularEvent.setTitleColor(UIColor(named: "background"), for: .normal)
+        irregularEvent.backgroundColor =  colors.bgColor
         irregularEvent.layer.cornerRadius = 16
         irregularEvent.addTarget(self, action: #selector(eventTap), for: .touchUpInside)
         
@@ -64,12 +67,12 @@ final class CreateTrackerViewController: UIViewController {
         ])
     }
     @objc func habitTap() {
-        let viewController = HabitOrEventController(title: newHabit, setUpTableInt: 2, tableViewHeight: 150)
+        let viewController = HabitOrEventController(title: newHabit, setUpTableInt: 2, tableViewHeight: 150, isEdit: false)
         present(viewController, animated: true, completion: nil)
     }
     
     @objc func eventTap() {
-        let viewController = HabitOrEventController(title: newIrregularEvent, setUpTableInt: 1, tableViewHeight: 75)
+        let viewController = HabitOrEventController(title: newIrregularEvent, setUpTableInt: 1, tableViewHeight: 75, isEdit: false)
         present(viewController, animated: true, completion: nil)
     }
     

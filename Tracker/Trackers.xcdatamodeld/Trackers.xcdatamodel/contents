@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22522" systemVersion="23B92" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22522" systemVersion="23C71" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
     <entity name="TrackerCategoryCD" representedClassName="TrackerCategoryCD" syncable="YES" codeGenerationType="class">
         <attribute name="title" optional="YES" attributeType="String"/>
         <relationship name="trackers" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TrackerCoreData" inverseName="categorys" inverseEntity="TrackerCoreData"/>
@@ -11,7 +11,13 @@
         <attribute name="schedule" optional="YES" attributeType="Transformable" valueTransformerName="DaysValueTransformer"/>
         <attribute name="uuid" attributeType="UUID" usesScalarValueType="NO"/>
         <relationship name="categorys" maxCount="1" deletionRule="Nullify" destinationEntity="TrackerCategoryCD" inverseName="trackers" inverseEntity="TrackerCategoryCD"/>
+        <relationship name="pin" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TrackerPins" inverseName="tracker" inverseEntity="TrackerPins"/>
         <relationship name="records" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TrackerRecordCD" inverseName="uuid" inverseEntity="TrackerRecordCD"/>
+    </entity>
+    <entity name="TrackerPins" representedClassName="TrackerPins" syncable="YES" codeGenerationType="class">
+        <attribute name="pin" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="uuid" attributeType="UUID" usesScalarValueType="NO"/>
+        <relationship name="tracker" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TrackerCoreData" inverseName="pin" inverseEntity="TrackerCoreData"/>
     </entity>
     <entity name="TrackerRecordCD" representedClassName="TrackerRecordCD" syncable="YES" codeGenerationType="class">
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>

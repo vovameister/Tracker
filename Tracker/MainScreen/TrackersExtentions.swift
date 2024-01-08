@@ -23,10 +23,15 @@ extension TrackersViewController: UICollectionViewDataSource {
             NSLocalizedString("Days", comment: "Number of days repeated"),
             trackerRecordCD.sumOfRecords(uuid: tracker.id)
         )
+        if visibleCategories[indexPath.section].title != pinned {
+            cell.pinMark.isHidden = true
+        } else {
+            cell.pinMark.isHidden = false
+        }
         
         cell.delegate = self
         
-        cell.backgroundColor = .white
+        cell.backgroundColor = UIColor(named: "backgroung")
         cell.colorLabel.backgroundColor = tracker.color
         cell.button.backgroundColor = tracker.color
         cell.messege.text = tracker.action
@@ -62,23 +67,51 @@ extension TrackersViewController: UICollectionViewDataSource {
             fatalError("Unexpected kind")
         }
     }
-    func calculateDayString(for repeatedTimes: Int) -> String {
-        var day = ""
-        
-        if repeatedTimes > 4 || repeatedTimes == 0 {
-            day = "дней"
-        } else if repeatedTimes == 1 {
-            day = "день"
-        } else {
-            day = "дня"
-        }
-        return day
-    }
 }
 extension TrackersViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     }
-}
+    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemsAt indexPaths: [IndexPath], point: CGPoint) -> UIContextMenuConfiguration? {
+        guard let indexPath = indexPaths.first else {
+               return nil
+           }
+
+           let tracker = visibleCategories[indexPath.section].trackers[indexPath.row]
+           let isPinned = trackerPinStore.fetchPin(id: tracker.id)
+           return UIContextMenuConfiguration(identifier: nil, previewProvider: nil, actionProvider: {_ in
+               let inspectAction =
+               UIAction(title: isPinned == true ? self.unpin : self.pin,
+                                   image: nil) { action in
+                   self.trackerPinStore.addPin(id: tracker.id, pin: !(isPinned ?? false))
+                   self.reloadData()
+                          }
+                          
+                      let duplicateAction =
+               UIAction(title: self.edit,
+                                   image: nil) { action in
+                   self.analyticsService.report(event: "click", params: ["sceen" : "main", "item" : "edit"])
+                   
+                   let viewController = HabitOrEventController(title: self.habitEdit, setUpTableInt: 2, tableViewHeight: 150, isEdit: true, uuid: tracker.id)
+                   self.present(viewController, animated: true, completion: nil)
+                          }
+                          
+                      let deleteAction =
+               UIAction(title: self.deleteAction,
+                                   image: nil){ action in
+                   self.analyticsService.report(event: "click", params: ["sceen" : "main", "item" : "delete"])
+                   
+                   self.showDeleteActionSheet(uuid: tracker.id)
+                          }
+               let deleteActionAttributes: [NSAttributedString.Key: Any] = [
+                   .foregroundColor: UIColor.red
+               ]
+               let deleteActionTitle = NSAttributedString(string: self.deleteAction, attributes: deleteActionAttributes)
+               deleteAction.setValue(deleteActionTitle, forKey: "attributedTitle")
+               return UIMenu(title: "", children: [inspectAction, duplicateAction, deleteAction])
+           })
+       }
+    }
+
 
 extension TrackersViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -121,7 +154,7 @@ extension TrackersViewController: TrackerCellDelegate {
             
             trackerRecordCD.addRecord(id: id, date: datePicker.date)
         }
-        
+        statController.updateScoreText()
         collectionView.reloadItems(at: [indexPath])
     }
 }
