@@ -22,6 +22,7 @@ struct TrackerRecord {
     let trackerId: UUID
     let date: Date
 }
+
 enum DayOfWeek: String, Codable {
     case monday, tuesday, wednesday, thursday, friday, saturday, sunday
     
