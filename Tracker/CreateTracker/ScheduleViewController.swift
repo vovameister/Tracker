@@ -7,19 +7,54 @@
 
 import UIKit
 
-final class ScheduleViewController: UIViewController {
+protocol ScheduleViewControllerDelegate: AnyObject {
+    func didSelectDays(_ days: [DayOfWeek: Bool])
+}
 
+
+final class ScheduleViewController: UIViewController {
+    private let colors = Colors.shared
+    
+    weak var delegate: ScheduleViewControllerDelegate?
+    
     private let titleLabel = UILabel()
     private let tableView = UITableView()
     private let cellIdentifier = "DayCell"
     private let readyButton = UIButton()
+    
+    private let mondayFull = NSLocalizedString("mondayFull", comment: "")
+    private let tuesdayFull = NSLocalizedString("tuesdayFull", comment: "")
+    private let wednesdayFull = NSLocalizedString("wednesdayFull", comment: "")
+    private let thursdayFull = NSLocalizedString("thursdayFull", comment: "")
+    private let fridayFull = NSLocalizedString("fridayFull", comment: "")
+    private let saturdayFull = NSLocalizedString("saturdayFull", comment: "")
+    private let sundayFull = NSLocalizedString("sundayFull", comment: "")
+    
+    private var selectedDays: [DayOfWeek: Bool] = [
+        .monday: false,
+        .tuesday: false,
+        .wednesday: false,
+        .thursday: false,
+        .friday: false,
+        .saturday: false,
+        .sunday: false
+    ]
+    
+    @objc private func switchValueChanged(_ sender: UISwitch) {
+        let dayIndex = sender.tag
+        if let dayOfWeek = DayOfWeek(intValue: dayIndex) {
+            selectedDays[dayOfWeek] = sender.isOn
+        }
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
         setupConstraints()
     }
     private func setupViews() {
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor(named: "background")
         
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.font = UIFont.systemFont(ofSize: 16, weight: .medium)
@@ -35,13 +70,13 @@ final class ScheduleViewController: UIViewController {
         
         readyButton.translatesAutoresizingMaskIntoConstraints = false
         readyButton.layer.cornerRadius = 16
-        readyButton.backgroundColor = .black
+        readyButton.backgroundColor = colors.bgColor
         readyButton.setTitle("Готово", for: .normal)
-        readyButton.titleLabel?.textColor = .white
+        readyButton.setTitleColor(UIColor(named: "background"), for: .normal)
         readyButton.addTarget(self, action: #selector(readyButtonTap), for: .touchUpInside)
         view.addSubview(readyButton)
     }
-
+    
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 13),
@@ -60,11 +95,14 @@ final class ScheduleViewController: UIViewController {
         ])
     }
     @objc func readyButtonTap() {
+        print(selectedDays)
+        delegate?.didSelectDays(selectedDays)
+        
         self.dismiss(animated: true)
     }
 }
 extension ScheduleViewController: UITableViewDataSource, UITableViewDelegate {
-
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 7
     }
@@ -77,28 +115,15 @@ extension ScheduleViewController: UITableViewDataSource, UITableViewDelegate {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? DayTableViewCell else {
             return UITableViewCell()
         }
-
         
-        let daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+        
+        let daysOfWeek = [mondayFull, tuesdayFull, wednesdayFull, tuesdayFull, fridayFull, saturdayFull, sundayFull]
         cell.dayLabel.text = daysOfWeek[indexPath.row]
-
+        cell.selectionStyle = .none
         cell.daySwitch.tag = indexPath.row
         cell.daySwitch.addTarget(self, action: #selector(switchValueChanged(_:)), for: .valueChanged)
-
+        
         return cell
-    }
-
-    @objc private func switchValueChanged(_ sender: UISwitch) {
-        let dayIndex = sender.tag
-        let dayOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"][dayIndex]
-
-        if sender.isOn {
-            print("\(dayOfWeek) is selected.")
-            
-        } else {
-            print("\(dayOfWeek) is deselected.")
-            
-        }
     }
 }
 
