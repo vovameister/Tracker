@@ -22,19 +22,19 @@ final class HabitOrEventController: UIViewController {
     var emoji: String?
     var color: UIColor?
     
-    let colors = Colors.shared
-    let trackerViewController = TrackersViewController.shared
-    let scheduleviewController = ScheduleViewController()
-    var trackerCategory = TrackerCategoryStore.shared
-    let trackerStore = TrackerCoreDataStore()
-    let trackerRecordCD = RecordStore()
-    var viewModel: CategoryViewModel!
+    private let colors = Colors.shared
+    private let trackerViewController = TrackersViewController.shared
+    private let scheduleviewController = ScheduleViewController()
+    private var trackerCategory = TrackerCategoryStore.shared
+    private let trackerStore = TrackerCoreDataStore()
+    private let trackerRecordCD = RecordStore()
+    private var viewModel: CategoryViewModel!
     
-    let titleLabel = UILabel()
-    let textField = UITextField()
-    let tableView = UITableView()
+    private let titleLabel = UILabel()
+    private let textField = UITextField()
+    private let tableView = UITableView()
     let scrollView = UIScrollView()
-    let contentView = UIView()
+    private let contentView = UIView()
     
     private let enterTrackerName = NSLocalizedString("enterTrackerName", comment: "")
     private let colorText = NSLocalizedString("color", comment: "")
@@ -68,16 +68,16 @@ final class HabitOrEventController: UIViewController {
         return collectionView
     }()
     
-    let cancelButton = UIButton()
-    let createButton = UIButton()
-    let cellIdentifier = "CellIdentifier"
-    let cellIdentifier2 = "CellIdentifier2"
-    let emojiLabel = UILabel()
-    let colorLabel = UILabel()
-    let dayeLabel = UILabel()
-    let emojiCollectionViewDelegate = EmojiCollectionViewDelegate()
-    let colorCollectionViewDelegate = ColorViewDelegate()
-    let font16 = UIFont.systemFont(ofSize: 16, weight: .medium)
+    private let cancelButton = UIButton()
+    private let createButton = UIButton()
+    private let cellIdentifier = "CellIdentifier"
+    private let cellIdentifier2 = "CellIdentifier2"
+    private let emojiLabel = UILabel()
+    private let colorLabel = UILabel()
+    private let dayeLabel = UILabel()
+    private let emojiCollectionViewDelegate = EmojiCollectionViewDelegate()
+    private let colorCollectionViewDelegate = ColorViewDelegate()
+    private let font16 = UIFont.systemFont(ofSize: 16, weight: .medium)
     private lazy var viewControllers: [UIViewController] = {
         return [
             CategoryViewController(),

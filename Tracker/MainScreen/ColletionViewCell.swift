@@ -103,7 +103,7 @@ final class CollectionViewCell: UICollectionViewCell {
     }
     @objc private func trackerButtonTapped() {
         analytics.report(event: "click", params: ["screen" : "main", "item" : "track"])
-        
+        print("tracked")
         
         guard let trackerId = trackerId,
               let indexPath = indexPath else { return }

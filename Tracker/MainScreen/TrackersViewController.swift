@@ -30,13 +30,13 @@ final class TrackersViewController: UIViewController {
         }
     }
     
-    let button = UIButton()
-    let textViewTracker =  UILabel()
-    let imageStar = UIImageView()
-    let questionText = UILabel()
-    let searchBar = UISearchBar()
+    private let button = UIButton()
+    private let textViewTracker =  UILabel()
+    private let imageStar = UIImageView()
+    private let questionText = UILabel()
+    private let searchBar = UISearchBar()
     let datePicker = UIDatePicker()
-    let filtersButton = UIButton()
+    private let filtersButton = UIButton()
     
     private let startTrackers = NSLocalizedString("trackers", comment: "")
     private let whatWeWill = NSLocalizedString("whatWeWill", comment: "")
@@ -60,6 +60,8 @@ final class TrackersViewController: UIViewController {
     }()
     
     override func viewDidLoad() {
+        analyticsService.report(event: "open", params: ["screen" : "main"])
+        
         super.viewDidLoad()
         setUpViewDidLoad()
         setUpCollectionView()
@@ -170,7 +172,7 @@ final class TrackersViewController: UIViewController {
             datePicker.topAnchor.constraint(equalTo: view.topAnchor, constant: 49),
             datePicker.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             datePicker.heightAnchor.constraint(equalToConstant: 34),
-            datePicker.widthAnchor.constraint(equalToConstant: 92)
+            datePicker.widthAnchor.constraint(equalToConstant: 102)
         ])
         
     }
@@ -183,7 +185,7 @@ final class TrackersViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(showCreateViewController), for: .touchUpInside)
         view.addSubview(collectionView)
-        collectionView.addSubview(filtersButton)
+        view.addSubview(filtersButton)
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 34),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -84),

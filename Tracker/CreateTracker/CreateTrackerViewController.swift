@@ -8,11 +8,11 @@
 import UIKit
 
 final class CreateTrackerViewController: UIViewController {
-    let analytics = AnalyticsService()
+    private let analytics = AnalyticsService()
     
-    let habit = UIButton()
-    let irregularEvent = UIButton()
-    let titleLabel = UILabel()
+    private let habit = UIButton()
+    private let irregularEvent = UIButton()
+    private let titleLabel = UILabel()
     private let colors = Colors.shared
     
     private let habitText = NSLocalizedString("habit", comment: "")

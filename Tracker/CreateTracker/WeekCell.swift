@@ -29,6 +29,13 @@ class DayTableViewCell: UITableViewCell {
     private func setupViews() {
         contentView.addSubview(dayLabel)
         contentView.addSubview(daySwitch)
+        
+        daySwitch.tintColor = UIColor(named: "switch")
+        
+        daySwitch.onTintColor = UIColor(named: "blueColorTracker")
+        
+       
+        
         self.backgroundColor = UIColor(named: "textBg")
         dayLabel.translatesAutoresizingMaskIntoConstraints = false
         daySwitch.translatesAutoresizingMaskIntoConstraints = false

@@ -9,10 +9,10 @@ import UIKit
 final class StatsViewController: UIViewController {
     static let shared = StatsViewController()
     
-    let titleView = UITextView()
-    let bestPeriodView = UIImageView()
-    let scoreText = UITextView()
-    let recordTitle = UITextView()
+    private let titleView = UITextView()
+    private let bestPeriodView = UIImageView()
+    private let scoreText = UITextView()
+    private let recordTitle = UITextView()
     
     let recordStore = RecordStore()
     private let statistics = NSLocalizedString("statistics", comment: "")

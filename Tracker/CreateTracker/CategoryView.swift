@@ -8,6 +8,7 @@
 import UIKit
 
 final class CategoryViewController: UIViewController {
+    private let colors = Colors.shared
     
     private let titleLabel = UILabel()
     private let addButton = UIButton()
@@ -71,11 +72,11 @@ final class CategoryViewController: UIViewController {
         
         addButton.translatesAutoresizingMaskIntoConstraints = false
         addButton.layer.cornerRadius = 16
-        addButton.backgroundColor = .black
+        addButton.backgroundColor = colors.bgColor
         addButton.setTitle(addCategory, for: .normal)
-        addButton.titleLabel?.textColor = .white
+        addButton.setTitleColor(UIColor(named: "background"), for: .normal)
         addButton.addTarget(self, action: #selector(readyButtonTap), for: .touchUpInside)
-        view.addSubview(        addButton)
+        view.addSubview(addButton)
     }
     
     private func setupConstraints() {

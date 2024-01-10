@@ -122,7 +122,6 @@ extension ScheduleViewController: UITableViewDataSource, UITableViewDelegate {
         cell.selectionStyle = .none
         cell.daySwitch.tag = indexPath.row
         cell.daySwitch.addTarget(self, action: #selector(switchValueChanged(_:)), for: .valueChanged)
-        
         return cell
     }
 }
