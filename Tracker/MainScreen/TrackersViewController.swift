@@ -323,9 +323,6 @@ final class TrackersViewController: UIViewController {
         statController.updateScoreText()
         reloadData()
        }
-    func dismissHandler() {
-        analyticsService.report(event: "close", params: ["screen" : "main"])
-       }
 }
 
 
